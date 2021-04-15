@@ -5,19 +5,21 @@
 #include <stdio.h>
 #include <windows.h>
 #include<math.h>
-
+using namespace std;
+#include<bits/stdc++.h>
 const int width = 500;
 const int height = 500;
 
-GLfloat eyeX = 30;
-GLfloat eyeY = 10;
-GLfloat eyeZ = -50;
+GLfloat eyeX = 14;
+GLfloat eyeY = 5;
+GLfloat eyeZ = -30;
 
-GLfloat lookX = 5;
+GLfloat lookX = 3;
 GLfloat lookY = 5;
-GLfloat lookZ = 5;
+GLfloat lookZ = 28;
+double angle = 0 ;
 
-float rot = -20;
+float rot = -13;
 
 static GLfloat v_cube[8][3] =
 {
@@ -133,11 +135,48 @@ void wall3()
 }
 void headwall()
 {
-      glPushMatrix();
+    glPushMatrix();
 //    glTranslatef(0,-0.5,0);
     glScalef(60,1,60);
     glTranslatef(-0.5,20,-0.5);
     cube();
+    glPopMatrix();
+}
+void spin()
+{
+    angle = angle + 0.4;
+    if (angle >= 360)
+        angle = 0;
+}
+double a=2;
+double b=1;
+double c= 10;
+void fan()
+{
+    float length = 10;
+    float width = 0.3;
+    glPushMatrix();
+    glTranslatef(1,length/2,-4);
+    glScalef(width,length,width);
+    glTranslatef(-20,1,20);
+    cube(0.1,0.8,0.1);
+    glPopMatrix();
+
+
+    glPushMatrix();
+    glScalef(1,.1,1);
+    glTranslatef(-5,150,2);
+    glColor3f(1, 1, 1);            // Set color as glColor3f(R,G,B)
+    glRotatef(angle, 0, 0, 1);
+    glRecti(-a, -a, a, a);
+    glColor3f(1, 1, 0);
+    glRecti(-b, a, b, c);
+    glColor3f(1, 0, 0);
+    glRecti(-c, -b, -a, b);
+    glColor3f(0.4, 0, 0);
+    glRecti(-b, -c, b, -a);
+    glColor3f(0.4, 0.2, 0.6);
+    glRecti(a, -b, c, b);
     glPopMatrix();
 }
 
@@ -208,15 +247,17 @@ static void display(void)
     glViewport(0, 0, width, height);
 
     glRotatef(rot, 0,1,0);
-    axes();
+  //  axes();
 
-   table();
+    table();
     flr();
     wall1();
     wall2();
     wall3();
     headwall();
-
+    fan();
+    //cout<<eyeX<<" "<<eyeY<<" "<<eyeZ<<" "<<lookX<<" "<<lookY<<" "<<lookZ<<endl;
+//cout<<rot<<endl;
     glutSwapBuffers();
 }
 
@@ -233,23 +274,61 @@ static void key(unsigned char key, int x, int y)
         eyeZ++;
         //eyeY++;
         break;
-     case '-':
+    case '-':
         eyeZ--;
-       // eyeY--;
+        // eyeY--;
         break;
 
-        case 'w':
+    case 'a':
+        eyeX++;
+        //eyeY++;
+        break;
+    case 's':
+        eyeX--;
+        // eyeY--;
+        break;
+
+    case 'g':
+        eyeY++;
+        //eyeY++;
+        break;
+    case 'h':
+        eyeY--;
+        // eyeY--;
+        break;
+
+    case 'w':
         //lookX++;
-      lookY++;
-      //  lookZ++;
+        lookY++;
+        //  lookZ++;
         break;
-        case 's':
-      //  lookX--;
+    case 'e':
+        //  lookX--;
         lookY--;
-      //  lookZ--;
+        //  lookZ--;
         break;
 
+    case 'o':
+        lookX++;
+        //lookY++;
+        //  lookZ++;
+        break;
+    case 'p':
+        lookX--;
+        //lookY--;
+        //  lookZ--;
+        break;
 
+    case 'k':
+        lookZ++;
+        //lookY++;
+        //  lookZ++;
+        break;
+    case 'l':
+        lookZ--;
+        //lookY--;
+        //  lookZ--;
+        break;
 
 
     case ',':
@@ -258,14 +337,15 @@ static void key(unsigned char key, int x, int y)
     case '.':
         rot--;
         break;
-    }
 
+    }
     glutPostRedisplay();
 }
 
 static void idle(void)
 {
     glutPostRedisplay();
+    spin();
 }
 
 /* Program entry point */
