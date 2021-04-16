@@ -10,16 +10,16 @@ using namespace std;
 const int width = 500;
 const int height = 500;
 
-GLfloat eyeX = 14;
+GLfloat eyeX = 27;
 GLfloat eyeY = 5;
-GLfloat eyeZ = -30;
+GLfloat eyeZ = -25;
 
 GLfloat lookX = 3;
 GLfloat lookY = 5;
 GLfloat lookZ = 28;
 double angle = 0 ;
 
-float rot = -13;
+float rot = -12;
 
 static GLfloat v_cube[8][3] =
 {
@@ -230,6 +230,25 @@ void wall3()
     cube(1,.69,.0);
     glPopMatrix();
 }
+
+
+void door()
+{
+    glPushMatrix();
+//    glTranslatef(0,-0.5,0);
+    glScalef(40,20,1);
+    glTranslatef(-.6,0,-25);
+    cube(1,.69,.0);
+    glPopMatrix();
+
+    glPushMatrix();
+//    glTranslatef(0,-0.5,0);
+    glScalef(40,10,1);
+    glTranslatef(-.3,1,-25);
+    cube(1,.69,.0);
+    glPopMatrix();
+}
+
 
 void board()
 {
@@ -930,6 +949,7 @@ static void display(void)
     wall1();
     wall2();
     wall3();
+    door();
     board();
     headwall();
     fan();
@@ -942,7 +962,7 @@ static void display(void)
 
     //  glTranslatef(1,-.5,-15);
     //
-    //cout<<eyeX<<" "<<eyeY<<" "<<eyeZ<<" "<<lookX<<" "<<lookY<<" "<<lookZ<<endl;
+    //cout<<eyeX<<" "<<eyeY<<" "<<eyeZ<<" "<<lookX<<" "<<lookY<<" "<<lookZ<<" "<<rot<<endl;
 //cout<<rot<<endl;
     glutSwapBuffers();
 }
@@ -994,12 +1014,12 @@ static void key(unsigned char key, int x, int y)
         //  lookZ--;
         break;
 
-    case 'o':
+    case 'p':
         lookX++;
         //lookY++;
         //  lookZ++;
         break;
-    case 'p':
+    case 'o':
         lookX--;
         //lookY--;
         //  lookZ--;
