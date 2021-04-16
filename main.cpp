@@ -94,6 +94,103 @@ void axes()
     glPopMatrix();
 }
 
+
+void desk()
+{
+    glPushMatrix();
+
+    glScalef(.4,1.5,2.9);
+
+    glTranslatef(50,3,2);
+    float length=3.4;
+    float width=.4;
+    //ground
+    float a=.8,b=.45,c=.31;
+    glPushMatrix();
+    glTranslatef(length/2,1,1);;
+    glScalef(3*length,width,width);
+    glTranslatef(-.75,-0.5,-0.5);
+    cube(a,b,c);
+    glPopMatrix();
+
+//right
+
+    glPushMatrix();
+    glPushMatrix();
+    glTranslatef(1,length/2,1);;
+    glScalef(width,length,width);
+    glTranslatef(-.5,-0.2,-0.5);
+    cube(a,b,c);
+    glPopMatrix();
+/*
+
+//left
+    glPushMatrix();
+    glPushMatrix();
+    glTranslatef(1,length/2,1);;
+    glScalef(width,length,width);
+    glTranslatef(9,-.2,-0.5);
+    cube(a,b,c);
+    glPopMatrix();
+    */
+    //rack1
+    glPushMatrix();
+    glTranslatef(length/2,1,1);;
+    glScalef(length,width,width);
+    glTranslatef(-.2,2,-0.5);
+    cube(a,b,c);
+    glPopMatrix();
+
+    //rack2
+    glPushMatrix();
+    glTranslatef(length/2,1,1);;
+    glScalef(length,width,width);
+    glTranslatef(-.2,4.5,-0.5);
+    cube(a,b,c);
+    glPopMatrix();
+
+    //rack3
+    glPushMatrix();
+    glTranslatef(length/2,1,1);;
+    glScalef(length,width,width);
+    glTranslatef(-.2,6.5,-0.5);
+    cube(a,b,c);
+    glPopMatrix();
+    //top
+    glPushMatrix();
+    glTranslatef(length/2,1,1);;
+    glScalef(length*3,width,width);
+    glTranslatef(-.75,8.7,-0.5);
+    cube(a,b,c);
+    glPopMatrix();
+    //right
+/*
+    glPushMatrix();
+    glPushMatrix();
+    glTranslatef(1,length/2,1);;
+    glScalef(width,length,width);
+    glTranslatef(-21,-.2,-.5);
+    cube(a,b,c);
+    glPopMatrix();
+*/
+    //rack4
+    glPushMatrix();
+    glTranslatef(length,1,1);;
+    glScalef(2*length+.3,width,width);
+    glTranslatef(-1.3,4,-0.5);
+    cube(a,b,c);
+    glPopMatrix();
+    glPopMatrix();
+
+}
+
+
+
+
+
+
+
+
 void flr()
 {
     glPushMatrix();
@@ -111,7 +208,7 @@ void wall1()
 //    glTranslatef(0,-0.5,0);
     glScalef(1,20,60);
     glTranslatef(-30,0,-0.5);
-   cube(1,.69,.0);
+    cube(1,.69,.0);
     glPopMatrix();
 }
 void wall2()
@@ -120,7 +217,7 @@ void wall2()
 //    glTranslatef(0,-0.5,0);
     glScalef(1,20,60);
     glTranslatef(29,0,-0.5);
-   cube(1,.69,.0);
+    cube(1,.69,.0);
     glPopMatrix();
 }
 
@@ -190,9 +287,40 @@ void spin()
     if (angle >= 360)
         angle = 0;
 }
+
+
 double a=2;
 double b=1;
 double c= 10;
+void fan()
+{
+    float length = 10;
+    float width = 0.3;
+    glPushMatrix();
+    glTranslatef(1,length/2,-4);
+    glScalef(width,length,width);
+    glTranslatef(-20,1,20);
+    cube(0.1,0.8,0.1);
+    glPopMatrix();
+
+
+    glPushMatrix();
+    glScalef(1,.1,1);
+    glTranslatef(-5,150,2);
+    glColor3f(1, 1, 1);            // Set color as glColor3f(R,G,B)
+    glRotatef(angle, 0, 0, 1);
+    glRecti(-a, -a, a, a);
+    glColor3f(1, 1, 0);
+    glRecti(-b, a, b, c);
+    glColor3f(1, 0, 0);
+    glRecti(-c, -b, -a, b);
+    glColor3f(0.4, 0, 0);
+    glRecti(-b, -c, b, -a);
+    glColor3f(0.4, 0.2, 0.6);
+    glRecti(a, -b, c, b);
+    glPopMatrix();
+}
+
 void Chair12()
 {
 
@@ -723,34 +851,9 @@ void test()
     glPopMatrix();
     */
 }
-void fan()
-{
-    float length = 10;
-    float width = 0.3;
-    glPushMatrix();
-    glTranslatef(1,length/2,-4);
-    glScalef(width,length,width);
-    glTranslatef(-20,1,20);
-    cube(0.1,0.8,0.1);
-    glPopMatrix();
 
 
-    glPushMatrix();
-    glScalef(1,.1,1);
-    glTranslatef(-5,150,2);
-    glColor3f(1, 1, 1);            // Set color as glColor3f(R,G,B)
-    glRotatef(angle, 0, 0, 1);
-    glRecti(-a, -a, a, a);
-    glColor3f(1, 1, 0);
-    glRecti(-b, a, b, c);
-    glColor3f(1, 0, 0);
-    glRecti(-c, -b, -a, b);
-    glColor3f(0.4, 0, 0);
-    glRecti(-b, -c, b, -a);
-    glColor3f(0.4, 0.2, 0.6);
-    glRecti(a, -b, c, b);
-    glPopMatrix();
-}
+
 
 
 void table()
@@ -806,6 +909,7 @@ void table()
     glPopMatrix();
 }
 
+
 static void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -819,8 +923,8 @@ static void display(void)
     glViewport(0, 0, width, height);
 
     glRotatef(rot, 0,1,0);
-    //  axes();
-
+    //axes();
+    desk();
     table();
     flr();
     wall1();
@@ -831,8 +935,13 @@ static void display(void)
     fan();
     test();
     window();
+    glPushMatrix();
     glTranslatef(1,-.5,-15);
     fan();
+    glPopMatrix();
+
+    //  glTranslatef(1,-.5,-15);
+    //
     //cout<<eyeX<<" "<<eyeY<<" "<<eyeZ<<" "<<lookX<<" "<<lookY<<" "<<lookZ<<endl;
 //cout<<rot<<endl;
     glutSwapBuffers();
