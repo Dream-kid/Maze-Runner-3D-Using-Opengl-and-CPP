@@ -200,6 +200,20 @@ void flr()
     glTranslatef(-0.5,-1,-0.5);
     cube(.2,.3,.5);
     glPopMatrix();
+    float val=0;
+    for(int i=-20; i<=40; i+=2)
+    {
+
+        glPushMatrix();
+//    glTranslatef(0,-0.5,0);
+
+        glScalef(60,1,1);
+        glTranslatef(-0.5,-.999,-i);
+        cube(0.804, 0.522, 0.247);
+        val+=.1;
+        glPopMatrix();
+    }
+
 }
 
 
@@ -273,23 +287,26 @@ void window()
     glPushMatrix();
 //    glTranslatef(0,-0.5,0);
     glScalef(1,8,15);
-    glTranslatef(28.9,.5,-1);
+    glTranslatef(28,.5,-1);
     cube(.102,1,1);
     glPopMatrix();
 
-    glPushMatrix();
-//    glTranslatef(0,-0.5,0);
-    glScalef(1,8,.2);
-    glTranslatef(28.89,.5,-45);
-    cube(0,0,0);
-    glPopMatrix();
 
     glPushMatrix();
 //    glTranslatef(0,-0.5,0);
     glScalef(1,.2,15);
-    glTranslatef(28.89,40,-1);
+    glTranslatef(27.7,40,-1);
     cube(0,0,0);
     glPopMatrix();
+    for(int i=-10; i>=-70; i-=10)
+    {
+        glPushMatrix();
+//    glTranslatef(0,-0.5,0);
+        glScalef(1,8,.2);
+        glTranslatef(27.79,.5,i);
+        cube(0,0,0);
+        glPopMatrix();
+    }
 }
 
 void headwall()
@@ -300,6 +317,21 @@ void headwall()
     glTranslatef(-0.5,20,-0.5);
     cube(.1,.4,.5);
     glPopMatrix();
+
+
+    float val=0;
+    for(int i=-40; i<=40; i+=2)
+    {
+
+        glPushMatrix();
+//    glTranslatef(0,-0.5,0);
+
+        glScalef(60,1,.5);
+        glTranslatef(-0.5,19.99,-i);
+        cube(0.690, 0.769, 0.871);
+        val+=.1;
+        glPopMatrix();
+    }
 }
 void spin()
 {
@@ -492,7 +524,7 @@ void test()
         {
             glPushMatrix();
             glTranslatef(i*2.0 + 0.3f, 1.2f,-14.2+ j * 2.0 + 1.2f);
-            glScalef(0.4f, 0.4f, 0.4f);
+            glScalef(0.5f, 0.4f, 0.4f);
             Table12();
             glPopMatrix();
         }
@@ -759,8 +791,8 @@ static void key(unsigned char key, int x, int y)
 {
     switch (key)
     {
-    case 27 :
-    case 'q':
+
+    case 27:
         exit(0);
         break;
     case '+':
