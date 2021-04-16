@@ -14,9 +14,9 @@ GLfloat eyeX = 27;
 GLfloat eyeY = 5;
 GLfloat eyeZ = -25;
 
-GLfloat lookX = 3;
-GLfloat lookY = 5;
-GLfloat lookZ = 28;
+GLfloat centerX = 3;
+GLfloat centerY = 5;
+GLfloat centerZ = 28;
 double angle = 0 ;
 
 float rot = -12;
@@ -201,7 +201,7 @@ void flr()
     cube(.2,.3,.5);
     glPopMatrix();
     float val=0;
-    for(int i=-20; i<=40; i+=2)
+    for(int i=-20; i<=30; i+=2)
     {
 
         glPushMatrix();
@@ -295,7 +295,14 @@ void window()
     glPushMatrix();
 //    glTranslatef(0,-0.5,0);
     glScalef(1,.2,15);
-    glTranslatef(27.7,40,-1);
+    glTranslatef(27.9,50,-1);
+    cube(0,0,0);
+    glPopMatrix();
+
+    glPushMatrix();
+//    glTranslatef(0,-0.5,0);
+    glScalef(1,.2,15);
+    glTranslatef(27.9,30,-1);
     cube(0,0,0);
     glPopMatrix();
     for(int i=-10; i>=-70; i-=10)
@@ -303,10 +310,16 @@ void window()
         glPushMatrix();
 //    glTranslatef(0,-0.5,0);
         glScalef(1,8,.2);
-        glTranslatef(27.79,.5,i);
+        glTranslatef(27.9,.5,i);
         cube(0,0,0);
         glPopMatrix();
     }
+    glPushMatrix();
+//    glTranslatef(0,-0.5,0);
+    glScalef(1,8,.2);
+    glTranslatef(28,.5,-76);
+    cube(1,.59,.0);
+    glPopMatrix();
 }
 
 void headwall()
@@ -314,8 +327,8 @@ void headwall()
     glPushMatrix();
 //    glTranslatef(0,-0.5,0);
     glScalef(60,1,60);
-    glTranslatef(-0.5,20,-0.5);
-    cube(.1,.4,.5);
+    glTranslatef(-0.5,19,-0.5);
+    cube(0.690, 0.769, 0.871);
     glPopMatrix();
 
 
@@ -328,14 +341,17 @@ void headwall()
 
         glScalef(60,1,.5);
         glTranslatef(-0.5,19.99,-i);
-        cube(0.690, 0.769, 0.871);
+        //    cube(0.690, 0.769, 0.871);
         val+=.1;
         glPopMatrix();
     }
 }
+float k=0;
 void spin()
 {
-    angle = angle + 0.4;
+    angle = angle+k;
+    if(k<1)
+        k+=.0001;
     if (angle >= 360)
         angle = 0;
 }
@@ -353,7 +369,7 @@ void fan()
     glTranslatef(1,length/2,-4);
     glScalef(width,length,width);
     glTranslatef(-20,1,20);
-    cube(0.1,0.8,0.1);
+    cube(0.4,0.4,0.1);
     glPopMatrix();
 
 
@@ -600,7 +616,8 @@ void drop()
     glVertex3f (340, 320, 0);
     glVertex3f (460, 320, 0);
     glEnd();
-
+    glPushMatrix();
+    glTranslatef(0,0,-2);
 //wear drop front-drawer 1 - outer
     glColor3ub (42,23,15);
     glBegin(GL_POLYGON);
@@ -610,14 +627,7 @@ void drop()
     glVertex3f (455, 324, 0);
     glEnd();
 
-//wear drop front-drawer 1 - handel
-    glColor3ub (255,255,255);
-    glBegin(GL_POLYGON);
-    glVertex3f (410, 381, 0);
-    glVertex3f (390, 381, 0);
-    glVertex3f (390, 375, 0);
-    glVertex3f (410, 375, 0);
-    glEnd();
+
 
 //wear drop front-drawer 2 - outer
     glColor3ub (42,23,15);
@@ -628,14 +638,6 @@ void drop()
     glVertex3f (455, 541, 0);
     glEnd();
 
-//wear drop front-drawer 2 - handel
-    glColor3ub (255,255,255);
-    glBegin(GL_POLYGON);
-    glVertex3f (410, 481, 0);
-    glVertex3f (390, 481, 0);
-    glVertex3f (390, 475, 0);
-    glVertex3f (410, 475, 0);
-    glEnd();
 //wear drop front-drawer 3 - outer
     glColor3ub (42,23,15);
     glBegin(GL_POLYGON);
@@ -643,6 +645,26 @@ void drop()
     glVertex3f (345, 653, 0);
     glVertex3f (345, 545, 0);
     glVertex3f (455, 545, 0);
+    glEnd();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(0,0,-3);
+    //wear drop front-drawer 1 - handel
+    glColor3ub (255,255,255);
+    glBegin(GL_POLYGON);
+    glVertex3f (410, 381, 0);
+    glVertex3f (390, 381, 0);
+    glVertex3f (390, 375, 0);
+    glVertex3f (410, 375, 0);
+    glEnd();
+
+//wear drop front-drawer 2 - handel
+    glColor3ub (255,255,255);
+    glBegin(GL_POLYGON);
+    glVertex3f (410, 481, 0);
+    glVertex3f (390, 481, 0);
+    glVertex3f (390, 475, 0);
+    glVertex3f (410, 475, 0);
     glEnd();
 
 //wear drop front-drawer 3 - handel
@@ -653,6 +675,8 @@ void drop()
     glVertex3f (390, 579, 0);
     glVertex3f (410, 579, 0);
     glEnd();
+    glPopMatrix();
+    glPopMatrix();
 
 //wear drop side
     glColor3ub (39,32,21);
@@ -664,7 +688,9 @@ void drop()
     glVertex3f (460, 320, 0);
     glVertex3f (460, 660, 0);
     glEnd();
+
     glPopMatrix();
+
 }
 void weardrop()
 {
@@ -693,6 +719,8 @@ void clock1()
     glVertex3f (680, 900, 0);
     glEnd();
 //clock inner
+    glPushMatrix();
+    glTranslatef(0,0,-.98);
     glColor3ub (255,255,255);
     glBegin(GL_POLYGON);
     glVertex3f (675, 805, 0);
@@ -700,7 +728,10 @@ void clock1()
     glVertex3f (635, 895, 0);
     glVertex3f (675, 895, 0);
     glEnd();
+    glPopMatrix();
 
+    glPushMatrix();
+    glTranslatef(0,0,-2);
 //clock second
     glColor3ub (0,0,0);
     glBegin(GL_LINES);
@@ -726,7 +757,7 @@ void clock1()
     glVertex3f (655, 850, 0);
     glVertex3f (645, 810, 0);
     glEnd();
-
+    glPopMatrix();
     glPopMatrix();
 }
 void clock2()
@@ -734,9 +765,9 @@ void clock2()
     glPushMatrix();
 //    glTranslatef(0,-0.5,0);
 
-    glTranslatef(-42,-10,9);
+    glTranslatef(-75,-30,9);
 //glRotatef(rot,0,1,1);
-    glScalef(.03,.03,.03);
+    glScalef(.08,.05,.05);
     clock1();
     glPopMatrix();
 }
@@ -752,7 +783,11 @@ static void display(void)
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(eyeX,eyeY,eyeZ, lookX,lookY,lookZ, 0,1,0);
+    gluLookAt(eyeX,eyeY,eyeZ, centerX,centerY,centerZ, 0,1,0);
+    /*eyeX, eyeY, eyeZ Specifies the position of the eye point.
+    centerX, centerY, centerZ Specifies the position of the reference point.
+    upX, upY, upZ Specifies the direction of the up vector.
+    */
     glViewport(0, 0, width, height);
 
     glRotatef(rot, 0,1,0);
@@ -781,7 +816,7 @@ static void display(void)
 
     //  glTranslatef(1,-.5,-15);
     //
-    //cout<<eyeX<<" "<<eyeY<<" "<<eyeZ<<" "<<lookX<<" "<<lookY<<" "<<lookZ<<" "<<rot<<endl;
+    //cout<<eyeX<<" "<<eyeY<<" "<<eyeZ<<" "<<centerX<<" "<<centerY<<" "<<centerZ<<" "<<rot<<endl;
 //cout<<rot<<endl;
     glutSwapBuffers();
 }
@@ -823,36 +858,36 @@ static void key(unsigned char key, int x, int y)
         break;
 
     case 'w':
-        //lookX++;
-        lookY++;
-        //  lookZ++;
+        //centerX++;
+        centerY++;
+        //  centerZ++;
         break;
     case 'e':
-        //  lookX--;
-        lookY--;
-        //  lookZ--;
+        //  centerX--;
+        centerY--;
+        //  centerZ--;
         break;
 
-    case 'o':
-        lookX++;
-        //lookY++;
-        //  lookZ++;
-        break;
     case 'p':
-        lookX--;
-        //lookY--;
-        //  lookZ--;
+        centerX++;
+        //centerY++;
+        //  centerZ++;
+        break;
+    case 'o':
+        centerX--;
+        //centerY--;
+        //  centerZ--;
         break;
 
     case 'k':
-        lookZ++;
-        //lookY++;
-        //  lookZ++;
+        centerZ++;
+        //centerY++;
+        //  centerZ++;
         break;
     case 'l':
-        lookZ--;
-        //lookY--;
-        //  lookZ--;
+        centerZ--;
+        //centerY--;
+        //  centerZ--;
         break;
 
 
@@ -861,6 +896,10 @@ static void key(unsigned char key, int x, int y)
         break;
     case '.':
         rot--;
+        break;
+
+    case '*':
+        angle=0,k=0;
         break;
 
     }
@@ -879,7 +918,7 @@ int main(int argc, char *argv[])
 {
     glutInit(&argc, argv);
     glutInitWindowSize(width,height);
-    glutInitWindowPosition(10,10);
+    glutInitWindowPosition(50,50);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
     glutCreateWindow("3D Class Room");
@@ -896,9 +935,11 @@ int main(int argc, char *argv[])
     glEnable(GL_BLEND);
 
 
-    printf("Use 'w' to look up, 'e' to look down, 's' to look right, and 'a' to look left.\n");
-    printf("Use 'o' to move camera up, 'p' to move camera down, '.' to move camera right, and ',' to move camera left with the look at point fixed.\n");
-    printf("Use '+' to zoom in and '-' to zoom out.\n\n\n");
+    printf("1. Press '*' for stop fans.\n");
+    printf("2. Press 'w' for up.\n3. press 'e' for down.\n4. press 's' for right.\n5. press 'a' for left.\n");
+    printf("6. Press 'o' to move camera left.\n7. Press 'p' to move camera right.\n8. Press '.' to rotate camera right.\n9. Press ','  rotate camera left.\n");
+
+    printf("10. Press '+' to zoom in.\n11. Press '-' for zoom out.\n\n\n");
 
     glutMainLoop();
 
