@@ -937,9 +937,8 @@ int main(int argc, char *argv[])
 
     printf("1. Press '*' for stop fans.\n");
     printf("2. Press 'w' for up.\n3. press 'e' for down.\n4. press 's' for right.\n5. press 'a' for left.\n");
-    printf("6. Press 'o' to move camera left.\n7. Press 'p' to move camera right.\n8. Press '.' to rotate camera right.\n9. Press ','  rotate camera left.\n");
-
-    printf("10. Press '+' to zoom in.\n11. Press '-' for zoom out.\n\n\n");
+    printf("6. Press 'o' to move camera left.\n7. Press 'p' to move camera right.\n");
+    printf("8. Press '+' to zoom in.\n9. Press '-' for zoom out.\n\n\n");
 
     glutMainLoop();
 
