@@ -111,7 +111,7 @@ void wall1()
 //    glTranslatef(0,-0.5,0);
     glScalef(1,20,60);
     glTranslatef(-30,0,-0.5);
-    cube();
+   cube(1,.69,.0);
     glPopMatrix();
 }
 void wall2()
@@ -120,7 +120,7 @@ void wall2()
 //    glTranslatef(0,-0.5,0);
     glScalef(1,20,60);
     glTranslatef(29,0,-0.5);
-    cube();
+   cube(1,.69,.0);
     glPopMatrix();
 }
 
@@ -130,7 +130,7 @@ void wall3()
 //    glTranslatef(0,-0.5,0);
     glScalef(60,20,1);
     glTranslatef(-.5,0,10);
-    cube();
+    cube(1,.69,.0);
     glPopMatrix();
 }
 
@@ -140,6 +140,14 @@ void board()
 //    glTranslatef(0,-0.5,0);
     glScalef(30,10,1);
     glTranslatef(-.6,.4,9);
+    cube(1,1,1);
+    glPopMatrix();
+
+
+    glPushMatrix();
+//    glTranslatef(0,-0.5,0);
+    glScalef(31.5,11,1);
+    glTranslatef(-.601,.32,9.5);
     cube(0,0,0);
     glPopMatrix();
 }
