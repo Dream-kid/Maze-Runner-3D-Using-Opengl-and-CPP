@@ -97,15 +97,21 @@ void axes()
 
 void desk()
 {
+
+    glPushMatrix();
+ glScalef(.3,.5,1);
+ glTranslatef(45,15,1);
     glPushMatrix();
 
-    glScalef(.4,1.5,2.9);
+      //C
+   glScalef(.4,1.5,2.9);
+
 
     glTranslatef(45,3,2);
     float length=3.4;
     float width=.4;
     //ground
-    float a=.8,b=.45,c=.31;
+    float a=1,b=0,c=.5;
     glPushMatrix();
     glTranslatef(length/2,1,1);;
     glScalef(3*length,width,width);
@@ -118,44 +124,49 @@ void desk()
     glPushMatrix();
     glPushMatrix();
     glTranslatef(1,length/2,1);;
-    glScalef(width,length,width);
-    glTranslatef(-.5,-0.2,-0.5);
-    cube(a,b,c);
-    glPopMatrix();
-    /*
-
-    //left
-        glPushMatrix();
-        glPushMatrix();
-        glTranslatef(1,length/2,1);;
-        glScalef(width,length,width);
-        glTranslatef(9,-.2,-0.5);
-        cube(a,b,c);
-        glPopMatrix();
-        */
-    //rack1
-    glPushMatrix();
-    glTranslatef(length/2,1,1);;
-    glScalef(length,width,width);
-    glTranslatef(-.2,2,-0.5);
+    glScalef(width+3,length+.5,width);
+    glTranslatef(0,-0.2,-0.5);
     cube(a,b,c);
     glPopMatrix();
 
-    //rack2
+
     glPushMatrix();
     glTranslatef(length/2,1,1);;
-    glScalef(length,width,width);
-    glTranslatef(-.2,4.5,-0.5);
+    glScalef(length*3,width,width);
+    glTranslatef(-.75,8.7,-0.5);
     cube(a,b,c);
     glPopMatrix();
 
-    //rack3
+    glPopMatrix();
+    glPopMatrix();
+
+//E
+
+
+    glPushMatrix();
+
+    glScalef(.4,1.5,2.9);
+
+    glTranslatef(15,3,2);
+
+    //ground
     glPushMatrix();
     glTranslatef(length/2,1,1);;
-    glScalef(length,width,width);
-    glTranslatef(-.2,6.5,-0.5);
+    glScalef(3*length,width,width);
+    glTranslatef(-.75,-0.5,-0.5);
     cube(a,b,c);
     glPopMatrix();
+
+//right
+
+    glPushMatrix();
+    glPushMatrix();
+    glTranslatef(1,length/2+.1,1);;
+    glScalef(width+3,length,width);
+    glTranslatef(0,-0.2,-0.5);
+    cube(a,b,c);
+    glPopMatrix();
+
     //top
     glPushMatrix();
     glTranslatef(length/2,1,1);;
@@ -165,30 +176,74 @@ void desk()
     glPopMatrix();
     //right
     /*
-        glPushMatrix();
-        glPushMatrix();
-        glTranslatef(1,length/2,1);;
-        glScalef(width,length,width);
-        glTranslatef(-21,-.2,-.5);
-        cube(a,b,c);
-        glPopMatrix();
+
     */
     //rack4
     glPushMatrix();
     glTranslatef(length,1,1);;
-    glScalef(2*length+.3,width,width);
-    glTranslatef(-1.3,4,-0.5);
+    glScalef(3*length,width,width);
+    glTranslatef(-.94,4,-0.5);
     cube(a,b,c);
     glPopMatrix();
     glPopMatrix();
     glPopMatrix();
 
+
+
+//s
+
+
+    glPushMatrix();
+
+   glScalef(.4,1.5,2.9);
+  glTranslatef(30,3,2);
+
+    //ground
+    glPushMatrix();
+    glTranslatef(length/2,1,1);;
+    glScalef(3*length,width,width);
+    glTranslatef(-.75,-0.5,-0.5);
+    cube(a,b,c);
+    glPopMatrix();
+
+//right
+
+    glPushMatrix();
+    glPushMatrix();
+    glTranslatef(1,length/2,1);;
+    glScalef(width+3,length/2,width);
+    glTranslatef(0,0.7,-0.5);
+    cube(a,b,c);
+    glPopMatrix();
+
+     glPushMatrix();
+    glTranslatef(1,length/2,1);;
+    glScalef(width+3,length/2+.1,width);
+    glTranslatef(-2,-0.5,-0.5);
+    cube(a,b,c);
+    glPopMatrix();
+
+
+    //top
+    glPushMatrix();
+    glTranslatef(length/2,1,1);;
+    glScalef(length*3,width,width);
+    glTranslatef(-.75,8.7,-0.5);
+    cube(a,b,c);
+    glPopMatrix();
+
+    //rack4
+    glPushMatrix();
+    glTranslatef(length,1,1);;
+    glScalef(3*length,width,width);
+    glTranslatef(-.9,4,-0.5);
+    cube(a,b,c);
+    glPopMatrix();
+    glPopMatrix();
+    glPopMatrix();
+    glPopMatrix();
+
 }
-
-
-
-
-
 
 
 
