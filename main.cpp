@@ -425,7 +425,7 @@ float k=0;
 void spin()
 {
     angle = (angle+k)*stop;
-        k+=.001;
+    k+=.001;
     if (angle >= 360)
         angle = 0;
 }
@@ -690,70 +690,60 @@ void drop()
     glVertex3f (340, 320, 0);
     glVertex3f (460, 320, 0);
     glEnd();
-    glPushMatrix();
-    glTranslatef(0,0,-2);
-//wear drop front-drawer 1 - outer
-    glColor3ub (62,43,35);
-    glBegin(GL_POLYGON);
-    glVertex3f (455, 431, 0);
-    glVertex3f (345, 431, 0);
-    glVertex3f (345, 324, 0);
-    glVertex3f (455, 324, 0);
-    glEnd();
 
-
-
-//wear drop front-drawer 2 - outer
-      glColor3ub (62,43,35);
-    glBegin(GL_POLYGON);
-    glVertex3f (455, 435, 0);
-    glVertex3f (345, 435, 0);
-    glVertex3f (345, 541, 0);
-    glVertex3f (455, 541, 0);
-    glEnd();
 
 //wear drop front-drawer 3 - outer
-      glColor3ub (62,43,35);
-    glBegin(GL_POLYGON);
-    glVertex3f (455, 653, 0);
-    glVertex3f (345, 653, 0);
-    glVertex3f (345, 545, 0);
-    glVertex3f (455, 545, 0);
-    glEnd();
+
     glPopMatrix();
+
     glPushMatrix();
-    glTranslatef(0,0,-3);
-    //wear drop front-drawer 1 - handel
-    glColor3ub (255,255,255);
-    glBegin(GL_POLYGON);
-    glVertex3f (410, 381, 0);
-    glVertex3f (390, 381, 0);
-    glVertex3f (390, 375, 0);
-    glVertex3f (410, 375, 0);
-    glEnd();
+    glTranslatef(0,0,0);
+    glScalef(105,95,10);
 
-//wear drop front-drawer 2 - handel
-    glColor3ub (255,255,255);
-    glBegin(GL_POLYGON);
-    glVertex3f (410, 481, 0);
-    glVertex3f (390, 481, 0);
-    glVertex3f (390, 475, 0);
-    glVertex3f (410, 475, 0);
-    glEnd();
-
-//wear drop front-drawer 3 - handel
-    glColor3ub (255,255,255);
-    glBegin(GL_POLYGON);
-    glVertex3f (410, 585, 0);
-    glVertex3f (390, 585, 0);
-    glVertex3f (390, 579, 0);
-    glVertex3f (410, 579, 0);
-    glEnd();
+    glPushMatrix();
+    glTranslatef(3.32,4.6,-.49);
+    cube(62/255.0,43/255.0,45/255.0);
     glPopMatrix();
+
+
+
+    glPushMatrix();
+    glTranslatef(3.32,5.7,-.49);
+    cube(62/255.0,43/255.0,45/255.0);
+    glPopMatrix();
+
+
+    glPushMatrix();
+    glTranslatef(3.32,3.5,-.49);
+    cube(62/255.0,43/255.0,45/255.0);
+    glPopMatrix();
+    glPopMatrix();
+
+
+    //wear drop front-drawer 1 - handel
+
+    glPushMatrix();
+    glTranslatef(1,0,0);
+    glScalef(20,10,10);
+    glPushMatrix();
+    glTranslatef(19.5,38,-.5);
+    cube(255,255,255);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(19.5,58,-.5);
+    cube(255,255,255);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(19.5,48,-.5);
+    cube(255,255,255);
+    glPopMatrix();
+
     glPopMatrix();
 
 //wear drop side
-      glColor3ub (62,43,35);
+    glColor3ub (62,43,35);
     glBegin(GL_POLYGON);
     glVertex3f (470, 670, 0);
     glVertex3f (500, 667, 0);
@@ -785,8 +775,8 @@ void clock1()
 
     glPushMatrix();
 //clock outer
-    glColor3ub (55,71,79);
-    glBegin(GL_POLYGON);
+    glColor3ub (0,0,0);
+    glBegin(GL_QUADS);
     glVertex3f (680, 800, 0);
     glVertex3f (630, 800, 0);
     glVertex3f (630, 900, 0);
@@ -795,8 +785,8 @@ void clock1()
 //clock inner
     glPushMatrix();
     glTranslatef(0,0,-.98);
-    glColor3ub (255,255,255);
-    glBegin(GL_POLYGON);
+    glColor3ub (	240, 230, 140);
+    glBegin(GL_QUADS);
     glVertex3f (675, 805, 0);
     glVertex3f (635, 805, 0);
     glVertex3f (635, 895, 0);
@@ -806,12 +796,13 @@ void clock1()
 
     glPushMatrix();
     glTranslatef(0,0,-2);
+
 //clock second
     glColor3ub (0,0,0);
+
     glBegin(GL_LINES);
-//glBegin(GL_POINT_SIZE);
     glVertex3f (655, 850, 0);
-    glVertex3f (655, 890, 0);
+    glVertex3f (655, 870, 0);
     glEnd();
 
 
@@ -820,13 +811,14 @@ void clock1()
     glBegin(GL_LINES);
 //glBegin(GL_POINT_SIZE);
     glVertex3f (655, 850, 0);
-    glVertex3f (670, 850, 0);
+    glVertex3f (670, 820, 0);
     glEnd();
 
 
 //clock hour
     glColor3ub (0,0,0);
     glBegin(GL_LINES);
+
 //glBegin(GL_POINT_SIZE);
     glVertex3f (655, 850, 0);
     glVertex3f (645, 810, 0);
