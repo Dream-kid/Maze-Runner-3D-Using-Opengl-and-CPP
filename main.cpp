@@ -10,11 +10,11 @@ using namespace std;
 const int width = 500;
 const int height = 500;
 
-GLfloat eyeX = 27;
+GLfloat eyeX = 31;
 GLfloat eyeY = 5;
-GLfloat eyeZ = -25;
+GLfloat eyeZ = -22;
 
-GLfloat centerX = 3;
+GLfloat centerX = 7;
 GLfloat centerY = 5;
 GLfloat centerZ = 28;
 double angle = 0 ;
@@ -99,12 +99,12 @@ void desk()
 {
 
     glPushMatrix();
- glScalef(.3,.5,1);
- glTranslatef(45,15,1);
+    glScalef(.3,.5,1);
+    glTranslatef(45,15,1);
     glPushMatrix();
 
-      //C
-   glScalef(.4,1.5,2.9);
+    //C
+    glScalef(.4,1.5,2.9);
 
 
     glTranslatef(45,3,2);
@@ -195,8 +195,8 @@ void desk()
 
     glPushMatrix();
 
-   glScalef(.4,1.5,2.9);
-  glTranslatef(30,3,2);
+    glScalef(.4,1.5,2.9);
+    glTranslatef(30,3,2);
 
     //ground
     glPushMatrix();
@@ -216,7 +216,7 @@ void desk()
     cube(a,b,c);
     glPopMatrix();
 
-     glPushMatrix();
+    glPushMatrix();
     glTranslatef(1,length/2,1);;
     glScalef(width+3,length/2+.1,width);
     glTranslatef(-2,-0.5,-0.5);
@@ -249,24 +249,44 @@ void desk()
 
 void flr()
 {
-    glPushMatrix();
+   // glPushMatrix();
 //    glTranslatef(0,-0.5,0);
-    glScalef(60,1,60);
-    glTranslatef(-0.5,-1,-0.5);
-    cube(.2,.3,.5);
-    glPopMatrix();
-    float val=0;
-    for(int i=-20; i<=30; i+=2)
+   // glScalef(60,1,60);
+   // glTranslatef(-0.5,-1,-0.5);
+  //  cube(.2,.3,.5);
+  //  glPopMatrix();
+    for(int i=-20; i<=60; i++)
     {
-
-        glPushMatrix();
+        for(float j=-29; j<=30; j+=2)
+        {
+            glPushMatrix();
 //    glTranslatef(0,-0.5,0);
 
-        glScalef(60,1,1);
-        glTranslatef(-0.5,-.999,-i);
-        cube(0.804, 0.522, 0.247);
-        val+=.1;
-        glPopMatrix();
+            glScalef(1,1,.5);
+            glTranslatef(j,-.999,-i);
+            if(i%2==0)
+                cube(1, 1, 1);
+            else
+                cube(0, 0, .5);
+            glPopMatrix();
+        }
+    }
+
+    for(int i=-20; i<=60; i++)
+    {
+        for(float j=-30; j<=29; j+=2)
+        {
+            glPushMatrix();
+//    glTranslatef(0,-0.5,0);
+
+            glScalef(1,1,.5);
+            glTranslatef(j,-.999,-i);
+            if(i%2!=0)
+                cube(1, 1, 1);
+            else
+                cube(0, 0, .5);
+            glPopMatrix();
+        }
     }
 
 }
@@ -306,14 +326,14 @@ void door()
 {
     glPushMatrix();
 //    glTranslatef(0,-0.5,0);
-    glScalef(40,20,1);
+    glScalef(50,20,1);
     glTranslatef(-.6,0,-25);
     cube(1,.69,.0);
     glPopMatrix();
 
     glPushMatrix();
 //    glTranslatef(0,-0.5,0);
-    glScalef(40,10,1);
+    glScalef(42,10,1);
     glTranslatef(-.3,1,-25);
     cube(1,.69,.0);
     glPopMatrix();
