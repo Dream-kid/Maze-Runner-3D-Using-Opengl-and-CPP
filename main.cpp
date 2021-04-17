@@ -12,7 +12,7 @@ const int height = 500;
 
 GLfloat eyeX = 31;
 GLfloat eyeY = 5;
-GLfloat eyeZ = -22;
+GLfloat eyeZ = -27;
 
 GLfloat centerX = 7;
 GLfloat centerY = 5;
@@ -20,7 +20,7 @@ GLfloat centerZ = 28;
 double angle = 0 ;
 
 float rot = -12;
-
+int stop=1;
 static GLfloat v_cube[8][3] =
 {
     {0,0,0},
@@ -249,13 +249,13 @@ void desk()
 
 void flr()
 {
-   // glPushMatrix();
+    // glPushMatrix();
 //    glTranslatef(0,-0.5,0);
-   // glScalef(60,1,60);
-   // glTranslatef(-0.5,-1,-0.5);
-  //  cube(.2,.3,.5);
-  //  glPopMatrix();
-    for(int i=-20; i<=60; i++)
+    // glScalef(60,1,60);
+    // glTranslatef(-0.5,-1,-0.5);
+    //  cube(.2,.3,.5);
+    //  glPopMatrix();
+    for(int i=-20; i<=70; i++)
     {
         for(float j=-29; j<=30; j+=2)
         {
@@ -272,7 +272,7 @@ void flr()
         }
     }
 
-    for(int i=-20; i<=60; i++)
+    for(int i=-20; i<=70; i++)
     {
         for(float j=-30; j<=29; j+=2)
         {
@@ -327,14 +327,14 @@ void door()
     glPushMatrix();
 //    glTranslatef(0,-0.5,0);
     glScalef(50,20,1);
-    glTranslatef(-.6,0,-25);
+    glTranslatef(-.6,0,-30);
     cube(1,.69,.0);
     glPopMatrix();
 
     glPushMatrix();
 //    glTranslatef(0,-0.5,0);
     glScalef(42,10,1);
-    glTranslatef(-.3,1,-25);
+    glTranslatef(-.3,1,-30);
     cube(1,.69,.0);
     glPopMatrix();
 }
@@ -424,9 +424,8 @@ void headwall()
 float k=0;
 void spin()
 {
-    angle = angle+k;
-    if(k<1)
-        k+=.0001;
+    angle = (angle+k)*stop;
+        k+=.001;
     if (angle >= 360)
         angle = 0;
 }
@@ -682,7 +681,7 @@ void drop()
 
     glPushMatrix();
 //wear drop front
-    glColor3ub (89,39,25);
+    glColor3ub (113,74,44);
     glBegin(GL_POLYGON);
     glVertex3f (460, 660, 0);
     glVertex3f (470, 670, 0);
@@ -694,7 +693,7 @@ void drop()
     glPushMatrix();
     glTranslatef(0,0,-2);
 //wear drop front-drawer 1 - outer
-    glColor3ub (42,23,15);
+    glColor3ub (62,43,35);
     glBegin(GL_POLYGON);
     glVertex3f (455, 431, 0);
     glVertex3f (345, 431, 0);
@@ -705,7 +704,7 @@ void drop()
 
 
 //wear drop front-drawer 2 - outer
-    glColor3ub (42,23,15);
+      glColor3ub (62,43,35);
     glBegin(GL_POLYGON);
     glVertex3f (455, 435, 0);
     glVertex3f (345, 435, 0);
@@ -714,7 +713,7 @@ void drop()
     glEnd();
 
 //wear drop front-drawer 3 - outer
-    glColor3ub (42,23,15);
+      glColor3ub (62,43,35);
     glBegin(GL_POLYGON);
     glVertex3f (455, 653, 0);
     glVertex3f (345, 653, 0);
@@ -754,7 +753,7 @@ void drop()
     glPopMatrix();
 
 //wear drop side
-    glColor3ub (39,32,21);
+      glColor3ub (62,43,35);
     glBegin(GL_POLYGON);
     glVertex3f (470, 670, 0);
     glVertex3f (500, 667, 0);
@@ -943,12 +942,12 @@ static void key(unsigned char key, int x, int y)
         //  centerZ--;
         break;
 
-    case 'p':
+    case 'o':
         centerX++;
         //centerY++;
         //  centerZ++;
         break;
-    case 'o':
+    case 'p':
         centerX--;
         //centerY--;
         //  centerZ--;
@@ -974,7 +973,11 @@ static void key(unsigned char key, int x, int y)
         break;
 
     case '*':
-        angle=0,k=0;
+        stop=0;
+        break;
+
+    case ';':
+        angle=0,stop=1,k=0;
         break;
 
     }
@@ -1009,11 +1012,12 @@ int main(int argc, char *argv[])
     glEnable(GL_NORMALIZE);
     glEnable(GL_BLEND);
 
-
+    printf("Warning!!! please turn off caps lock and use shift key before * key and + key.\n");
     printf("1. Press '*' for stop fans.\n");
-    printf("2. Press 'w' for up.\n3. press 'e' for down.\n4. press 's' for right.\n5. press 'a' for left.\n");
-    printf("6. Press 'o' to move camera left.\n7. Press 'p' to move camera right.\n");
-    printf("8. Press '+' to zoom in.\n9. Press '-' for zoom out.\n\n\n");
+    printf("2. Press ';' for start fans.\n");
+    printf("3. Press 'w' for up.\n4. press 'e' for down.\n5. press 's' for right.\n6. press 'a' for left.\n");
+    printf("7. Press 'o' to move camera left.\n8. Press 'p' to move camera right.\n");
+    printf("9. Press '+' to zoom in.\n10. Press '-' for zoom out.\n\n\n");
 
     glutMainLoop();
 
