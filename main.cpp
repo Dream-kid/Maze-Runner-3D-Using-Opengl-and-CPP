@@ -9,7 +9,7 @@ using namespace std;
 #include<bits/stdc++.h>
 const int width = 500;
 const int height = 500;
-
+const float rat = 1.0 * width / height;
 GLfloat eyeX = 31;
 GLfloat eyeY = 5;
 GLfloat eyeZ = -27;
@@ -18,9 +18,33 @@ GLfloat centerX = 7;
 GLfloat centerY = 5;
 GLfloat centerZ = 28;
 double angle = 0 ;
-
+bool l_on1 = true;
+bool l_on2 = true;
+bool l_on3 = true;
 float rot = -12;
 int stop=1;
+
+float l_height =-90;
+float spt_cutoff = 30;
+static void getNormal3p(GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GLfloat z2, GLfloat x3, GLfloat y3, GLfloat z3)
+{
+    GLfloat Ux, Uy, Uz, Vx, Vy, Vz, Nx, Ny, Nz;
+
+    Ux = x2-x1;
+    Uy = y2-y1;
+    Uz = z2-z1;
+
+    Vx = x3-x1;
+    Vy = y3-y1;
+    Vz = z3-z1;
+
+    Nx = Uy*Vz - Uz*Vy;
+    Ny = Uz*Vx - Ux*Vz;
+    Nz = Ux*Vy - Uy*Vx;
+
+    glNormal3f(Nx,Ny,Nz);
+}
+
 static GLfloat v_cube[8][3] =
 {
     {0,0,0},
@@ -45,16 +69,35 @@ static GLubyte c_ind[6][4] =
 };
 
 
-void cube(float colR=0.5, float colG=0.5, float colB=0.5, float alpha=1)
+void cube(float R=0.5, float G=0.5, float B=0.5, bool e=false, float alpha=1)
 {
+
+    GLfloat m_no[] = {0, 0, 0, 1.0};
+    GLfloat m_amb[] = {R,G,B,1};
+    GLfloat m_diff[] = {R,G,B,1};
+    GLfloat m_spec[] = {1,1,1,1};
+    GLfloat m_sh[] = {30};
+
+    GLfloat m_em[] = {1,1,1,1};
+
+    glMaterialfv(GL_FRONT, GL_AMBIENT, m_amb);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, m_diff);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, m_spec);
+    glMaterialfv(GL_FRONT, GL_SHININESS, m_sh);
+
+    if(e & l_on1)
+        glMaterialfv(GL_FRONT, GL_EMISSION, m_em);
+    else
+        glMaterialfv(GL_FRONT, GL_EMISSION, m_no);
+
+
+
     glBegin(GL_QUADS);
     for (GLint i = 0; i <6; i++)
     {
-        glColor4f(colR,colG,colB,alpha);
-
-        colR += 0.03;
-        colG += 0.03;
-        colB += 0.03;
+        getNormal3p(v_cube[c_ind[i][0]][0], v_cube[c_ind[i][0]][1], v_cube[c_ind[i][0]][2],
+                    v_cube[c_ind[i][1]][0], v_cube[c_ind[i][1]][1], v_cube[c_ind[i][1]][2],
+                    v_cube[c_ind[i][2]][0], v_cube[c_ind[i][2]][1], v_cube[c_ind[i][2]][2]);
 
         for (GLint j=0; j<4; j++)
         {
@@ -62,6 +105,10 @@ void cube(float colR=0.5, float colG=0.5, float colB=0.5, float alpha=1)
         }
     }
     glEnd();
+}
+static void res(int width, int height)
+{
+    glViewport(0, 0, width, width/rat);
 }
 
 void axes()
@@ -838,15 +885,158 @@ void clock2()
     glPopMatrix();
 }
 
+void fan1()
+{
+    glPushMatrix();
+    glTranslatef(1,-.5,-15);
+    fan();
+    glPopMatrix();
+}
+
+void light1(float a,float b,float c)
+{
+    //light
+    GLfloat l_no[] = {0, 0, 0, 1.0};
+    GLfloat l_amb[] = {0.5, 0.5, 0.5, 1.0};
+    GLfloat l_dif[] = {1,1,1,1};
+    GLfloat l_spec[] = {1,1,1,1};
+    GLfloat l_pos[] = {a,b,c,1.0};
+
+    if(l_on1)
+        glLightfv(GL_LIGHT0, GL_AMBIENT, l_amb);
+    else
+        glLightfv(GL_LIGHT0, GL_AMBIENT, l_no);
+    if(l_on1)
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, l_dif);
+    else
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, l_no);
+    if(l_on1)
+        glLightfv(GL_LIGHT0, GL_SPECULAR, l_spec);
+    else
+        glLightfv(GL_LIGHT0, GL_SPECULAR, l_no);
+
+    glLightfv(GL_LIGHT0, GL_POSITION, l_pos);
 
 
+}
+
+void light2(float a,float b,float c)
+{
+    //light
+    GLfloat l_no[] = {0, 0, 0, 1.0};
+    GLfloat l_amb[] = {0.5, 0.5, 0.5, 1.0};
+    GLfloat l_dif[] = {1,1,1,1};
+    GLfloat l_spec[] = {1,1,1,1};
+    GLfloat l_pos[] = {a,b,c,1.0};
+
+    if(l_on3)
+        glLightfv(GL_LIGHT2, GL_AMBIENT, l_amb);
+    else
+        glLightfv(GL_LIGHT2, GL_AMBIENT, l_no);
+    if(l_on3)
+        glLightfv(GL_LIGHT2, GL_DIFFUSE, l_dif);
+    else
+        glLightfv(GL_LIGHT2, GL_DIFFUSE, l_no);
+    if(l_on3)
+        glLightfv(GL_LIGHT2, GL_SPECULAR, l_spec);
+    else
+        glLightfv(GL_LIGHT2, GL_SPECULAR, l_no);
+
+    glLightfv(GL_LIGHT2, GL_POSITION, l_pos);
+
+
+}
+
+
+
+void spot_light(float a,float b,float c)
+{
+    //light
+    GLfloat l_no[] = {0, 0, 0, 1.0};
+    GLfloat l_amb[] = {1, 0, 0, 1.0};
+    GLfloat l_dif[] = {1,1,1,1};
+    GLfloat l_spec[] = {1,1,1,1};
+    GLfloat l_pos[] = {a,b,c,1.0};
+
+    if(l_on2)
+        glLightfv(GL_LIGHT1, GL_AMBIENT, l_amb);
+    else
+        glLightfv(GL_LIGHT1, GL_AMBIENT, l_no);
+    if(l_on2)
+        glLightfv(GL_LIGHT1, GL_DIFFUSE, l_dif);
+    else
+        glLightfv(GL_LIGHT1, GL_DIFFUSE, l_no);
+    if(l_on2)
+        glLightfv(GL_LIGHT1, GL_SPECULAR, l_spec);
+    else
+        glLightfv(GL_LIGHT1, GL_SPECULAR, l_no);
+
+    glLightfv(GL_LIGHT1, GL_POSITION, l_pos);
+ GLfloat l_spt[] = {0,-1,0,1};
+       GLfloat spt_ct[] = {30};
+      glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, l_spt);
+   glLightfv(GL_LIGHT1, GL_SPOT_CUTOFF, spt_ct);
+
+}
+void light()
+{
+
+//light 1
+  glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT2);
+    glPushMatrix();
+    glPushMatrix();
+
+    glRotatef(63, 0,1,0);
+    float a=-5,b=16,c=9;
+    light1(a,b,c);
+    glPopMatrix();
+    glTranslatef(a,b+1,c);
+    glScalef(15,1,1);
+    glTranslatef(-0.5,-0.5,-0.5);
+    cube(1,1,1,true);
+    glPopMatrix();
+cout<<l_height<<endl;
+
+//light2
+
+ glPushMatrix();
+    glPushMatrix();
+
+    glRotatef(l_height, 0,1,0);
+    a=-5,b=16,c=-7;
+    light2(a,b,c);
+    glPopMatrix();
+    glTranslatef(a,b+1,c);
+    glScalef(15,1,1);
+    glTranslatef(-0.5,-0.5,-0.5);
+    cube(1,1,1,true);
+    glPopMatrix();
+
+
+    //spot light
+    glPushMatrix();
+    glPushMatrix();
+    glEnable(GL_LIGHT1);
+    glRotatef(-95, 0,1,0);
+    a=15,b=30,c=-15;
+    spot_light(a,b,c);
+
+    glPopMatrix();
+    glTranslatef(a,b+1,c);
+    glScalef(15,1,1);
+    glTranslatef(-0.5,-0.5,-0.5);
+   //cube(1,0,0,true);
+    glPopMatrix();
+    //cout<<l_height<<" "<<spt_cutoff<<endl;
+}
 static void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glFrustum(-3, 3, -3, 3, 2.0, 100.0);
-
+    gluPerspective(0,0,0,0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(eyeX,eyeY,eyeZ, centerX,centerY,centerZ, 0,1,0);
@@ -875,10 +1065,11 @@ static void display(void)
     clock2();
 
     weardrop();
-    glPushMatrix();
-    glTranslatef(1,-.5,-15);
-    fan();
-    glPopMatrix();
+    fan1();
+
+    light();
+
+
 
     //  glTranslatef(1,-.5,-15);
     //
@@ -972,6 +1163,31 @@ static void key(unsigned char key, int x, int y)
         angle=0,stop=1,k=0;
         break;
 
+    case '1':
+        l_height++;
+        break;
+    case '2':
+        l_height--;
+        break;
+
+    case '3':
+        spt_cutoff++;
+        break;
+    case '4':
+        spt_cutoff--;
+        break;
+    case 't':
+        l_on1=1-l_on1;
+        break;
+
+         case 'y':
+        l_on2=1-l_on2;
+        break;
+
+         case 'u':
+        l_on3=1-l_on3;
+        break;
+
     }
     glutPostRedisplay();
 }
@@ -996,13 +1212,15 @@ int main(int argc, char *argv[])
     glutDisplayFunc(display);
     glutKeyboardFunc(key);
     glutIdleFunc(idle);
-
+    glutReshapeFunc(res);
 //    glClearColor(1,1,1,1);
 
     glEnable(GL_DEPTH_TEST);
     glShadeModel( GL_SMOOTH );
     glEnable(GL_NORMALIZE);
     glEnable(GL_BLEND);
+
+    glEnable(GL_LIGHTING);
 
     printf("Warning!!! please turn off caps lock and use shift key before * key and + key.\n");
     printf("1. Press '*' for stop fans.\n");
