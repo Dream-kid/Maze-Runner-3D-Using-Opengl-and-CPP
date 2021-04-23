@@ -22,6 +22,7 @@ double angle = 0 ;
 bool l_on1 = true;
 bool l_on2 = true;
 bool l_on3 = true;
+bool l_on4 = false;
 float rot = -12;
 int stop=1;
 float door_angle=.5;
@@ -487,6 +488,7 @@ void headwall()
 float k=0;
 float angle1=0;
 bool markdoor=0;
+double window_val=0;
 void spin()
 {
     angle = (angle+k)*stop;
@@ -496,10 +498,26 @@ void spin()
     angle1+=.2;
     if (angle1 >= 360)
         angle1 = 0;
+    bool ok=0;
+    bool ok1=0;
     if(markdoor&&door_angle>-.8)
-        door_angle-=.002;
+    {
+        door_angle-=.001,ok=1;
+        window_val+=.00077;
+        window_val=min( window_val,1.00);
+        l_on4=1;
+
+
+    }
     if(!markdoor&&door_angle<.5)
-        door_angle+=.002;
+    {
+        door_angle+=.001,ok=1;
+        window_val-=.001;
+        window_val=max(window_val,0.00);
+
+    }
+    if(!ok)
+        l_on4=markdoor;
 
 }
 
@@ -846,6 +864,7 @@ void weardrop()
     glPopMatrix();
 }
 
+
 void clock1()
 {
 
@@ -1026,6 +1045,38 @@ void spot_light(float a,float b,float c)
     glLightfv(GL_LIGHT1, GL_SPOT_CUTOFF, spt_ct);
 
 }
+
+void window_light(float a,float b,float c)
+{
+    //light
+    glEnable(GL_LIGHT3);
+
+    GLfloat l_no[] = {0, 0, 0, 1.0};
+    GLfloat l_amb[] = {.5* window_val, .5* window_val, .5* window_val, 1.0};
+    GLfloat l_dif[] = {1* window_val,1* window_val,1* window_val,1};
+    GLfloat l_spec[] = {1* window_val,1* window_val,1* window_val,1};
+    GLfloat l_pos[] = {a,b,c,1.0};
+
+    if(l_on4)
+        glLightfv(GL_LIGHT3, GL_AMBIENT, l_amb);
+    else
+        glLightfv(GL_LIGHT3, GL_AMBIENT, l_no);
+    if(l_on4)
+        glLightfv(GL_LIGHT3, GL_DIFFUSE, l_dif);
+    else
+        glLightfv(GL_LIGHT3, GL_DIFFUSE, l_no);
+    if(l_on4)
+        glLightfv(GL_LIGHT3, GL_SPECULAR, l_spec);
+    else
+        glLightfv(GL_LIGHT3, GL_SPECULAR, l_no);
+
+    glLightfv(GL_LIGHT3, GL_POSITION, l_pos);
+    GLfloat l_spt[] = {0,-1,0,1};
+    GLfloat spt_ct[] = {84};
+    glLightfv(GL_LIGHT3, GL_SPOT_DIRECTION, l_spt);
+    glLightfv(GL_LIGHT3, GL_SPOT_CUTOFF, spt_ct);
+
+}
 void light()
 {
 
@@ -1074,7 +1125,23 @@ void light()
     glTranslatef(-0.5,-0.5,-0.5);
     //cube(1,0,0,true);
     glPopMatrix();
-// cout<<l_height<<" "<<spt_cutoff<<endl;
+
+
+    //window light
+    glPushMatrix();
+    glPushMatrix();
+    glRotatef(0, 0,1,0);
+    a=35,b=15,c=-10;
+    window_light(a,b,c);
+
+    glPopMatrix();
+    glTranslatef(a,b+1,c);
+    glScalef(15,1,1);
+    glTranslatef(-0.5,-0.5,-0.5);
+    //cube(1,0,0,true);
+    glPopMatrix();
+  //  cout<<window_val<<endl;
+   // cout<<l_height<<" "<<spt_cutoff<<endl;
 }
 static void display(void)
 {
@@ -1233,10 +1300,7 @@ static void key(unsigned char key, int x, int y)
         l_on3=1-l_on3;
         break;
     case 'd':
-        if(!markdoor)
-            markdoor=true;
-        else
-            markdoor=0;
+        markdoor=1-markdoor;
 
     }
     glutPostRedisplay();
