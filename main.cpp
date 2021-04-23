@@ -154,7 +154,7 @@ void axes()
 }
 
 
-void desk()
+void cse()
 {
 
     glPushMatrix();
@@ -376,7 +376,7 @@ void wall3()
 //    glTranslatef(0,-0.5,0);
     glScalef(60,20,1);
     glTranslatef(-.5,0,10);
-    cube(1,.69,.0);
+    cube(0.741, 0.718, 0.420);
     glPopMatrix();
 }
 
@@ -740,7 +740,8 @@ void drop()
 
     glPushMatrix();
 //wear drop front
-    glColor3ub (113,74,44);
+    cube(113/255.0,74/255.0,44/255.0);
+    //glColor3ub (113,74,44);
     glBegin(GL_POLYGON);
     glVertex3f (460, 660, 0);
     glVertex3f (470, 670, 0);
@@ -786,22 +787,24 @@ void drop()
     glScalef(20,10,10);
     glPushMatrix();
     glTranslatef(19.5,38,-.5);
-    cube(255,255,255);
+    cube(1,1,1);
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(19.5,58,-.5);
-    cube(255,255,255);
+    cube(1,1,1);
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(19.5,48,-.5);
-    cube(255,255,255);
+    cube(1,1,1);
     glPopMatrix();
 
     glPopMatrix();
 
 //wear drop side
+
+    cube(62/255.0,43/255.0,35/255.0);
     glColor3ub (62,43,35);
     glBegin(GL_POLYGON);
     glVertex3f (470, 670, 0);
@@ -1068,8 +1071,7 @@ static void display(void)
 
     glRotatef(rot, 0,1,0);
     //axes();
-
-    desk();
+    cse();
     table();
     flr();
     wall1();
