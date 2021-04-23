@@ -9,7 +9,7 @@ using namespace std;
 #include<bits/stdc++.h>
 const int width = 500;
 const int height = 500;
-const float rat = 1.0 * width / height;
+
 GLfloat eyeX = 31;
 GLfloat eyeY = 5;
 GLfloat eyeZ = -27;
@@ -120,7 +120,7 @@ void cube(float R=0.5, float G=0.5, float B=0.5, int type=0, float alpha=1)
 }
 static void res(int width, int height)
 {
-    glViewport(0, 0, width, width/rat);
+    glViewport(0, 0, width, height);
 }
 
 void axes()
@@ -314,14 +314,14 @@ void flr()
     // glTranslatef(-0.5,-1,-0.5);
     //  cube(.2,.3,.5);
     //  glPopMatrix();
-    for(int i=-20; i<=70; i++)
+    for(int i=-10; i<=35; i++)
     {
-        for(float j=-29; j<=30; j+=2)
+        for(float j=-15; j<=14; j+=2)
         {
             glPushMatrix();
 //    glTranslatef(0,-0.5,0);
 
-            glScalef(1,1,.5);
+            glScalef(2,.5,1);
             glTranslatef(j,-.999,-i);
             if(i%2==0)
                 cube(1, 1, 1);
@@ -331,14 +331,14 @@ void flr()
         }
     }
 
-    for(int i=-20; i<=70; i++)
+    for(int i=-10; i<=35; i++)
     {
-        for(float j=-30; j<=29; j+=2)
+        for(float j=-14; j<=14; j+=2)
         {
             glPushMatrix();
 //    glTranslatef(0,-0.5,0);
 
-            glScalef(1,1,.5);
+            glScalef(2,.5,1);
             glTranslatef(j,-.999,-i);
             if(i%2!=0)
                 cube(1, 1, 1);
@@ -658,8 +658,8 @@ void test()
         for (int j = -4; j <= 3; j+=2)
         {
             glPushMatrix();
-            glTranslatef(i*2.0, 0.6f, -15.5+j * 2.0 + 2.2f);
-            glScalef(0.25f, 0.3f, 0.25f);
+            glTranslatef(i*2.0, 0.6f, -16+j * 2.0 + 2.2f);
+            glScalef(0.5f, 0.5f, 0.5f);
             glRotatef(0.0, 0.0, 1.0, 0.0);
             Chair12();
             glPopMatrix();
@@ -673,7 +673,7 @@ void test()
         {
             glPushMatrix();
             glTranslatef(i*2.0 + 0.3f, 1.2f,-14.2+ j * 2.0 + 1.2f);
-            glScalef(0.5f, 0.4f, 0.4f);
+            glScalef(0.75f, 0.7f, 0.6f);
             Table12();
             glPopMatrix();
         }
@@ -1064,7 +1064,7 @@ static void display(void)
     centerX, centerY, centerZ Specifies the position of the reference point.
     upX, upY, upZ Specifies the direction of the up vector.
     */
-    glViewport(0, 0, width, height);
+    //  glViewport(0, 0, width, height);
 
     glRotatef(rot, 0,1,0);
     //axes();
@@ -1228,12 +1228,11 @@ int main(int argc, char *argv[])
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
     glutCreateWindow("3D Class Room");
-
+    glutReshapeFunc(res);
     glutDisplayFunc(display);
     glutKeyboardFunc(key);
     glutIdleFunc(idle);
-    glutReshapeFunc(res);
-//    glClearColor(1,1,1,1);
+
 
     glEnable(GL_DEPTH_TEST);
     glShadeModel( GL_SMOOTH );
