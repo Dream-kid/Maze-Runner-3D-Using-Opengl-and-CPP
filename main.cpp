@@ -509,16 +509,16 @@ void fan()
     glPushMatrix();
     glScalef(1,.1,1);
     glTranslatef(-5,150,2);
-    glColor3f(1, 1, 1);            // Set color as glColor3f(R,G,B)
+    cube(1, 1, 1);            // Set color as glColor3f(R,G,B)
     glRotatef(angle, 0, 0, 1);
     glRecti(-a, -a, a, a);
-    glColor3f(1, 0, 0);
+    cube(1, 0, 0);
     glRecti(-b, a, b, c);
     glColor3f(1, 0, 0);
     glRecti(-c, -b, -a, b);
-    glColor3f(1, 0, 0);
+    cube(1, 0, 0);
     glRecti(-b, -c, b, -a);
-    glColor3f(1, 0, 0);
+    cube(1, 0, 0);
     glRecti(a, -b, c, b);
     glPopMatrix();
 }
@@ -837,7 +837,7 @@ void clock1()
 
     glPushMatrix();
 //clock outer
-    glColor3ub (0,0,0);
+    cube(0,0,0);
     glBegin(GL_QUADS);
     glVertex3f (680, 800, 0);
     glVertex3f (630, 800, 0);
@@ -847,7 +847,7 @@ void clock1()
 //clock inner
     glPushMatrix();
     glTranslatef(0,0,-.98);
-    glColor3ub (	240, 230, 140);
+    cube(	240/255.0, 230/255.0, 140/255.0);
     glBegin(GL_QUADS);
     glVertex3f (675, 805, 0);
     glVertex3f (635, 805, 0);
@@ -860,7 +860,7 @@ void clock1()
     glTranslatef(0,0,-2);
 
 //clock second
-    glColor3ub (0,0,0);
+    cube(0,0,0);
 
     glBegin(GL_LINES);
     glVertex3f (655, 850, 0);
@@ -869,7 +869,7 @@ void clock1()
 
 
 //clock minute
-    glColor3ub (0,0,0);
+   cube(0,0,0);
     glBegin(GL_LINES);
 //glBegin(GL_POINT_SIZE);
     glVertex3f (655, 850, 0);
@@ -878,7 +878,7 @@ void clock1()
 
 
 //clock hour
-    glColor3ub (0,0,0);
+    cube(0,0,0);
     glBegin(GL_LINES);
 
 //glBegin(GL_POINT_SIZE);
