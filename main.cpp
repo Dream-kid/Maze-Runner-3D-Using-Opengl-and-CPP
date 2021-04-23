@@ -24,7 +24,7 @@ bool l_on3 = true;
 float rot = -12;
 int stop=1;
 
-float l_height =-90;
+float l_height =63;
 float spt_cutoff = 30;
 static void getNormal3p(GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GLfloat z2, GLfloat x3, GLfloat y3, GLfloat z3)
 {
@@ -69,7 +69,7 @@ static GLubyte c_ind[6][4] =
 };
 
 
-void cube(float R=0.5, float G=0.5, float B=0.5, bool e=false, float alpha=1)
+void cube(float R=0.5, float G=0.5, float B=0.5, int type=0, float alpha=1)
 {
 
     GLfloat m_no[] = {0, 0, 0, 1.0};
@@ -84,12 +84,24 @@ void cube(float R=0.5, float G=0.5, float B=0.5, bool e=false, float alpha=1)
     glMaterialfv(GL_FRONT, GL_DIFFUSE, m_diff);
     glMaterialfv(GL_FRONT, GL_SPECULAR, m_spec);
     glMaterialfv(GL_FRONT, GL_SHININESS, m_sh);
+    if(type==1)
+    {
 
-    if(e & l_on1)
-        glMaterialfv(GL_FRONT, GL_EMISSION, m_em);
+        if(l_on1)
+            glMaterialfv(GL_FRONT, GL_EMISSION, m_em);
+        else
+            glMaterialfv(GL_FRONT, GL_EMISSION, m_no);
+
+    }
+    else if(type==2)
+    {
+        if(l_on3)
+            glMaterialfv(GL_FRONT, GL_EMISSION, m_em);
+        else
+            glMaterialfv(GL_FRONT, GL_EMISSION, m_no);
+    }
     else
         glMaterialfv(GL_FRONT, GL_EMISSION, m_no);
-
 
 
     glBegin(GL_QUADS);
@@ -895,6 +907,8 @@ void fan1()
 
 void light1(float a,float b,float c)
 {
+    glEnable(GL_LIGHT0);
+
     //light
     GLfloat l_no[] = {0, 0, 0, 1.0};
     GLfloat l_amb[] = {0.5, 0.5, 0.5, 1.0};
@@ -922,6 +936,7 @@ void light1(float a,float b,float c)
 
 void light2(float a,float b,float c)
 {
+    glEnable(GL_LIGHT2);
     //light
     GLfloat l_no[] = {0, 0, 0, 1.0};
     GLfloat l_amb[] = {0.5, 0.5, 0.5, 1.0};
@@ -943,15 +958,22 @@ void light2(float a,float b,float c)
         glLightfv(GL_LIGHT2, GL_SPECULAR, l_no);
 
     glLightfv(GL_LIGHT2, GL_POSITION, l_pos);
+    GLfloat l_spt[] = {0,-1,0,1};
+    GLfloat spt_ct[] = {66};
+    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, l_spt);
+    glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, spt_ct);
 
 
 }
 
 
 
+
 void spot_light(float a,float b,float c)
 {
     //light
+    glEnable(GL_LIGHT1);
+
     GLfloat l_no[] = {0, 0, 0, 1.0};
     GLfloat l_amb[] = {1, 0, 0, 1.0};
     GLfloat l_dif[] = {1,1,1,1};
@@ -972,18 +994,17 @@ void spot_light(float a,float b,float c)
         glLightfv(GL_LIGHT1, GL_SPECULAR, l_no);
 
     glLightfv(GL_LIGHT1, GL_POSITION, l_pos);
- GLfloat l_spt[] = {0,-1,0,1};
-       GLfloat spt_ct[] = {30};
-      glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, l_spt);
-   glLightfv(GL_LIGHT1, GL_SPOT_CUTOFF, spt_ct);
+    GLfloat l_spt[] = {0,-1,0,1};
+    GLfloat spt_ct[] = {30};
+    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, l_spt);
+    glLightfv(GL_LIGHT1, GL_SPOT_CUTOFF, spt_ct);
 
 }
 void light()
 {
 
 //light 1
-  glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHT2);
+
     glPushMatrix();
     glPushMatrix();
 
@@ -994,30 +1015,29 @@ void light()
     glTranslatef(a,b+1,c);
     glScalef(15,1,1);
     glTranslatef(-0.5,-0.5,-0.5);
-    cube(1,1,1,true);
+    cube(1,1,1,1);
     glPopMatrix();
-cout<<l_height<<endl;
+    // cout<<l_height<<" "<<spt_cutoff<<endl;
 
 //light2
 
- glPushMatrix();
+    glPushMatrix();
     glPushMatrix();
 
-    glRotatef(l_height, 0,1,0);
-    a=-5,b=16,c=-7;
+    glRotatef(63, 0,1,0);
+    a=15,b=17,c=-15;
     light2(a,b,c);
     glPopMatrix();
     glTranslatef(a,b+1,c);
     glScalef(15,1,1);
     glTranslatef(-0.5,-0.5,-0.5);
-    cube(1,1,1,true);
+    cube(1,1,1,2);
     glPopMatrix();
 
 
     //spot light
     glPushMatrix();
     glPushMatrix();
-    glEnable(GL_LIGHT1);
     glRotatef(-95, 0,1,0);
     a=15,b=30,c=-15;
     spot_light(a,b,c);
@@ -1026,7 +1046,7 @@ cout<<l_height<<endl;
     glTranslatef(a,b+1,c);
     glScalef(15,1,1);
     glTranslatef(-0.5,-0.5,-0.5);
-   //cube(1,0,0,true);
+    //cube(1,0,0,true);
     glPopMatrix();
     //cout<<l_height<<" "<<spt_cutoff<<endl;
 }
@@ -1180,11 +1200,11 @@ static void key(unsigned char key, int x, int y)
         l_on1=1-l_on1;
         break;
 
-         case 'y':
+    case 'y':
         l_on2=1-l_on2;
         break;
 
-         case 'u':
+    case 'u':
         l_on3=1-l_on3;
         break;
 
@@ -1221,13 +1241,19 @@ int main(int argc, char *argv[])
     glEnable(GL_BLEND);
 
     glEnable(GL_LIGHTING);
-
+    int t=1;
     printf("Warning!!! please turn off caps lock and use shift key before * key and + key.\n");
-    printf("1. Press '*' for stop fans.\n");
-    printf("2. Press ';' for start fans.\n");
-    printf("3. Press 'w' for up.\n4. press 'e' for down.\n5. press 's' for right.\n6. press 'a' for left.\n");
-    printf("7. Press 'o' to move camera left.\n8. Press 'p' to move camera right.\n");
-    printf("9. Press '+' to zoom in.\n10. Press '-' for zoom out.\n\n\n");
+    printf("%d. Press 't' for off light1.\n",t++);
+    printf("%d. Press 'y' for off cse light.\n",t++);
+    printf("%d. Press 'u' for off light2.\n",t++);
+    printf("%d. Press '*' for stop fans.\n",t++);
+    printf("%d. Press ';' for start fans.\n",t++);
+    printf("%d. Press 'w' for up.\n%d. press 'e' for down.\n%d. press 's' for right.\n%d. press 'a' for left.\n",t+1,t+2,t+3,t+4);
+    t+=4;
+    printf("%d. Press 'o' to move camera left.\n%d. Press 'p' to move camera right.\n",t+1,t+2);
+    t+=2;
+    printf("%d. Press '+' to zoom in.\n%d. Press '-' for zoom out.\n\n\n",t+1,t+2);
+    t+=2;
 
     glutMainLoop();
 
