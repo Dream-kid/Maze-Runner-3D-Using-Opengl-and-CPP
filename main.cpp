@@ -24,7 +24,7 @@ bool l_on3 = true;
 float rot = -12;
 int stop=1;
 
-float l_height =63;
+float l_height =0;
 float spt_cutoff = 30;
 static void getNormal3p(GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GLfloat z2, GLfloat x3, GLfloat y3, GLfloat z3)
 {
@@ -235,7 +235,6 @@ void cse()
     glPopMatrix();
     //right
     /*
-
     */
     //rack4
     glPushMatrix();
@@ -869,7 +868,7 @@ void clock1()
 
 
 //clock minute
-   cube(0,0,0);
+    cube(0,0,0);
     glBegin(GL_LINES);
 //glBegin(GL_POINT_SIZE);
     glVertex3f (655, 850, 0);
@@ -914,9 +913,9 @@ void light1(float a,float b,float c)
 
     //light
     GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {0.5, 0.5, 0.5, 1.0};
-    GLfloat l_dif[] = {1,1,1,1};
-    GLfloat l_spec[] = {1,1,1,1};
+    GLfloat l_amb[] = {0.3, 0.3, 0.3, 1.0};
+    GLfloat l_dif[] = {.4,.4,.4,1};
+    GLfloat l_spec[] = {.4,.4,.4,1};
     GLfloat l_pos[] = {a,b,c,1.0};
 
     if(l_on1)
@@ -942,9 +941,9 @@ void light2(float a,float b,float c)
     glEnable(GL_LIGHT2);
     //light
     GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {0.5, 0.5, 0.5, 1.0};
-    GLfloat l_dif[] = {1,1,1,1};
-    GLfloat l_spec[] = {1,1,1,1};
+    GLfloat l_amb[] = {0.3, 0.3, 0.3, 1.0};
+    GLfloat l_dif[] = {.6,.6,.6,1};
+    GLfloat l_spec[] = {30,30,30,1};
     GLfloat l_pos[] = {a,b,c,1.0};
 
     if(l_on3)
@@ -961,10 +960,10 @@ void light2(float a,float b,float c)
         glLightfv(GL_LIGHT2, GL_SPECULAR, l_no);
 
     glLightfv(GL_LIGHT2, GL_POSITION, l_pos);
-    GLfloat l_spt[] = {0,-1,0,1};
-    GLfloat spt_ct[] = {66};
-    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, l_spt);
-    glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, spt_ct);
+    // GLfloat l_spt[] = {0,-1,0,1};
+//    GLfloat spt_ct[] = {66};
+//    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, l_spt);
+//    glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, spt_ct);
 
 
 }
@@ -1011,7 +1010,7 @@ void light()
     glPushMatrix();
     glPushMatrix();
 
-    glRotatef(63, 0,1,0);
+    glRotatef(200, 0,1,0);
     float a=-5,b=16,c=9;
     light1(a,b,c);
     glPopMatrix();
@@ -1020,14 +1019,14 @@ void light()
     glTranslatef(-0.5,-0.5,-0.5);
     cube(1,1,1,1);
     glPopMatrix();
-    // cout<<l_height<<" "<<spt_cutoff<<endl;
+    cout<<l_height<<" "<<spt_cutoff<<endl;
 
 //light2
 
     glPushMatrix();
     glPushMatrix();
 
-    glRotatef(63, 0,1,0);
+    glRotatef(200, 0,1,0);
     a=15,b=17,c=-15;
     light2(a,b,c);
     glPopMatrix();
@@ -1186,10 +1185,10 @@ static void key(unsigned char key, int x, int y)
         break;
 
     case '1':
-        l_height++;
+        l_height+=.1;
         break;
     case '2':
-        l_height--;
+        l_height-=.1;
         break;
 
     case '3':
