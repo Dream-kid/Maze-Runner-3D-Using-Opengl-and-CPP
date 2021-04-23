@@ -7,6 +7,7 @@
 #include<math.h>
 using namespace std;
 #include<bits/stdc++.h>
+#include <unistd.h>
 const int width = 500;
 const int height = 500;
 
@@ -23,8 +24,8 @@ bool l_on2 = true;
 bool l_on3 = true;
 float rot = -12;
 int stop=1;
-
-float l_height =0;
+float door_angle=.5;
+float l_height =.5;
 float spt_cutoff = 30;
 static void getNormal3p(GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GLfloat z2, GLfloat x3, GLfloat y3, GLfloat z3)
 {
@@ -418,11 +419,19 @@ void board()
 void window()
 {
     glPushMatrix();
+    glPushMatrix();
 //    glTranslatef(0,-0.5,0);
     glScalef(1,8,15);
     glTranslatef(28,.5,-1);
     cube(.102,1,1);
     glPopMatrix();
+    glPushMatrix();
+//    glTranslatef(0,-0.5,0);
+    glScalef(1,8,.2);
+    glTranslatef(28,.5,-76);
+    cube(1,.59,.0);
+    glPopMatrix();
+    glRotatef (door_angle, 0,1,0);
 
 
     glPushMatrix();
@@ -438,7 +447,7 @@ void window()
     glTranslatef(27.9,30,-1);
     cube(0,0,0);
     glPopMatrix();
-    for(int i=-10; i>=-70; i-=10)
+    for(int i=-5; i>=-75; i-=2)
     {
         glPushMatrix();
 //    glTranslatef(0,-0.5,0);
@@ -447,11 +456,7 @@ void window()
         cube(0,0,0);
         glPopMatrix();
     }
-    glPushMatrix();
-//    glTranslatef(0,-0.5,0);
-    glScalef(1,8,.2);
-    glTranslatef(28,.5,-76);
-    cube(1,.59,.0);
+
     glPopMatrix();
 }
 
@@ -480,12 +485,22 @@ void headwall()
     }
 }
 float k=0;
+float angle1=0;
+bool markdoor=0;
 void spin()
 {
     angle = (angle+k)*stop;
     k+=.001;
     if (angle >= 360)
         angle = 0;
+    angle1+=.2;
+    if (angle1 >= 360)
+        angle1 = 0;
+    if(markdoor&&door_angle>-.8)
+        door_angle-=.002;
+    if(!markdoor&&door_angle<.5)
+        door_angle+=.002;
+
 }
 
 
@@ -513,7 +528,7 @@ void fan()
     glRecti(-a, -a, a, a);
     cube(1, 0, 0);
     glRecti(-b, a, b, c);
-    glColor3f(1, 0, 0);
+    cube(1, 0, 0);
     glRecti(-c, -b, -a, b);
     cube(1, 0, 0);
     glRecti(-b, -c, b, -a);
@@ -836,6 +851,9 @@ void clock1()
 
     glPushMatrix();
 //clock outer
+    glPushMatrix();
+    glScalef(1.5,1.3,1);
+    glTranslatef(-220,-200,1);
     cube(0,0,0);
     glBegin(GL_QUADS);
     glVertex3f (680, 800, 0);
@@ -843,10 +861,11 @@ void clock1()
     glVertex3f (630, 900, 0);
     glVertex3f (680, 900, 0);
     glEnd();
+
 //clock inner
     glPushMatrix();
     glTranslatef(0,0,-.98);
-    cube(	240/255.0, 230/255.0, 140/255.0);
+    cube(0.847, 0.749, 0.847);
     glBegin(GL_QUADS);
     glVertex3f (675, 805, 0);
     glVertex3f (635, 805, 0);
@@ -854,10 +873,19 @@ void clock1()
     glVertex3f (675, 895, 0);
     glEnd();
     glPopMatrix();
+    glPopMatrix();
 
     glPushMatrix();
     glTranslatef(0,0,-2);
+////////////////////////////
+    glPushMatrix();
+    glTranslatef(653,847,1);
+    glRotatef(angle1, 0, 0, 1);
 
+    cube(0, 0, 0);
+    glRecti(-b, a, b, 3*c);
+    glPopMatrix();
+    /////////////////////////////
 //clock second
     cube(0,0,0);
 
@@ -867,13 +895,7 @@ void clock1()
     glEnd();
 
 
-//clock minute
-    cube(0,0,0);
-    glBegin(GL_LINES);
-//glBegin(GL_POINT_SIZE);
-    glVertex3f (655, 850, 0);
-    glVertex3f (670, 820, 0);
-    glEnd();
+
 
 
 //clock hour
@@ -889,6 +911,8 @@ void clock1()
 }
 void clock2()
 {
+
+
     glPushMatrix();
 //    glTranslatef(0,-0.5,0);
 
@@ -1019,7 +1043,7 @@ void light()
     glTranslatef(-0.5,-0.5,-0.5);
     cube(1,1,1,1);
     glPopMatrix();
-    cout<<l_height<<" "<<spt_cutoff<<endl;
+    // cout<<l_height<<" "<<spt_cutoff<<endl;
 
 //light2
 
@@ -1050,7 +1074,7 @@ void light()
     glTranslatef(-0.5,-0.5,-0.5);
     //cube(1,0,0,true);
     glPopMatrix();
-    //cout<<l_height<<" "<<spt_cutoff<<endl;
+// cout<<l_height<<" "<<spt_cutoff<<endl;
 }
 static void display(void)
 {
@@ -1208,6 +1232,11 @@ static void key(unsigned char key, int x, int y)
     case 'u':
         l_on3=1-l_on3;
         break;
+    case 'd':
+        if(!markdoor)
+            markdoor=true;
+        else
+            markdoor=0;
 
     }
     glutPostRedisplay();
@@ -1248,6 +1277,7 @@ int main(int argc, char *argv[])
     printf("%d. Press 'u' for off light2.\n",t++);
     printf("%d. Press '*' for stop fans.\n",t++);
     printf("%d. Press ';' for start fans.\n",t++);
+    printf("%d. Press 'd' for window open/close.\n",t++);
     printf("%d. Press 'w' for up.\n%d. press 'e' for down.\n%d. press 's' for right.\n%d. press 'a' for left.\n",t+1,t+2,t+3,t+4);
     t+=4;
     printf("%d. Press 'o' to move camera left.\n%d. Press 'p' to move camera right.\n",t+1,t+2);
