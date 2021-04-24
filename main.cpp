@@ -448,7 +448,7 @@ void window()
     glTranslatef(27.9,30,-1);
     cube(0,0,0);
     glPopMatrix();
-    for(int i=-5; i>=-75; i-=2)
+    for(int i=0; i>=-75; i-=2)
     {
         glPushMatrix();
 //    glTranslatef(0,-0.5,0);
@@ -503,7 +503,8 @@ void spin()
     if(markdoor&&door_angle>-.8)
     {
         door_angle-=.001,ok=1;
-        window_val+=.00077;
+        if(door_angle<.4)
+            window_val+=.00085;
         window_val=min( window_val,1.00);
         l_on4=1;
 
@@ -949,16 +950,18 @@ void fan1()
     fan();
     glPopMatrix();
 }
-
+float al1,dl1,sl1;
+float al2,dl2,sl2;
+float al3,dl3,sl3;
 void light1(float a,float b,float c)
 {
     glEnable(GL_LIGHT0);
 
     //light
     GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {0.3, 0.3, 0.3, 1.0};
-    GLfloat l_dif[] = {.4,.4,.4,1};
-    GLfloat l_spec[] = {.4,.4,.4,1};
+    GLfloat l_amb[] = {0.3+al1, 0.3+al1, 0.3+al1, 1.0};
+    GLfloat l_dif[] = {.4+dl1,.4+dl1,.4+dl1,1};
+    GLfloat l_spec[] = {.4+sl1,.4+sl1,.4+sl1,1};
     GLfloat l_pos[] = {a,b,c,1.0};
 
     if(l_on1)
@@ -984,9 +987,9 @@ void light2(float a,float b,float c)
     glEnable(GL_LIGHT2);
     //light
     GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {0.3, 0.3, 0.3, 1.0};
-    GLfloat l_dif[] = {.6,.6,.6,1};
-    GLfloat l_spec[] = {30,30,30,1};
+    GLfloat l_amb[] = {0.3+al2, 0.3+al2, 0.3+al2, 1.0};
+    GLfloat l_dif[] = {.6+dl2,.6+dl2,.6+dl2,1};
+    GLfloat l_spec[] = {30+sl2,30+sl2,30+sl2,1};
     GLfloat l_pos[] = {a,b,c,1.0};
 
     if(l_on3)
@@ -1020,9 +1023,9 @@ void spot_light(float a,float b,float c)
     glEnable(GL_LIGHT1);
 
     GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {1, 0, 0, 1.0};
-    GLfloat l_dif[] = {1,1,1,1};
-    GLfloat l_spec[] = {1,1,1,1};
+    GLfloat l_amb[] = {1+al3, 0+al3, 0+al3, 1.0};
+    GLfloat l_dif[] = {1+dl3,1+dl3,1+dl3,1};
+    GLfloat l_spec[] = {1+sl3,1+sl3,1+sl3,1};
     GLfloat l_pos[] = {a,b,c,1.0};
 
     if(l_on2)
@@ -1140,8 +1143,8 @@ void light()
     glTranslatef(-0.5,-0.5,-0.5);
     //cube(1,0,0,true);
     glPopMatrix();
-  //  cout<<window_val<<endl;
-   // cout<<l_height<<" "<<spt_cutoff<<endl;
+    //  cout<<window_val<<endl;
+    // cout<<l_height<<" "<<spt_cutoff<<endl;
 }
 static void display(void)
 {
@@ -1190,7 +1193,101 @@ static void display(void)
     glutSwapBuffers();
 }
 
+static void key(unsigned char key, int x, int y);
 
+float l_val=.1;
+
+static void light14(unsigned char light1, int x, int y)
+{
+
+    switch (light1)
+    {
+
+    case 27:
+        glutKeyboardFunc(key);
+        break;
+    case '1':
+        al1+=l_val;
+        break;
+    case '2':
+        al1-=l_val;
+        break;
+    case '3':
+        dl1+=l_val;
+        break;
+    case '4':
+        dl1-=l_val;
+        break;
+    case '5':
+        sl1+=l_val;
+        break;
+    case '6':
+        sl1-=l_val;
+        break;
+    }
+read:
+    return;
+}
+
+static void light24(unsigned char light2, int x, int y)
+{
+    switch (light2)
+    {
+
+    case 27:
+        glutKeyboardFunc(key);
+
+        break;
+    case '1':
+        al2+=l_val;
+        break;
+    case '2':
+        al2-=l_val;
+        break;
+    case '3':
+        dl2+=l_val;
+        break;
+    case '4':
+        dl2-=l_val;
+        break;
+    case '5':
+        sl2+=l_val;
+        break;
+    case '6':
+        sl2-=l_val;
+        break;
+    }
+}
+
+static void spot_light14(unsigned char spot_light, int x, int y)
+{
+    switch (spot_light)
+    {
+
+    case 27:
+
+        glutKeyboardFunc(key);
+        break;
+    case '1':
+        al3+=l_val;
+        break;
+    case '2':
+        al3-=l_val;
+        break;
+    case '3':
+        dl3+=l_val;
+        break;
+    case '4':
+        dl3-=l_val;
+        break;
+    case '5':
+        sl3+=l_val;
+        break;
+    case '6':
+        sl3-=l_val;
+        break;
+    }
+}
 static void key(unsigned char key, int x, int y)
 {
     switch (key)
@@ -1301,6 +1398,16 @@ static void key(unsigned char key, int x, int y)
         break;
     case 'd':
         markdoor=1-markdoor;
+        break;
+    case 'b':
+        glutKeyboardFunc(light14);
+        break;
+    case 'n':
+        glutKeyboardFunc(light24);
+        break;
+    case 'm':
+        glutKeyboardFunc(spot_light14);
+        break;
 
     }
     glutPostRedisplay();
