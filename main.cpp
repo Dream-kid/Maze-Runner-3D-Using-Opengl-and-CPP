@@ -684,11 +684,23 @@ void Table12()
 }
 void test()
 {
-
+//teacher chair
+    glPushMatrix();
+    glTranslatef(10.0, 1, -14+9 * 2.0 + 2.2f);
+    glScalef(0.6f, 0.6f, 0.6f);
+    glRotatef(180.0, 0.0, 1.0, 0.0);
+    Chair12();
+    glPopMatrix();
+    //teacher table
+    glPushMatrix();
+    glTranslatef(10.0, 1, -16+9 * 2.0 + 2.2f);
+    glScalef(0.95f, 0.8f, 0.8f);
+    Table12();
+    glPopMatrix();
 
     for (int i = -8; i <= 10; i+=2)
     {
-        for (int j = -4; j <= 3; j+=2)
+        for (int j = -4; j <= 6; j+=2)
         {
             glPushMatrix();
             glTranslatef(i*2.0, 0.6f, -16+j * 2.0 + 2.2f);
@@ -702,7 +714,7 @@ void test()
 
     for (int i = -8; i <= 10; i+=2)
     {
-        for (int j = -4; j <= 3; j+=2)
+        for (int j = -4; j <= 6; j+=2)
         {
             glPushMatrix();
             glTranslatef(i*2.0 + 0.3f, 1.2f,-14.2+ j * 2.0 + 1.2f);
@@ -727,6 +739,8 @@ void table()
     float leg_width=1;
 
     // whole table
+    glPushMatrix();
+    glTranslatef(0,0,5);
     glPushMatrix();
     glTranslatef(0,leg_height,0);
 
@@ -764,6 +778,7 @@ void table()
     glScalef(leg_width,leg_height,leg_width);
     glTranslatef(-0.5,-1,-0.5);
     cube(0.53,0.39,0.28);
+    glPopMatrix();
     glPopMatrix();
 
     glPopMatrix();
@@ -1143,7 +1158,7 @@ void light()
     glTranslatef(-0.5,-0.5,-0.5);
     //cube(1,0,0,true);
     glPopMatrix();
-    cout<<sl2<<endl;
+    // cout<<sl2<<endl;
     //  cout<<window_val<<endl;
     // cout<<l_height<<" "<<spt_cutoff<<endl;
 }
