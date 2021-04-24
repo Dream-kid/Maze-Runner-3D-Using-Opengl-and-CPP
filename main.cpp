@@ -631,15 +631,10 @@ void Chair12()
 
 }
 
-void Table12()
+void Table12(float height=2, float width=4,float length=2,float base_height=.5,float leg_width=.2)
 {
-    float height=2;
-    float width=4;
-    float length=2;
 
-    float base_height=.5;
     float leg_height=height-base_height;
-    float leg_width=.2;
 
     // whole table
     glPushMatrix();
@@ -687,15 +682,15 @@ void test()
 //teacher chair
     glPushMatrix();
     glTranslatef(10.0, 1, -14+9 * 2.0 + 2.2f);
-    glScalef(0.6f, 0.6f, 0.6f);
+    glScalef(0.8f, 0.8f, 0.8f);
     glRotatef(180.0, 0.0, 1.0, 0.0);
     Chair12();
     glPopMatrix();
     //teacher table
     glPushMatrix();
     glTranslatef(10.0, 1, -16+9 * 2.0 + 2.2f);
-    glScalef(0.95f, 0.8f, 0.8f);
-    Table12();
+    glScalef(1.2f, 1.3f, 0.8f);
+    Table12(2,4,2,.6,.3);
     glPopMatrix();
 
     for (int i = -8; i <= 10; i+=2)
@@ -873,9 +868,9 @@ void weardrop()
 
 
 
-    glTranslatef(4,-14,8);
+    glTranslatef(9,-7,8);
 //glRotatef(rot,0,1,1);
-    glScalef(.05,.042,.05);
+    glScalef(.04,.022,.03);
     drop();
     glPopMatrix();
 }
