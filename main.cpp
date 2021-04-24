@@ -989,7 +989,7 @@ void light2(float a,float b,float c)
     GLfloat l_no[] = {0, 0, 0, 1.0};
     GLfloat l_amb[] = {0.3+al2, 0.3+al2, 0.3+al2, 1.0};
     GLfloat l_dif[] = {.6+dl2,.6+dl2,.6+dl2,1};
-    GLfloat l_spec[] = {30+sl2,30+sl2,30+sl2,1};
+    GLfloat l_spec[] = {5+sl2,5+sl2,5+sl2,1};
     GLfloat l_pos[] = {a,b,c,1.0};
 
     if(l_on3)
@@ -1143,6 +1143,7 @@ void light()
     glTranslatef(-0.5,-0.5,-0.5);
     //cube(1,0,0,true);
     glPopMatrix();
+    cout<<sl2<<endl;
     //  cout<<window_val<<endl;
     // cout<<l_height<<" "<<spt_cutoff<<endl;
 }
@@ -1389,11 +1390,11 @@ static void key(unsigned char key, int x, int y)
         l_on1=1-l_on1;
         break;
 
-    case 'y':
+    case 'u':
         l_on2=1-l_on2;
         break;
 
-    case 'u':
+    case 'y':
         l_on3=1-l_on3;
         break;
     case 'd':
@@ -1444,8 +1445,9 @@ int main(int argc, char *argv[])
     int t=1;
     printf("Warning!!! please turn off caps lock and use shift key before * key and + key.\n");
     printf("%d. Press 't' for off light1.\n",t++);
-    printf("%d. Press 'y' for off cse light.\n",t++);
-    printf("%d. Press 'u' for off light2.\n",t++);
+    printf("%d. Press 'y' for off light2.\n",t++);
+    printf("%d. Press 'u' for off cse light.\n",t++);
+
     printf("%d. Press '*' for stop fans.\n",t++);
     printf("%d. Press ';' for start fans.\n",t++);
     printf("%d. Press 'd' for window open/close.\n",t++);
@@ -1453,8 +1455,19 @@ int main(int argc, char *argv[])
     t+=4;
     printf("%d. Press 'o' to move camera left.\n%d. Press 'p' to move camera right.\n",t+1,t+2);
     t+=2;
-    printf("%d. Press '+' to zoom in.\n%d. Press '-' for zoom out.\n\n\n",t+1,t+2);
+    printf("%d. Press '+' to zoom in.\n%d. Press '-' for zoom out.\n",t+1,t+2);
     t+=2;
+    printf("%d. Press b,n,m for operate with light1,light2 and CSE light respectively.\n",t++);
+    printf("   1. Press '1' for add ambient.\n");
+    printf("   2. Press '2' for reduce ambient.\n");
+    printf("   3. Press '3' for add diffuse.\n");
+    printf("   4. Press '4' for reduce diffuse.\n");
+
+    printf("   5. Press '5' for add specular light.\n");
+    printf("   6. Press '6' for reduce specular light.\n");
+    printf("   7. Press ESC key for exit this operation and goto main programme\n");
+
+    printf("%d. Press ESC key for exit the main programme\n",t++);
 
     glutMainLoop();
 
