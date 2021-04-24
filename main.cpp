@@ -547,11 +547,8 @@ void fan()
     glRecti(-a, -a, a, a);
     cube(1, 0, 0);
     glRecti(-b, a, b, c);
-    cube(1, 0, 0);
     glRecti(-c, -b, -a, b);
-    cube(1, 0, 0);
     glRecti(-b, -c, b, -a);
-    cube(1, 0, 0);
     glRecti(a, -b, c, b);
     glPopMatrix();
 }
@@ -1318,6 +1315,7 @@ static void key(unsigned char key, int x, int y)
 
     case 'a':
         eyeX++;
+
         //eyeY++;
         break;
     case 's':
@@ -1347,6 +1345,7 @@ static void key(unsigned char key, int x, int y)
 
     case 'o':
         centerX++;
+
         //centerY++;
         //  centerZ++;
         break;
