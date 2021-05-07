@@ -5,11 +5,10 @@
 #include <stdio.h>
 #include <windows.h>
 #include<math.h>
-using namespace std;
 #include<bits/stdc++.h>
-#include <unistd.h>
-const int width = 500;
-const int height = 500;
+using namespace std;
+const int width = 700;
+const int height = 700;
 
 GLfloat eyeX = 31;
 GLfloat eyeY = 5;
@@ -28,6 +27,8 @@ int stop=1;
 float door_angle=.5;
 float l_height =.5;
 float spt_cutoff = 30;
+unsigned int ID;
+vector<int>v;
 static void getNormal3p(GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GLfloat z2, GLfloat x3, GLfloat y3, GLfloat z3)
 {
     GLfloat Ux, Uy, Uz, Vx, Vy, Vz, Nx, Ny, Nz;
@@ -62,16 +63,16 @@ static GLfloat v_cube[8][3] =
 
 static GLubyte c_ind[6][4] =
 {
-    {0,2,6,4},
-    {1,3,7,5},
-    {0,4,5,1},
-    {2,6,7,3},
-    {0,1,3,2},
-    {4,5,7,6}
+    {3,1,5,7},  //front
+    {6,4,0,2},  //back
+    {2,3,7,6},  //top
+    {1,0,4,5},  //bottom
+    {7,5,4,6},  //right
+    {2,0,1,3}   //left
 };
 
 
-void cube(float R=0.5, float G=0.5, float B=0.5, int type=0, float alpha=1)
+void cube(float R=0.5, float G=0.5, float B=0.5, int type=0, float val=1)
 {
 
     GLfloat m_no[] = {0, 0, 0, 1.0};
@@ -112,14 +113,79 @@ void cube(float R=0.5, float G=0.5, float B=0.5, int type=0, float alpha=1)
         getNormal3p(v_cube[c_ind[i][0]][0], v_cube[c_ind[i][0]][1], v_cube[c_ind[i][0]][2],
                     v_cube[c_ind[i][1]][0], v_cube[c_ind[i][1]][1], v_cube[c_ind[i][1]][2],
                     v_cube[c_ind[i][2]][0], v_cube[c_ind[i][2]][1], v_cube[c_ind[i][2]][2]);
-
-        for (GLint j=0; j<4; j++)
-        {
-            glVertex3fv(&v_cube[c_ind[i][j]][0]);
-        }
+        glTexCoord2f(0,val);
+        glVertex3fv(&v_cube[c_ind[i][0]][0]);
+        glTexCoord2f(0,0);
+        glVertex3fv(&v_cube[c_ind[i][1]][0]);
+        glTexCoord2f(val,0);
+        glVertex3fv(&v_cube[c_ind[i][2]][0]);
+        glTexCoord2f(val,val);
+        glVertex3fv(&v_cube[c_ind[i][3]][0]);
     }
     glEnd();
 }
+class BmpLoader
+{
+public:
+    unsigned char* textureData;
+    int iWidth, iHeight;
+
+    BmpLoader(const char*);
+    ~BmpLoader();
+
+private:
+    BITMAPFILEHEADER bfh;
+    BITMAPINFOHEADER bih;
+};
+
+BmpLoader::BmpLoader(const char* filename)
+{
+    FILE *file=0;
+    file=fopen(filename, "rb");
+    if(!file)
+        cout<<"File not found"<<endl;
+    fread(&bfh, sizeof(BITMAPFILEHEADER),1,file);
+    if(bfh.bfType != 0x4D42)
+        cout<<"Not a valid bitmap"<<endl;
+    fread(&bih, sizeof(BITMAPINFOHEADER),1,file);
+    if(bih.biSizeImage==0)
+        bih.biSizeImage=bih.biHeight*bih.biWidth*3;
+    textureData = new unsigned char[bih.biSizeImage];
+    fseek(file, bfh.bfOffBits, SEEK_SET);
+    fread(textureData, 1, bih.biSizeImage, file);
+    unsigned char temp;
+    for(int i=0; i<bih.biSizeImage; i+=3)
+    {
+        temp = textureData[i];
+        textureData[i] = textureData[i+2];
+        textureData[i+2] = temp;
+
+    }
+
+    iWidth = bih.biWidth;
+    iHeight = bih.biHeight;
+    fclose(file);
+}
+
+BmpLoader::~BmpLoader()
+{
+    delete [] textureData;
+}
+
+void LoadTexture(const char*filename)
+{
+    glGenTextures(1, &ID);
+    glBindTexture(GL_TEXTURE_2D, ID);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, ID);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    BmpLoader bl(filename);
+    gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGB, bl.iWidth, bl.iHeight, GL_RGB, GL_UNSIGNED_BYTE, bl.textureData );
+}
+
+
 static void res(int width, int height)
 {
     glViewport(0, 0, width, height);
@@ -309,12 +375,17 @@ void cse()
 
 void flr()
 {
-    // glPushMatrix();
-//    glTranslatef(0,-0.5,0);
-    // glScalef(60,1,60);
-    // glTranslatef(-0.5,-1,-0.5);
-    //  cube(.2,.3,.5);
-    //  glPopMatrix();
+    /*
+    glPushMatrix();
+
+
+    glTranslatef(0,-0.5,0);
+    glScalef(60,1,60);
+    glTranslatef(-0.5,-1,-0.5);
+    cube(1,1,1,0,8);
+    glPopMatrix();
+    */
+
     for(int i=-10; i<=35; i++)
     {
         for(float j=-15; j<=14; j+=2)
@@ -349,36 +420,51 @@ void flr()
         }
     }
 
+
 }
 
 
 void wall1()
 {
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[0]);
+
     glPushMatrix();
+
 //    glTranslatef(0,-0.5,0);
     glScalef(1,20,60);
     glTranslatef(-30,0,-0.5);
-    cube(1,.69,.0);
+    cube(1,1,1,0,2);
     glPopMatrix();
+     glDisable(GL_TEXTURE_2D);
+
+
 }
 void wall2()
 {
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[0]);
     glPushMatrix();
 //    glTranslatef(0,-0.5,0);
     glScalef(1,20,60);
     glTranslatef(29,0,-0.5);
-    cube(1,.69,.0);
+    cube(1,1,1,0,2);
     glPopMatrix();
+     glDisable(GL_TEXTURE_2D);
 }
 
 void wall3()
 {
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[0]);
     glPushMatrix();
 //    glTranslatef(0,-0.5,0);
     glScalef(60,20,1);
     glTranslatef(-.5,0,10);
-    cube(0.741, 0.718, 0.420);
+    cube(0.741, 0.718, 0.420,0,2);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+
 }
 
 
@@ -424,13 +510,17 @@ void window()
 //    glTranslatef(0,-0.5,0);
     glScalef(1,8,15);
     glTranslatef(28,.5,-1);
-    cube(.102,1,1);
+     glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[1]);
+    cube(1,1,1,0,1);
+glBindTexture(GL_TEXTURE_2D,v[0]);
     glPopMatrix();
     glPushMatrix();
 //    glTranslatef(0,-0.5,0);
     glScalef(1,8,.2);
     glTranslatef(28,.5,-76);
     cube(1,.59,.0);
+      glDisable(GL_TEXTURE_2D);
     glPopMatrix();
     glRotatef (door_angle, 0,1,0);
 
@@ -463,27 +553,17 @@ void window()
 
 void headwall()
 {
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[2]);
     glPushMatrix();
+
 //    glTranslatef(0,-0.5,0);
     glScalef(60,1,60);
     glTranslatef(-0.5,19,-0.5);
-    cube(0.690, 0.769, 0.871);
+    cube(0.690, 0.769, 0.871,0,4);
     glPopMatrix();
+     glDisable(GL_TEXTURE_2D);
 
-
-    float val=0;
-    for(int i=-40; i<=40; i+=2)
-    {
-
-        glPushMatrix();
-//    glTranslatef(0,-0.5,0);
-
-        glScalef(60,1,.5);
-        glTranslatef(-0.5,19.99,-i);
-        //    cube(0.690, 0.769, 0.871);
-        val+=.1;
-        glPopMatrix();
-    }
 }
 float k=0;
 float angle1=0;
@@ -797,6 +877,8 @@ void drop()
     glPopMatrix();
 
     glPushMatrix();
+
+
     glTranslatef(0,0,0);
     glScalef(105,95,10);
 
@@ -966,7 +1048,7 @@ void light1(float a,float b,float c)
 
     //light
     GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {0.3+al1, 0.3+al1, 0.3+al1, 1.0};
+    GLfloat l_amb[] = {0.4+al1, 0.4+al1, 0.4+al1, 1.0};
     GLfloat l_dif[] = {.4+dl1,.4+dl1,.4+dl1,1};
     GLfloat l_spec[] = {.4+sl1,.4+sl1,.4+sl1,1};
     GLfloat l_pos[] = {a,b,c,1.0};
@@ -1154,6 +1236,7 @@ void light()
     //  cout<<window_val<<endl;
     // cout<<l_height<<" "<<spt_cutoff<<endl;
 }
+
 static void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -1200,6 +1283,7 @@ static void display(void)
 //cout<<rot<<endl;
     glutSwapBuffers();
 }
+
 
 static void key(unsigned char key, int x, int y);
 
@@ -1430,7 +1514,15 @@ static void idle(void)
 }
 
 /* Program entry point */
-
+void texture_image()
+{
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\wall1.bmp");
+    v.push_back(ID);
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\head.bmp");
+    v.push_back(ID);
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\top.bmp");
+    v.push_back(ID);
+}
 int main(int argc, char *argv[])
 {
     glutInit(&argc, argv);
@@ -1451,6 +1543,9 @@ int main(int argc, char *argv[])
     glEnable(GL_BLEND);
 
     glEnable(GL_LIGHTING);
+    GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT,globalAmbient);
+    texture_image();
     int t=1;
     printf("Warning!!! please turn off caps lock and use shift key before * key and + key.\n");
     printf("%d. Press 't' for off light1.\n",t++);
