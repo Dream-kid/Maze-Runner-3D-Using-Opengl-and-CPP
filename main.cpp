@@ -10,11 +10,11 @@ using namespace std;
 const int width = 700;
 const int height = 700;
 
-GLfloat eyeX = 16;
+GLfloat eyeX = -214;
 GLfloat eyeY = 5;
-GLfloat eyeZ = -156;
+GLfloat eyeZ = -518;
 
-GLfloat centerX = 7;
+GLfloat centerX = -288;
 GLfloat centerY = 0;
 GLfloat centerZ = 28;
 double angle = 0 ;
@@ -30,6 +30,7 @@ float spt_cutoff = 30;
 unsigned int ID;
 float fowd=0;
 float lef=0;
+bool left_turn=0;
 vector<int>v;
 static void getNormal3p(GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GLfloat z2, GLfloat x3, GLfloat y3, GLfloat z3)
 {
@@ -231,7 +232,7 @@ void flr()
 
 
     glTranslatef(0,-0.5,-80);
-    glScalef(60,1,160);
+    glScalef(60,1,200);
     glTranslatef(-0.5,-1,-0.5);
     cube(.5,.2,.6,0,8);
     glPopMatrix();
@@ -278,7 +279,7 @@ void headwall()
     glPushMatrix();
 
 //    glTranslatef(0,-0.5,0);
-    glScalef(60,1,160);
+    glScalef(60,1,200);
     glTranslatef(-0.5,19,-1);
     cube(0.690, 0.769, 0.871,0,4);
     glPopMatrix();
@@ -352,6 +353,13 @@ void light2(float a,float b,float c)
 
 
 
+void wall()
+{
+    flr();
+    wall1();
+    wall2();
+    headwall();
+}
 
 void spot_light(float a,float b,float c)
 {
@@ -416,6 +424,7 @@ void window_light(float a,float b,float c)
     glLightfv(GL_LIGHT3, GL_SPOT_CUTOFF, spt_ct);
 
 }
+ float a=-15,b=0,c=-155;
 void light()
 {
 
@@ -425,12 +434,17 @@ void light()
     glPushMatrix();
 
     glRotatef(200, 0,1,0);
-    float a=-15+lef,b=5,c=-150+fowd;
+
+    if(!left_turn)
+        a+=lef,c+=fowd;
+    else
+        a+=fowd,c-=lef;
     light1(a,b,c);
     glPopMatrix();
     glTranslatef(a,b+1,c);
-    glScalef(4,2,1);
+    glScalef(2,2,2);
     glTranslatef(-0.5,-0.5,-0.5);
+    //glRotatef(270,0,1,0);
     cube(1,1,1,1);
     glPopMatrix();
     // cout<<l_height<<" "<<spt_cutoff<<endl;
@@ -441,10 +455,10 @@ void light()
     glPushMatrix();
 
     glRotatef(200, 0,1,0);
-    a=15,b=17,c=-15;
-    light2(a,b,c);
+    float a1=15,b1=17,c1=-15;
+    light2(a1,b1,c1);
     glPopMatrix();
-    glTranslatef(a,b+1,c);
+    glTranslatef(a1,b1+1,c1);
     glScalef(15,1,1);
     glTranslatef(-0.5,-0.5,-0.5);
     cube(1,1,1,2);
@@ -455,33 +469,24 @@ void light()
     glPushMatrix();
     glPushMatrix();
     glRotatef(-95, 0,1,0);
-    a=15,b=30,c=-15;
-    spot_light(a,b,c);
+    a1=15,b1=30,c1=-15;
+    spot_light(a1,b1,c1);
 
     glPopMatrix();
-    glTranslatef(a,b+1,c);
+    glTranslatef(a1,b1+1,c1);
     glScalef(15,1,1);
     glTranslatef(-0.5,-0.5,-0.5);
     //cube(1,0,0,true);
     glPopMatrix();
 
 
-    //window light
-    glPushMatrix();
-    glPushMatrix();
-    glRotatef(0, 0,1,0);
-    a=35,b=15,c=-10;
-    window_light(a,b,c);
 
-    glPopMatrix();
-    glTranslatef(a,b+1,c);
-    glScalef(15,1,1);
-    glTranslatef(-0.5,-0.5,-0.5);
-    //cube(1,0,0,true);
-    glPopMatrix();
-    fowd+=.01;
-    eyeZ+=.01;
-    lef+=.0019;
+    fowd=.04;
+    if(!left_turn)
+        eyeZ+=.04;
+    else
+        eyeX+=.04;
+    lef=.0075;
     // cout<<sl2<<endl;
     //  cout<<window_val<<endl;
     // cout<<l_height<<" "<<spt_cutoff<<endl;
@@ -504,12 +509,18 @@ static void display(void)
     //  glViewport(0, 0, width, height);
 
     glRotatef(rot, 0,1,0);
-    flr();
-    wall1();
-    wall2();
-    headwall();
-
+    glPushMatrix();
+    glTranslatef(-300,0,-300);
+    wall();
+    glPushMatrix();
+// glScalef(1,20,160);
+    glTranslatef(195,0,-10);
+    glRotatef(90,0,2,0);
+    wall();
+    glPopMatrix();
     light();
+    glPopMatrix();
+
 
     //
     cout<<eyeX<<" "<<eyeY<<" "<<eyeZ<<" "<<centerX<<" "<<centerY<<" "<<centerZ<<" "<<rot<<endl;
@@ -661,13 +672,13 @@ static void key(unsigned char key, int x, int y)
         break;
 
     case 'o':
-        centerX++;
+        centerX+=2;
 
         //centerY++;
         //  centerZ++;
         break;
     case 'p':
-        centerX--;
+        centerX-=2;
         //centerY--;
         //  centerZ--;
         break;
@@ -723,7 +734,20 @@ static void key(unsigned char key, int x, int y)
         break;
 
     case 'b':
-        glutKeyboardFunc(light14);
+        if(eyeZ<=-360&&eyeZ>=-381&&!left_turn)
+        {
+            a+=15;
+            c+=10;
+            eyeX = -213;
+            eyeY = 5;
+            eyeZ = -341;
+
+            centerX = 780;
+            centerY = 0;
+            centerZ = 28;
+            left_turn=1;
+
+        }
         break;
     case 'n':
         glutKeyboardFunc(light24);
