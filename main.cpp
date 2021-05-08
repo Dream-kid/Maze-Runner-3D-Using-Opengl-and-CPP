@@ -26,11 +26,12 @@ float rot = -12;
 int stop=1;
 float door_angle=.5;
 float l_height =.5;
-float spt_cutoff = 30;
+float spt_cutoff = 0;
 unsigned int ID;
 float fowd=0;
 float lef=0;
 bool left_turn=0;
+bool right_turn=0;
 vector<int>v;
 static void getNormal3p(GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GLfloat z2, GLfloat x3, GLfloat y3, GLfloat z3)
 {
@@ -232,7 +233,7 @@ void flr()
 
 
     glTranslatef(0,-0.5,-80);
-    glScalef(60,1,200);
+    glScalef(300,1,240);
     glTranslatef(-0.5,-1,-0.5);
     cube(.5,.2,.6,0,8);
     glPopMatrix();
@@ -279,8 +280,10 @@ void headwall()
     glPushMatrix();
 
 //    glTranslatef(0,-0.5,0);
-    glScalef(60,1,200);
-    glTranslatef(-0.5,19,-1);
+
+    glTranslatef(0,-0.5,-80);
+    glScalef(300,1,240);
+    glTranslatef(-0.5,19,-.5);
     cube(0.690, 0.769, 0.871,0,4);
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
@@ -351,6 +354,46 @@ void light2(float a,float b,float c)
 
 }
 
+void walloff()
+{
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[0]);
+
+    glPushMatrix();
+    glScalef(20,20,200);
+    // glRotatef(,0,1,0);
+    glTranslatef(11,0,-0.2);
+    cube(1,1,1,2);
+    glPopMatrix();
+
+    glPushMatrix();
+    glScalef(60,20,20);
+    // glRotatef(,0,1,0);
+    glTranslatef(3.11,0,-3);
+    cube(0,1,1,2);
+    glPopMatrix();
+    // cout<<spt_cutoff<<endl;
+
+    if(!left_turn)
+    {
+        glPushMatrix();
+        glScalef(20,20,60);
+        // glRotatef(,0,1,0);
+        glTranslatef(11-13.45,0,-0.4);
+        cube(1,1,1,2);
+        glPopMatrix();
+
+        glPushMatrix();
+        glScalef(80,20,20);
+        // glRotatef(,0,1,0);
+        glTranslatef(3.11-3.599,0,.9+.05);
+        cube(0,1,1,2);
+        glPopMatrix();
+    }
+    glDisable(GL_TEXTURE_2D);
+
+    //cout<<spt_cutoff<<endl;
+}
 
 
 void wall()
@@ -359,6 +402,7 @@ void wall()
     wall1();
     wall2();
     headwall();
+    walloff();
 }
 
 void spot_light(float a,float b,float c)
@@ -424,7 +468,7 @@ void window_light(float a,float b,float c)
     glLightfv(GL_LIGHT3, GL_SPOT_CUTOFF, spt_ct);
 
 }
- float a=-15,b=0,c=-155;
+float a=-15,b=0,c=-155;
 void light()
 {
 
@@ -482,11 +526,12 @@ void light()
 
 
     fowd=.04;
-    if(!left_turn)
-        eyeZ+=.04;
-    else
-        eyeX+=.04;
+  if(!left_turn)
+     eyeZ+=.04;
+   else
+      eyeX+=.04;
     lef=.0075;
+
     // cout<<sl2<<endl;
     //  cout<<window_val<<endl;
     // cout<<l_height<<" "<<spt_cutoff<<endl;
@@ -517,6 +562,7 @@ static void display(void)
     glTranslatef(195,0,-10);
     glRotatef(90,0,2,0);
     wall();
+
     glPopMatrix();
     light();
     glPopMatrix();
@@ -527,7 +573,6 @@ static void display(void)
 //cout<<rot<<endl;
     glutSwapBuffers();
 }
-
 
 static void key(unsigned char key, int x, int y);
 
@@ -716,7 +761,7 @@ static void key(unsigned char key, int x, int y)
         break;
 
     case '3':
-        spt_cutoff++;
+        spt_cutoff+=.1;
         break;
     case '4':
         spt_cutoff--;
@@ -734,11 +779,11 @@ static void key(unsigned char key, int x, int y)
         break;
 
     case 'b':
-        if(eyeZ<=-360&&eyeZ>=-381&&!left_turn)
+        if(eyeZ<=-340&&eyeZ>=-381&&!left_turn)
         {
-            a+=15;
+            a+=25;
             c+=10;
-            eyeX = -213;
+            eyeX = -203;
             eyeY = 5;
             eyeZ = -341;
 
@@ -746,11 +791,25 @@ static void key(unsigned char key, int x, int y)
             centerY = 0;
             centerZ = 28;
             left_turn=1;
+            right_turn=0;
 
         }
         break;
     case 'n':
-        glutKeyboardFunc(light24);
+        if(eyeX<=-36&&eyeX>=-60&&!right_turn)
+        {
+            a=-15,b=0,c=-155;
+            eyeX = -214;
+            eyeY = 5;
+            eyeZ = -518;
+
+            centerX = -288;
+            centerY = 0;
+            centerZ = 28;
+            left_turn=0;
+            right_turn=1;
+
+        }
         break;
     case 'm':
         glutKeyboardFunc(spot_light14);
