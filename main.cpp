@@ -76,7 +76,7 @@ static GLubyte c_ind[6][4] =
 };
 
 
-void cube(float R=0.5, float G=0.5, float B=0.5, int type=0, float val=1)
+void cube(float R=0.5, float G=0.5, float B=0.5, int type=0, float val=1,bool player=0)
 {
 
     GLfloat m_no[] = {0, 0, 0, 1.0};
@@ -110,23 +110,25 @@ void cube(float R=0.5, float G=0.5, float B=0.5, int type=0, float val=1)
     else
         glMaterialfv(GL_FRONT, GL_EMISSION, m_no);
 
-
-    glBegin(GL_QUADS);
-    for (GLint i = 0; i <6; i++)
+    if(!player)
     {
-        getNormal3p(v_cube[c_ind[i][0]][0], v_cube[c_ind[i][0]][1], v_cube[c_ind[i][0]][2],
-                    v_cube[c_ind[i][1]][0], v_cube[c_ind[i][1]][1], v_cube[c_ind[i][1]][2],
-                    v_cube[c_ind[i][2]][0], v_cube[c_ind[i][2]][1], v_cube[c_ind[i][2]][2]);
-        glTexCoord2f(0,val);
-        glVertex3fv(&v_cube[c_ind[i][0]][0]);
-        glTexCoord2f(0,0);
-        glVertex3fv(&v_cube[c_ind[i][1]][0]);
-        glTexCoord2f(val,0);
-        glVertex3fv(&v_cube[c_ind[i][2]][0]);
-        glTexCoord2f(val,val);
-        glVertex3fv(&v_cube[c_ind[i][3]][0]);
+        glBegin(GL_QUADS);
+        for (GLint i = 0; i <6; i++)
+        {
+            getNormal3p(v_cube[c_ind[i][0]][0], v_cube[c_ind[i][0]][1], v_cube[c_ind[i][0]][2],
+                        v_cube[c_ind[i][1]][0], v_cube[c_ind[i][1]][1], v_cube[c_ind[i][1]][2],
+                        v_cube[c_ind[i][2]][0], v_cube[c_ind[i][2]][1], v_cube[c_ind[i][2]][2]);
+            glTexCoord2f(0,val);
+            glVertex3fv(&v_cube[c_ind[i][0]][0]);
+            glTexCoord2f(0,0);
+            glVertex3fv(&v_cube[c_ind[i][1]][0]);
+            glTexCoord2f(val,0);
+            glVertex3fv(&v_cube[c_ind[i][2]][0]);
+            glTexCoord2f(val,val);
+            glVertex3fv(&v_cube[c_ind[i][3]][0]);
+        }
+        glEnd();
     }
-    glEnd();
 }
 class BmpLoader
 {
@@ -468,12 +470,301 @@ void window_light(float a,float b,float c)
     glLightfv(GL_LIGHT3, GL_SPOT_CUTOFF, spt_ct);
 
 }
-float a=-15,b=0,c=-155;
+void eyeright()
+{
+    //function for the right eye
+    glPushMatrix();
+    glTranslatef(.17,1.1,.75);     //Specify the coordinates for the right eye
+    glRotatef(-45,0,0,1);
+    glScalef(.9,.7,.7);            //Specify the size of the right eye
+    cube(1.0,1.0,1.0,0,1,1);       //Specify the color of the eye
+    gluSphere(gluNewQuadric(),.3,100,100);
+    glPopMatrix();
+}
+void eyeleft()
+{
+    glPushMatrix();
+    glTranslatef(-.17,1.1,.75);     //Specify the position for the left eye
+    glRotatef(45,0,0,1);
+    glScalef(.9,.7,.7);
+    cube(1.0,1.0,1.0,0,1,1);
+    gluSphere(gluNewQuadric(),.3,100,100);
+    glPopMatrix();
+}
+
+void legleft()
+{
+    glPushMatrix();
+    glTranslatef(.3,-.5,0);     //Specify the position for the left leg
+    glRotatef(-90.0,1,0,0);
+    glScalef(.8,.8,.8);
+    gluCylinder(gluNewQuadric(),.5,.5,.5,30,6);
+    glPopMatrix();
+}
+
+void legright()
+{
+    glPushMatrix();
+    glTranslatef(-.3,-.5,0);     //Specify the position for the right leg
+    glRotatef(-90.0,1,0,0);
+    glScalef(.8,.8,.8);
+    gluCylinder(gluNewQuadric(),.5,.5,.5,30,6);
+    glPopMatrix();
+}
+
+void armleft()
+{
+    glPushMatrix();
+    glTranslatef(-.82,0,.1);     //Specify the position for the left arm
+    glRotatef(90,0,1,0);
+    glRotatef(-50,1,0,0);
+    gluCylinder(gluNewQuadric(),.15,.15,.48,30,6);
+    glPopMatrix();
+}
+
+void armright()
+{
+    glPushMatrix();
+    glTranslatef(.82,0,.1);      //Specify the position for the right arm
+    glRotatef(90,0,1,0);
+    glRotatef(-130,1,0,0);
+    gluCylinder(gluNewQuadric(),.15,.15,.48,30,6);
+    glPopMatrix();
+}
+
+void handleft()
+{
+    glPushMatrix();
+    glTranslatef(.82,0,.1);     //Specify the position for the left hand
+    glScalef(.4,.3,.3);
+    gluSphere(gluNewQuadric(),.4,100,100);
+    glPopMatrix();
+}
+void handright()
+{
+    glPushMatrix();
+    glTranslatef(-.82,0,.1);    //Specify the position for the right hand
+    glScalef(.4,.3,.3);
+    gluSphere(gluNewQuadric(),.4,100,100);
+    glPopMatrix();
+}
+
+void mouth()
+{
+    glPushMatrix();
+    glTranslatef(0,.78,.74);
+    glScalef(.4,.4,.1);
+    cube(0.0,0.0,0.0,0,1,1);
+    gluSphere(gluNewQuadric(),.4,100,100);
+    glPopMatrix();
+}
+
+void teeth()
+{
+    glPushMatrix();
+    cube(1.0,1.0,1.0,0,1,1);
+    glTranslatef(-.08,.72,.76);
+    glTranslatef(.055,0,.005 );
+    glutSolidCube(.035);
+    glTranslatef(.055,0,0 );
+    glutSolidCube(.035);
+    glPopMatrix();
+}
+void eyebrowleft()
+{
+    glPushMatrix();
+    glTranslatef(-.3,1.5,.97);;
+    glRotatef(90,0,1,0);
+    glRotatef(45,1,0,0);
+    cube(0.0,0.0,0.0,0,1,1);
+    gluCylinder(gluNewQuadric(),.05,.01,.3,4,6);
+    glPopMatrix();
+}
+
+void eyebrowright()
+{
+    glPushMatrix();
+    glTranslatef(.3,1.5,.97);
+    glRotatef(270,0,1,0);
+    glRotatef(45,1,0,0);
+    gluCylinder(gluNewQuadric(),.05,.01,.3,4,6);
+    glPopMatrix();
+}
+
+void neckring()
+{
+    glPushMatrix();
+    glTranslatef(0,.5,0);
+    glScalef(.59,.59,.59);
+    glRotatef(90.0,1,0,0);
+    glutSolidTorus(.1,1.0,20,20);
+    glPopMatrix();
+}
+
+
+void head()
+{
+    glPushMatrix();
+    glTranslatef(0,1.2,0);
+    glScalef(.9,.9,.9 );
+    cube(1.0,0.8,0.6,0,1,1);
+    gluSphere(gluNewQuadric(),1,100,100);
+    glPopMatrix();
+}
+
+void maintopball()
+{
+    glPushMatrix();
+    glTranslatef(0,2.2,0);
+    glScalef(.9,.9,.9);
+    gluSphere(gluNewQuadric(),.18,100,100);
+    glPopMatrix() ;
+}
+
+void hatring()
+{
+    glPushMatrix();
+    glTranslatef(0,1.4,0);
+    glScalef(.84,.84,.84);
+    glRotatef(90.0,1,0,0);
+    glutSolidTorus(.1,1.0,20,20);
+    glPopMatrix();
+}
+
+void footleft()
+{
+    glPushMatrix();
+    glTranslatef(-.3,-.5,0);
+    glScalef(1.5,.3,1.5);
+    cube(0.0,0.0,0.0,0,1,1);
+    gluSphere(gluNewQuadric(),.3,100,100);
+    glPopMatrix();
+}
+
+void footright()
+{
+    glPushMatrix();
+    glTranslatef(.3,-.5,0);
+    glScalef(1.5,.3,1.5);
+    cube(0.0,0.0,0.0,0,1,1);
+    gluSphere(gluNewQuadric(),.3,100,100);
+    glPopMatrix();
+}
+
+void bellyCoatbottom()
+{
+    glPushMatrix();
+    glTranslatef(0,-.2,0);
+    glScalef(1,.7,1);
+    glRotatef(90.0,1,0,0);
+    gluDisk(gluNewQuadric(),0,.8,30,30);
+    glPopMatrix();
+}
+
+void BellyCoat()
+{
+    glPushMatrix();
+    glTranslatef(0,.5,0);
+    glScalef(1,.7,1);
+    glRotatef(90.0,1,0,0);
+    gluCylinder(gluNewQuadric(),.6,.8,1,100,100);
+    glPopMatrix();
+}
+
+void pupilleft()
+{
+    glPushMatrix();
+    glTranslatef(-.17,1.1,.88);
+    glScalef(.9,.9,.9);
+    gluSphere(gluNewQuadric(),.1,100,100);
+    glPopMatrix();
+}
+
+void pupilright()
+{
+    glPushMatrix();
+    glTranslatef(.17,1.1,.88);
+    glScalef(.9,.9,.9);
+    gluSphere(gluNewQuadric(),.1,100,100);
+    glPopMatrix();
+}
+
+void topbutton()
+{
+    glPushMatrix();
+    glTranslatef(-.1,.4,.65);
+    glScalef(1.9,1.9,1.9);
+    gluSphere(gluNewQuadric(),.04,100,100);
+    glPopMatrix();
+}
+void middlebutton()
+{
+    glPushMatrix()  ;
+    glTranslatef(-.1,.15,.7);
+    glScalef(1.9,1.9,1.9);
+    gluSphere(gluNewQuadric(),.04,100,100);
+    glPopMatrix();
+}
+void bottombutton()
+{
+    glPushMatrix();
+    glTranslatef(-.1,-.1,.75);
+    glScalef(1.9,1.9,1.9);
+    cube(0.0,0.0,0.0,0,1,1);
+    gluSphere(gluNewQuadric(),.04,100,100);
+    glPopMatrix();
+}
+
+void player()
+{
+
+    eyeright();
+    eyeleft();
+    eyebrowleft();
+    eyebrowright();
+    cube(0.0,1.0,0.0,0,1,1);
+    neckring();
+    cube(50/255.0,40/255.0,60/255.0,0,1,1);
+    legright();
+    legleft();
+    cube(255/255.0,90/255.0,0,0,1,1);
+    armleft();
+    armright();
+    BellyCoat();
+    cube(0,185/255.0,0,0,1,1);
+    handleft();
+    handright();
+    mouth();
+    teeth();
+    cube(255/255.0,222/255.0,173/255.0,0,1,1);
+    head();
+    cube(0.0,0.0,0.0,0,1,1);
+    footleft();
+    footright();
+    topbutton();
+    middlebutton();
+    bottombutton();
+    pupilleft();
+    pupilright();
+
+
+}
+float a=-15,b=1,c=-155;
+float ok=0;
 void light()
 {
 
 //light 1
 
+    glPushMatrix();
+
+    glTranslatef(a,b,c);
+    glRotatef(ok,0,1,0);
+    if(ok>=360)
+        ok=0;
+    ok++;
+    player();
+    glPopMatrix();
     glPushMatrix();
     glPushMatrix();
 
@@ -489,7 +780,8 @@ void light()
     glScalef(2,2,2);
     glTranslatef(-0.5,-0.5,-0.5);
     //glRotatef(270,0,1,0);
-    cube(1,1,1,1);
+    //cube(1,1,1,1);
+
     glPopMatrix();
     // cout<<l_height<<" "<<spt_cutoff<<endl;
 
@@ -525,12 +817,12 @@ void light()
 
 
 
-    fowd=.04;
-  if(!left_turn)
-     eyeZ+=.04;
-   else
-      eyeX+=.04;
-    lef=.0075;
+    fowd=.08;
+    if(!left_turn)
+        eyeZ+=.08;
+    else
+        eyeX+=.08;
+    lef=.015;
 
     // cout<<sl2<<endl;
     //  cout<<window_val<<endl;
