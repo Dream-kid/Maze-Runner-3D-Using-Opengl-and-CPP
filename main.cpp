@@ -807,7 +807,7 @@ int cnt_dwn=0;
 bool mark11=0;
 void fire()
 {
-      glPushMatrix();
+    glPushMatrix();
     glTranslatef(-15,1,-155+45);
     glScalef(20,2,2);
     cube(1,1,1);
@@ -841,15 +841,56 @@ void fire()
 //cout<<a<<" "<<c<<endl;
 
 }
+float add_lef=0;
+void point()
+{
+    glPushMatrix();
+    glTranslatef(-15,3,-155+25);
+    glRotatef(45,0,1,0);
+    glScalef(2,2,1);
+    cube(1,1,1);
+    if(c<=-129&&c>=-131&&add_lef<=-2)
+    {
+        cout<<"point"<<endl;
+    }
+    //cout<<add_lef<<" "<<c<<endl;
+//cout<<spt_cutoff<<" "<<l_height<<endl;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-1,3,-155+70);
+    glRotatef(45,0,1,0);
+    glScalef(2,2,1);
+    cube(1,1,1);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(-2,3,-155+64);
+    glRotatef(45,0,1,0);
+    glScalef(2,2,1);
+    cube(1,1,1);
+    if(c<=-84&&c>=-87&&add_lef>=2)
+    {
+        cout<<"point1"<<endl;
+    }
+    if(c<=-78&&c>=-81&&add_lef>=2)
+    {
+        cout<<"point2"<<endl;
+    }
+    //cout<<add_lef<<" "<<c<<endl;
+//cout<<spt_cutoff<<" "<<l_height<<endl;
+    glPopMatrix();
+}
+
 void light()
 {
 
 //light 1
 //fire1
-  fire();
+    fire();
+    point();
     glPushMatrix();
 
-    glTranslatef(a,b,c);
+    glTranslatef(a+add_lef,b,c);
     glRotatef(ok,0,1,0);
     if(ok>=360)
         ok=0;
@@ -868,6 +909,7 @@ void light()
     light1(a,b,c);
     glPopMatrix();
     glTranslatef(a,b+1,c);
+
     glScalef(2,2,2);
     glTranslatef(-0.5,-0.5,-0.5);
     //glRotatef(270,0,1,0);
@@ -1165,9 +1207,6 @@ static void key(unsigned char key, int x, int y)
     case '4':
         spt_cutoff-=1;
         break;
-    case 't':
-        l_on1=1-l_on1;
-        break;
 
     case 'u':
         if(cnt_dwn==0)
@@ -1176,9 +1215,19 @@ static void key(unsigned char key, int x, int y)
             mark11=1;
         }
         break;
+    case 't':
+        add_lef+=.2;
+
+        if(add_lef>2)
+            add_lef=2;
+        break;
+
+
 
     case 'y':
-        l_on3=1-l_on3;
+        add_lef-=.2;
+        if(add_lef<-3)
+            add_lef=-3;
         break;
 
     case 'b':
