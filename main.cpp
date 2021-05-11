@@ -612,8 +612,9 @@ void walloff()
 
 
     //  cout<<spt_cutoff<<endl;
- if(!left_turn){
-    glPushMatrix();
+    if(!left_turn)
+    {
+        glPushMatrix();
         glScalef(20,20,200);
         // glRotatef(,0,1,0);
         glTranslatef(11,0,-0.2);
@@ -640,17 +641,15 @@ void walloff()
         cube(0,1,1,2);
         glPopMatrix();
     }
-    else{
-
-
-
-
+    else
+    {
 
         glPushMatrix();
         glScalef(40,20,40);
         // glRotatef(,0,1,0);
         glTranslatef(3.11-3.599+1+.7,0,.9+.05-2.1-.14-.01);
-       if(check3<=105) cube(0,1,1,2);
+        if(check3<=105)
+            cube(0,1,1,2);
         glPopMatrix();
 
 
@@ -664,7 +663,7 @@ void walloff()
     }
     glDisable(GL_TEXTURE_2D);
 
-   //cout<<spt_cutoff<<" "<<l_height<<endl;
+    //cout<<spt_cutoff<<" "<<l_height<<endl;
 }
 
 void secondwall()
@@ -681,7 +680,7 @@ void secondwall()
     // glRotatef(,0,1,0);
     cube(0,1,1);
     glPopMatrix();
-     glPushMatrix();
+    glPushMatrix();
     //glTranslatef(-300,0,-300);
 
     glTranslatef(-15+169+46+11-19-123,.1,-202+82-39+132);
@@ -690,7 +689,7 @@ void secondwall()
     // glRotatef(,0,1,0);
     cube(0,1,1);
     glPopMatrix();
-cout<<spt_cutoff<<endl;
+    cout<<spt_cutoff<<endl;
 
 
     glDisable(GL_TEXTURE_2D);
@@ -804,11 +803,50 @@ void player()
 }
 float a=-15,b=1,c=-155;
 float ok=0;
+int cnt_dwn=0;
+bool mark11=0;
+void fire()
+{
+      glPushMatrix();
+    glTranslatef(-15,1,-155+45);
+    glScalef(20,2,2);
+    cube(1,1,1);
+//cout<<spt_cutoff<<" "<<l_height<<endl;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-15,1,-155+85);
+    glScalef(20,2,2);
+    cube(1,1,1);
+//cout<<spt_cutoff<<" "<<l_height<<endl;
+    glPopMatrix();
+    if(mark11)
+        cnt_dwn++;
+    if(cnt_dwn==95)
+    {
+        mark11=0;
+        b=1;
+        cnt_dwn=0;
+    }
+
+    if(c>=-109&&c<=-108.5&&b==1)
+    {
+        cout<<"game over"<<endl;
+    }
+
+    if(c>=-69&&c<=-68.5&&b==1)
+    {
+        cout<<"game over1"<<endl;
+    }
+//cout<<a<<" "<<c<<endl;
+
+}
 void light()
 {
 
 //light 1
-
+//fire1
+  fire();
     glPushMatrix();
 
     glTranslatef(a,b,c);
@@ -839,35 +877,35 @@ void light()
     // cout<<l_height<<" "<<spt_cutoff<<endl;
 
 //light2
-/*
-    glPushMatrix();
-    glPushMatrix();
+    /*
+        glPushMatrix();
+        glPushMatrix();
 
-    glRotatef(200, 0,1,0);
-    float a1=15,b1=17,c1=-15;
-    light2(a1,b1,c1);
-    glPopMatrix();
-    glTranslatef(a1,b1+1,c1);
-    glScalef(15,1,1);
-    glTranslatef(-0.5,-0.5,-0.5);
-    cube(1,1,1,2);
-    glPopMatrix();
+        glRotatef(200, 0,1,0);
+        float a1=15,b1=17,c1=-15;
+        light2(a1,b1,c1);
+        glPopMatrix();
+        glTranslatef(a1,b1+1,c1);
+        glScalef(15,1,1);
+        glTranslatef(-0.5,-0.5,-0.5);
+        cube(1,1,1,2);
+        glPopMatrix();
 
 
-    //spot light
-    glPushMatrix();
-    glPushMatrix();
-    glRotatef(-95, 0,1,0);
-    a1=15,b1=30,c1=-15;
-    spot_light(a1,b1,c1);
+        //spot light
+        glPushMatrix();
+        glPushMatrix();
+        glRotatef(-95, 0,1,0);
+        a1=15,b1=30,c1=-15;
+        spot_light(a1,b1,c1);
 
-    glPopMatrix();
-    glTranslatef(a1,b1+1,c1);
-    glScalef(15,1,1);
-    glTranslatef(-0.5,-0.5,-0.5);
-    //cube(1,0,0,true);
-    glPopMatrix();
-    */
+        glPopMatrix();
+        glTranslatef(a1,b1+1,c1);
+        glScalef(15,1,1);
+        glTranslatef(-0.5,-0.5,-0.5);
+        //cube(1,0,0,true);
+        glPopMatrix();
+        */
 
     fowd=.08;
     lef=.015;
@@ -878,22 +916,22 @@ void light()
 }
 void drawStrokeText(char* str,int x,int y,int z)
 {
-	  char *c;
-	  glPushMatrix();
+    char *c;
+    glPushMatrix();
 
 
-	    glTranslatef(-300,0,-300);
-	  glTranslatef(-15+4-2, 2+13,-155);
-	  glRotatef(184,0,1,0);
-	  cube(1,1,1,0,1,1);
-glScalef(.004f,.004f,10);
+    glTranslatef(-300,0,-300);
+    glTranslatef(-15+4-2, 2+13,-155);
+    glRotatef(184,0,1,0);
+    cube(1,1,1,0,1,1);
+    glScalef(.004f,.004f,10);
 
-	  for (c=str; *c != '\0'; c++)
-	  {
-    		glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN , *c);
-	  }
-	  glPopMatrix();
-	  //cout<<spt_cutoff<<" "<<l_height<<endl;
+    for (c=str; *c != '\0'; c++)
+    {
+        glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, *c);
+    }
+    glPopMatrix();
+    //cout<<spt_cutoff<<" "<<l_height<<endl;
 }
 
 static void display(void)
@@ -909,29 +947,29 @@ static void display(void)
 
     glRotatef(rot, 0,1,0);
 
-   // glPushMatrix();
+    // glPushMatrix();
     glPushMatrix();
-   glTranslatef(check2,0,check1);
+    glTranslatef(check2,0,check1);
 
     wall();
     // secondwall();
-   glPushMatrix();
+    glPushMatrix();
     glTranslatef(check3,0,check4);
     glRotatef(90,0,2,0);
     wall();
-  if(!left_turn)
-       check1-=.08,check2-=.015;
-   else
-     check3-=.08,check4+=.015;
+    if(!left_turn)
+        check1-=.08,check2-=.015;
+    else
+        check3-=.08,check4+=.015;
     glPopMatrix();
-light();
+    light();
 
     glPopMatrix();
     glPopMatrix();
-     drawStrokeText("UP: W, DOWN: S, LEFT: A, RIGHT: D, MAIN MENU: M",0,0,0);
-     // if(check3<=50)check3=50,check4-=.015;
+    drawStrokeText("UP: W, DOWN: S, LEFT: A, RIGHT: D, MAIN MENU: M",0,0,0);
+    // if(check3<=50)check3=50,check4-=.015;
 
-   //cout<<check3<<endl;
+    //cout<<check3<<endl;
     glutSwapBuffers();
 }
 
@@ -1132,7 +1170,11 @@ static void key(unsigned char key, int x, int y)
         break;
 
     case 'u':
-        l_on2=1-l_on2;
+        if(cnt_dwn==0)
+        {
+            b=6;
+            mark11=1;
+        }
         break;
 
     case 'y':
@@ -1210,9 +1252,9 @@ int main(int argc, char *argv[])
     glutDisplayFunc(display);
     glutKeyboardFunc(key);
     glutIdleFunc(idle);
-  glEnable(GL_BLEND);
-  glEnable(GL_LINE_SMOOTH);
-  glLineWidth(1);
+    glEnable(GL_BLEND);
+    glEnable(GL_LINE_SMOOTH);
+    glLineWidth(1);
     glEnable(GL_DEPTH_TEST);
     glShadeModel( GL_SMOOTH );
     glEnable(GL_NORMALIZE);
