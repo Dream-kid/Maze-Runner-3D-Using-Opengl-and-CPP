@@ -25,7 +25,7 @@ bool l_on4 = false;
 float rot = -12;
 int stop=1;
 float door_angle=.5;
-float l_height =.5;
+float l_height =0;
 float spt_cutoff = 0;
 unsigned int ID;
 float fowd=0;
@@ -33,6 +33,10 @@ float lef=0;
 bool left_turn=0;
 bool right_turn=0;
 vector<int>v;
+float check1=-300;
+float check2=-300;
+float check3=195;
+float check4=-10;
 static void getNormal3p(GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GLfloat z2, GLfloat x3, GLfloat y3, GLfloat z3)
 {
     GLfloat Ux, Uy, Uz, Vx, Vy, Vz, Nx, Ny, Nz;
@@ -301,9 +305,9 @@ void light1(float a,float b,float c)
 
     //light
     GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {0.4+al1, 0.4+al1, 0.4+al1, 1.0};
-    GLfloat l_dif[] = {.4+dl1,.4+dl1,.4+dl1,1};
-    GLfloat l_spec[] = {.4+sl1,.4+sl1,.4+sl1,1};
+    GLfloat l_amb[] = {0.8+al1, 0.8+al1, 0.8+al1, 1.0};
+    GLfloat l_dif[] = {.8+dl1,.8+dl1,.8+dl1,1};
+    GLfloat l_spec[] = {.8+sl1,.8+sl1,.8+sl1,1};
     GLfloat l_pos[] = {a,b,c,1.0};
 
     if(l_on1)
@@ -353,121 +357,6 @@ void light2(float a,float b,float c)
 //    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, l_spt);
 //    glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, spt_ct);
 
-
-}
-
-void walloff()
-{
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[0]);
-
-    glPushMatrix();
-    glScalef(20,20,200);
-    // glRotatef(,0,1,0);
-    glTranslatef(11,0,-0.2);
-    cube(1,1,1,2);
-    glPopMatrix();
-
-    glPushMatrix();
-    glScalef(60,20,20);
-    // glRotatef(,0,1,0);
-    glTranslatef(3.11,0,-3);
-    cube(0,1,1,2);
-    glPopMatrix();
-    // cout<<spt_cutoff<<endl;
-
-    if(!left_turn)
-    {
-        glPushMatrix();
-        glScalef(20,20,60);
-        // glRotatef(,0,1,0);
-        glTranslatef(11-13.45,0,-0.4);
-        cube(1,1,1,2);
-        glPopMatrix();
-
-        glPushMatrix();
-        glScalef(80,20,20);
-        // glRotatef(,0,1,0);
-        glTranslatef(3.11-3.599,0,.9+.05);
-        cube(0,1,1,2);
-        glPopMatrix();
-    }
-    glDisable(GL_TEXTURE_2D);
-
-    //cout<<spt_cutoff<<endl;
-}
-
-
-void wall()
-{
-    flr();
-    wall1();
-    wall2();
-    headwall();
-    walloff();
-}
-
-void spot_light(float a,float b,float c)
-{
-    //light
-    glEnable(GL_LIGHT1);
-
-    GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {1+al3, 0+al3, 0+al3, 1.0};
-    GLfloat l_dif[] = {1+dl3,1+dl3,1+dl3,1};
-    GLfloat l_spec[] = {1+sl3,1+sl3,1+sl3,1};
-    GLfloat l_pos[] = {a,b,c,1.0};
-
-    if(l_on2)
-        glLightfv(GL_LIGHT1, GL_AMBIENT, l_amb);
-    else
-        glLightfv(GL_LIGHT1, GL_AMBIENT, l_no);
-    if(l_on2)
-        glLightfv(GL_LIGHT1, GL_DIFFUSE, l_dif);
-    else
-        glLightfv(GL_LIGHT1, GL_DIFFUSE, l_no);
-    if(l_on2)
-        glLightfv(GL_LIGHT1, GL_SPECULAR, l_spec);
-    else
-        glLightfv(GL_LIGHT1, GL_SPECULAR, l_no);
-
-    glLightfv(GL_LIGHT1, GL_POSITION, l_pos);
-    GLfloat l_spt[] = {0,-1,0,1};
-    GLfloat spt_ct[] = {30};
-    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, l_spt);
-    glLightfv(GL_LIGHT1, GL_SPOT_CUTOFF, spt_ct);
-
-}
-float window_val=1;
-void window_light(float a,float b,float c)
-{
-    //light
-    glEnable(GL_LIGHT3);
-
-    GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {.5* window_val, .5* window_val, .5* window_val, 1.0};
-    GLfloat l_dif[] = {1* window_val,1* window_val,1* window_val,1};
-    GLfloat l_spec[] = {1* window_val,1* window_val,1* window_val,1};
-    GLfloat l_pos[] = {a,b,c,1.0};
-
-    if(l_on4)
-        glLightfv(GL_LIGHT3, GL_AMBIENT, l_amb);
-    else
-        glLightfv(GL_LIGHT3, GL_AMBIENT, l_no);
-    if(l_on4)
-        glLightfv(GL_LIGHT3, GL_DIFFUSE, l_dif);
-    else
-        glLightfv(GL_LIGHT3, GL_DIFFUSE, l_no);
-    if(l_on4)
-        glLightfv(GL_LIGHT3, GL_SPECULAR, l_spec);
-    else
-        glLightfv(GL_LIGHT3, GL_SPECULAR, l_no);
-
-    glLightfv(GL_LIGHT3, GL_POSITION, l_pos);
-    GLfloat l_spt[] = {0,-1,0,1};
-    GLfloat spt_ct[] = {84};
-    glLightfv(GL_LIGHT3, GL_SPOT_DIRECTION, l_spt);
-    glLightfv(GL_LIGHT3, GL_SPOT_CUTOFF, spt_ct);
 
 }
 void eyeright()
@@ -715,6 +604,170 @@ void bottombutton()
     glPopMatrix();
 }
 
+
+void walloff()
+{
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[0]);
+
+
+    //  cout<<spt_cutoff<<endl;
+ if(!left_turn){
+    glPushMatrix();
+        glScalef(20,20,200);
+        // glRotatef(,0,1,0);
+        glTranslatef(11,0,-0.2);
+        cube(1,1,1,2);
+        glPopMatrix();
+
+        glPushMatrix();
+        glScalef(60,20,20);
+        // glRotatef(,0,1,0);
+        glTranslatef(3.11,0,-3);
+        cube(0,1,1,2);
+        glPopMatrix();
+        glPushMatrix();
+        glScalef(20,20,60);
+        // glRotatef(,0,1,0);
+        glTranslatef(11-13.45,0,-0.4);
+        cube(1,1,1,2);
+        glPopMatrix();
+
+        glPushMatrix();
+        glScalef(80,20,20);
+        // glRotatef(,0,1,0);
+        glTranslatef(3.11-3.599,0,.9+.05);
+        cube(0,1,1,2);
+        glPopMatrix();
+    }
+    else{
+
+
+
+
+
+        glPushMatrix();
+        glScalef(40,20,40);
+        // glRotatef(,0,1,0);
+        glTranslatef(3.11-3.599+1+.7,0,.9+.05-2.1-.14-.01);
+       if(check3<=105) cube(0,1,1,2);
+        glPopMatrix();
+
+
+        glPushMatrix();
+        glScalef(120,120,120);
+        // glRotatef(,0,1,0);
+        glTranslatef(3.11-3.599-.3+.04,0,.9+.05-.8);
+        cube(0,1,1,2);
+        glPopMatrix();
+
+    }
+    glDisable(GL_TEXTURE_2D);
+
+   //cout<<spt_cutoff<<" "<<l_height<<endl;
+}
+
+void secondwall()
+{
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[0]);
+
+    glPushMatrix();
+    //glTranslatef(-300,0,-300);
+
+    glTranslatef(-15+169+46+11-19-123,.1,-202+82-39+132-115);
+    glScalef(120,120,120);
+    //glTranslatef(a1,b1+1,c1);
+    // glRotatef(,0,1,0);
+    cube(0,1,1);
+    glPopMatrix();
+     glPushMatrix();
+    //glTranslatef(-300,0,-300);
+
+    glTranslatef(-15+169+46+11-19-123,.1,-202+82-39+132);
+    glScalef(120,120,120);
+    //glTranslatef(a1,b1+1,c1);
+    // glRotatef(,0,1,0);
+    cube(0,1,1);
+    glPopMatrix();
+cout<<spt_cutoff<<endl;
+
+
+    glDisable(GL_TEXTURE_2D);
+}
+void wall()
+{
+    flr();
+    wall1();
+    wall2();
+    headwall();
+    walloff();
+}
+
+void spot_light(float a,float b,float c)
+{
+    //light
+    glEnable(GL_LIGHT1);
+
+    GLfloat l_no[] = {0, 0, 0, 1.0};
+    GLfloat l_amb[] = {1+al3, 0+al3, 0+al3, 1.0};
+    GLfloat l_dif[] = {1+dl3,1+dl3,1+dl3,1};
+    GLfloat l_spec[] = {1+sl3,1+sl3,1+sl3,1};
+    GLfloat l_pos[] = {a,b,c,1.0};
+
+    if(l_on2)
+        glLightfv(GL_LIGHT1, GL_AMBIENT, l_amb);
+    else
+        glLightfv(GL_LIGHT1, GL_AMBIENT, l_no);
+    if(l_on2)
+        glLightfv(GL_LIGHT1, GL_DIFFUSE, l_dif);
+    else
+        glLightfv(GL_LIGHT1, GL_DIFFUSE, l_no);
+    if(l_on2)
+        glLightfv(GL_LIGHT1, GL_SPECULAR, l_spec);
+    else
+        glLightfv(GL_LIGHT1, GL_SPECULAR, l_no);
+
+    glLightfv(GL_LIGHT1, GL_POSITION, l_pos);
+    GLfloat l_spt[] = {0,-1,0,1};
+    GLfloat spt_ct[] = {30};
+    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, l_spt);
+    glLightfv(GL_LIGHT1, GL_SPOT_CUTOFF, spt_ct);
+
+}
+float window_val=1;
+void window_light(float a,float b,float c)
+{
+    //light
+    glEnable(GL_LIGHT3);
+
+    GLfloat l_no[] = {0, 0, 0, 1.0};
+    GLfloat l_amb[] = {.5* window_val, .5* window_val, .5* window_val, 1.0};
+    GLfloat l_dif[] = {1* window_val,1* window_val,1* window_val,1};
+    GLfloat l_spec[] = {1* window_val,1* window_val,1* window_val,1};
+    GLfloat l_pos[] = {a,b,c,1.0};
+
+    if(l_on4)
+        glLightfv(GL_LIGHT3, GL_AMBIENT, l_amb);
+    else
+        glLightfv(GL_LIGHT3, GL_AMBIENT, l_no);
+    if(l_on4)
+        glLightfv(GL_LIGHT3, GL_DIFFUSE, l_dif);
+    else
+        glLightfv(GL_LIGHT3, GL_DIFFUSE, l_no);
+    if(l_on4)
+        glLightfv(GL_LIGHT3, GL_SPECULAR, l_spec);
+    else
+        glLightfv(GL_LIGHT3, GL_SPECULAR, l_no);
+
+    glLightfv(GL_LIGHT3, GL_POSITION, l_pos);
+    GLfloat l_spt[] = {0,-1,0,1};
+    GLfloat spt_ct[] = {84};
+    glLightfv(GL_LIGHT3, GL_SPOT_DIRECTION, l_spt);
+    glLightfv(GL_LIGHT3, GL_SPOT_CUTOFF, spt_ct);
+
+}
+
 void player()
 {
 
@@ -773,7 +826,7 @@ void light()
     if(!left_turn)
         a+=lef,c+=fowd;
     else
-        a+=fowd,c-=lef;
+        a+=fowd/50,c-=lef/10;
     light1(a,b,c);
     glPopMatrix();
     glTranslatef(a,b+1,c);
@@ -786,7 +839,7 @@ void light()
     // cout<<l_height<<" "<<spt_cutoff<<endl;
 
 //light2
-
+/*
     glPushMatrix();
     glPushMatrix();
 
@@ -814,19 +867,33 @@ void light()
     glTranslatef(-0.5,-0.5,-0.5);
     //cube(1,0,0,true);
     glPopMatrix();
-
-
+    */
 
     fowd=.08;
-    if(!left_turn)
-        eyeZ+=.08;
-    else
-        eyeX+=.08;
     lef=.015;
-
+//cout<<a<<" "<<c<<endl;
     // cout<<sl2<<endl;
     //  cout<<window_val<<endl;
     // cout<<l_height<<" "<<spt_cutoff<<endl;
+}
+void drawStrokeText(char* str,int x,int y,int z)
+{
+	  char *c;
+	  glPushMatrix();
+
+
+	    glTranslatef(-300,0,-300);
+	  glTranslatef(-15+4-2, 2+13,-155);
+	  glRotatef(184,0,1,0);
+	  cube(1,1,1,0,1,1);
+glScalef(.004f,.004f,10);
+
+	  for (c=str; *c != '\0'; c++)
+	  {
+    		glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN , *c);
+	  }
+	  glPopMatrix();
+	  //cout<<spt_cutoff<<" "<<l_height<<endl;
 }
 
 static void display(void)
@@ -839,30 +906,32 @@ static void display(void)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(eyeX,eyeY,eyeZ, centerX,centerY,centerZ, 0,1,0);
-    /*eyeX, eyeY, eyeZ Specifies the position of the eye point.
-    centerX, centerY, centerZ Specifies the position of the reference point.
-    upX, upY, upZ Specifies the direction of the up vector.
-    */
-    //  glViewport(0, 0, width, height);
 
     glRotatef(rot, 0,1,0);
+
+   // glPushMatrix();
     glPushMatrix();
-    glTranslatef(-300,0,-300);
+   glTranslatef(check2,0,check1);
+
     wall();
-    glPushMatrix();
-// glScalef(1,20,160);
-    glTranslatef(195,0,-10);
+    // secondwall();
+   glPushMatrix();
+    glTranslatef(check3,0,check4);
     glRotatef(90,0,2,0);
     wall();
+  if(!left_turn)
+       check1-=.08,check2-=.015;
+   else
+     check3-=.08,check4+=.015;
+    glPopMatrix();
+light();
 
     glPopMatrix();
-    light();
     glPopMatrix();
+     drawStrokeText("UP: W, DOWN: S, LEFT: A, RIGHT: D, MAIN MENU: M",0,0,0);
+     // if(check3<=50)check3=50,check4-=.015;
 
-
-    //
-    cout<<eyeX<<" "<<eyeY<<" "<<eyeZ<<" "<<centerX<<" "<<centerY<<" "<<centerZ<<" "<<rot<<endl;
-//cout<<rot<<endl;
+   //cout<<check3<<endl;
     glutSwapBuffers();
 }
 
@@ -1046,17 +1115,17 @@ static void key(unsigned char key, int x, int y)
 
 
     case '1':
-        l_height+=.1;
+        l_height+=1;
         break;
     case '2':
-        l_height-=.1;
+        l_height-=1;
         break;
 
     case '3':
-        spt_cutoff+=.1;
+        spt_cutoff+=1;
         break;
     case '4':
-        spt_cutoff--;
+        spt_cutoff-=1;
         break;
     case 't':
         l_on1=1-l_on1;
@@ -1071,13 +1140,15 @@ static void key(unsigned char key, int x, int y)
         break;
 
     case 'b':
-        if(eyeZ<=-340&&eyeZ>=-381&&!left_turn)
+        if(!left_turn)
         {
-            a+=25;
-            c+=10;
+            check1=-300;
+            check2=-300;
+            a=37.5;
+            c=5.5;
             eyeX = -203;
             eyeY = 5;
-            eyeZ = -341;
+            eyeZ = -343;
 
             centerX = 780;
             centerY = 0;
@@ -1139,8 +1210,9 @@ int main(int argc, char *argv[])
     glutDisplayFunc(display);
     glutKeyboardFunc(key);
     glutIdleFunc(idle);
-
-
+  glEnable(GL_BLEND);
+  glEnable(GL_LINE_SMOOTH);
+  glLineWidth(1);
     glEnable(GL_DEPTH_TEST);
     glShadeModel( GL_SMOOTH );
     glEnable(GL_NORMALIZE);
