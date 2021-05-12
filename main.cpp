@@ -234,16 +234,18 @@ void axes()
 
 void flr()
 {
+     glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[3]);
 
     glPushMatrix();
 
 
     glTranslatef(0,-0.5,-80);
-    glScalef(300,1,240);
+    glScalef(220,1,220);
     glTranslatef(-0.5,-1,-0.5);
-    cube(.5,.2,.6,0,8);
+    cube(1,1,1,0,30);
     glPopMatrix();
-
+glDisable(GL_TEXTURE_2D);
 }
 
 
@@ -255,9 +257,9 @@ void wall1()
     glPushMatrix();
 
 //    glTranslatef(0,-0.5,0);
-    glScalef(1,20,160);
+    glScalef(1,160,160);
     glTranslatef(-30,0,-1);
-    cube(1,1,1,0,2);
+    cube(1,1,1,0,20);
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
 
@@ -269,9 +271,9 @@ void wall2()
     glBindTexture(GL_TEXTURE_2D,v[0]);
     glPushMatrix();
 //    glTranslatef(0,-0.5,0);
-    glScalef(1,20,160);
+    glScalef(1,160,160);
     glTranslatef(29,0,-1);
-    cube(1,1,1,0,2);
+    cube(1,1,1,0,20);
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
 }
@@ -604,41 +606,51 @@ void bottombutton()
     glPopMatrix();
 }
 
-
+float fire1=0;
+bool fire2=0;
 void walloff()
 {
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[0]);
 
 
-    //  cout<<spt_cutoff<<endl;
+     cout<<spt_cutoff<<endl;
     if(!left_turn)
     {
-        glPushMatrix();
-        glScalef(20,20,200);
+
+ glPushMatrix();
+        glScalef(20,20,60);
         // glRotatef(,0,1,0);
-        glTranslatef(11,0,-0.2);
+        glTranslatef(11-13.45,0,-0.4+.6);
         cube(1,1,1,2);
         glPopMatrix();
+
+
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[4]);
+        //door
+         glPushMatrix();
+        glScalef(20,20,10);
+        glTranslatef(11-13.45+.1,0,-0.4+.6-.2-1.1+spt_cutoff);
+        // glRotatef(,0,1,0);
+        cube(1,1,1);
+        glPopMatrix();
+
+
+        //back wall
+        glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[5]);
 
         glPushMatrix();
         glScalef(60,20,20);
         // glRotatef(,0,1,0);
-        glTranslatef(3.11,0,-3);
-        cube(0,1,1,2);
-        glPopMatrix();
-        glPushMatrix();
-        glScalef(20,20,60);
-        // glRotatef(,0,1,0);
-        glTranslatef(11-13.45,0,-0.4);
-        cube(1,1,1,2);
-        glPopMatrix();
+        glTranslatef(3.11-3.599+fire1,0,.9+.05-.9);
+        cube(1,1,0,0,1);
+        if(fire1<=.01&&!fire2)
+        fire1+=.0003;
+        else fire1-=.0003,fire2=1;
+        if(fire1<=-.01)fire2=0;
 
-        glPushMatrix();
-        glScalef(80,20,20);
-        // glRotatef(,0,1,0);
-        glTranslatef(3.11-3.599,0,.9+.05);
-        cube(0,1,1,2);
         glPopMatrix();
     }
     else
@@ -697,7 +709,7 @@ void secondwall()
 void wall()
 {
     flr();
-    wall1();
+   wall1();
     wall2();
     headwall();
     walloff();
@@ -993,12 +1005,12 @@ static void display(void)
     glPushMatrix();
     glTranslatef(check2,0,check1);
 
-    wall();
+   if(!left_turn)  wall();
     // secondwall();
     glPushMatrix();
     glTranslatef(check3,0,check4);
     glRotatef(90,0,2,0);
-    wall();
+   if(left_turn)  wall();
     if(!left_turn)
         check1-=.08,check2-=.015;
     else
@@ -1195,17 +1207,17 @@ static void key(unsigned char key, int x, int y)
 
 
     case '1':
-        l_height+=1;
+        l_height+=.1;
         break;
     case '2':
-        l_height-=1;
+        l_height-=.1;
         break;
 
     case '3':
-        spt_cutoff+=1;
+        spt_cutoff+=.1;
         break;
     case '4':
-        spt_cutoff-=1;
+        spt_cutoff-=.1;
         break;
 
     case 'u':
@@ -1282,11 +1294,17 @@ static void idle(void)
 /* Program entry point */
 void texture_image()
 {
-    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\wall1.bmp");
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\brick road1.bmp");//0
     v.push_back(ID);
-    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\head.bmp");
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\head.bmp");//1
     v.push_back(ID);
-    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\top.bmp");
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\top.bmp");//2
+    v.push_back(ID);
+     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\brick road.bmp");//3
+    v.push_back(ID);
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\door1.bmp");//4
+    v.push_back(ID);
+     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\spike.bmp");//5
     v.push_back(ID);
 }
 int main(int argc, char *argv[])
