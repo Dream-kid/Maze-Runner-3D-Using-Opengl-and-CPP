@@ -809,14 +809,7 @@ void fire()
     cube(1,1,0,0,3);
 //cout<<spt_cutoff<<" "<<l_height<<endl;
     glPopMatrix();
-    if(mark11)
-        cnt_dwn++;
-    if(cnt_dwn==95)
-    {
-        mark11=0;
-        b=1;
-        cnt_dwn=0;
-    }
+
 
     if(c>=-109&&c<=-108.5&&b==1)
     {
@@ -873,6 +866,63 @@ void point()
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
 }
+void point1()
+{
+
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[7]);
+    glPushMatrix();
+    glTranslatef(-10,3,-155+25);
+    glRotatef(45,0,1,0);
+    glScalef(2,2,1);
+    cube(1,1,1);
+    if(c<=-129&&c>=-131&&add_lef>=1)
+    {
+        cout<<"point"<<endl;
+    }
+
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-10,3,-155+50);
+    glRotatef(45,0,1,0);
+    glScalef(2,2,1);
+    cube(1,1,1);
+    if(c<=-104&&c>=-106&&add_lef<=-3)
+    {
+        cout<<"point23"<<endl;
+    }
+
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-2,7,-155+74);
+    glRotatef(45,0,1,0);
+    glScalef(2,2,1);
+    cube(1,1,1);
+//cout<<spt_cutoff<<" "<<l_height<<endl;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-1,7,-155+84);
+    glRotatef(45,0,1,0);
+    glScalef(2,2,1);
+    cube(1,1,1);
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+
+    // cout<<add_lef<<endl;
+
+    if(c>=-81&&c<=-78&&add_lef>=1.5)
+    {
+        cout<<"point2"<<endl;
+    }
+    if(c>=-71&&c<=-68&&add_lef>=1.5)
+    {
+        cout<<"point3"<<endl;
+    }
+    //cout
+}
 void design()
 {
     glEnable(GL_TEXTURE_2D);
@@ -911,6 +961,7 @@ float rop_inc_bool=0;
 float rop_inc_bool1=0;
 void rope()
 {
+
     //laser1
     glLineWidth(12);
     glPushMatrix();
@@ -944,7 +995,7 @@ void rope()
 //laser
 
     glPushMatrix();
-    glTranslatef(-25-1+l_height-2,-1.5,-155+45-12+spt_cutoff);
+    glTranslatef(-25-1-2,-1.5,-155+45-12);
     //
     glBegin(GL_LINES);
     glVertex2f(104-93,167-146);
@@ -976,15 +1027,57 @@ void rope()
         }
     }
     glPopMatrix();
- //   cout<<add_lef<<endl;
-     // cout<<c<<endl;
-  // cout<<l_height<<" "<<spt_cutoff<<endl;
+//   cout<<add_lef<<endl;
+    // cout<<c<<endl;
+    // cout<<l_height<<" "<<spt_cutoff<<endl;
+}
+bool bridge_j=0;
+
+void bridge()
+{
+    glPushMatrix();
+    glTranslatef(-32+l_height+20,3,-155+45+spt_cutoff+5+6);
+    glScalef(20,2,45);
+    cube(1,1,1);
+    glPopMatrix();
+    if(c>=-99 &&c<=-50)
+    {
+        if(mark11||bridge_j)
+        {
+            b=5.5;
+            eyeY = 8;
+            bridge_j=1;
+            mark11=0;
+        }
+        else
+        {
+            cout<<"game over bridge"<<endl;
+        }
+
+        //cout<<"bridge"<<endl;
+    }
+    else if(c>-50)
+    {
+        bridge_j=0;
+        eyeY = 5;
+    }
+    // cout<<l_height<<" "<<spt_cutoff<<endl;
+
 }
 void light()
 {
 
 //light 1
 //fire1
+//
+    if(mark11)
+        cnt_dwn++;
+    if(cnt_dwn>=95||!mark11)
+    {
+        mark11=0;
+        b=1;
+        cnt_dwn=0;
+    }
     if(left_turn)
     {
         fire();
@@ -994,6 +1087,8 @@ void light()
     else
     {
         rope();
+        bridge();
+        point1();
     }
     glPushMatrix();
 
