@@ -234,7 +234,7 @@ void axes()
 
 void flr()
 {
-     glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[3]);
 
     glPushMatrix();
@@ -245,7 +245,7 @@ void flr()
     glTranslatef(-0.5,-1,-0.5);
     cube(1,1,1,0,30);
     glPopMatrix();
-glDisable(GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_2D);
 }
 
 
@@ -614,11 +614,11 @@ void walloff()
     glBindTexture(GL_TEXTURE_2D,v[0]);
 
 
-     cout<<spt_cutoff<<endl;
+    //cout<<spt_cutoff<<endl;
     if(!left_turn)
     {
 
- glPushMatrix();
+        glPushMatrix();
         glScalef(20,20,60);
         // glRotatef(,0,1,0);
         glTranslatef(11-13.45,0,-0.4+.6);
@@ -626,10 +626,10 @@ void walloff()
         glPopMatrix();
 
 
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[4]);
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D,v[4]);
         //door
-         glPushMatrix();
+        glPushMatrix();
         glScalef(20,20,10);
         glTranslatef(11-13.45+.1+3.7,0,-0.4+.6-.2-1.1);
         // glRotatef(,0,1,0);
@@ -639,17 +639,19 @@ void walloff()
 
         //back wall
         glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[5]);
+        glBindTexture(GL_TEXTURE_2D,v[5]);
 
         glPushMatrix();
         glScalef(60,20,20);
         // glRotatef(,0,1,0);
         glTranslatef(3.11-3.599,0,.9+.05-.9);
         cube(1,1,0,0,1);
-        if(fire1<=.01&&!fire2)
-        fire1+=.0003;
-        else fire1-=.0003,fire2=1;
-        if(fire1<=-.01)fire2=0;
+        if(fire1<=15&&!fire2)
+            fire1+=.1;
+        else
+            fire1-=.1,fire2=1;
+        if(fire1<=-15)
+            fire2=0;
 
         glPopMatrix();
     }
@@ -678,38 +680,11 @@ void walloff()
     //cout<<spt_cutoff<<" "<<l_height<<endl;
 }
 
-void secondwall()
-{
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[0]);
 
-    glPushMatrix();
-    //glTranslatef(-300,0,-300);
-
-    glTranslatef(-15+169+46+11-19-123,.1,-202+82-39+132-115);
-    glScalef(120,120,120);
-    //glTranslatef(a1,b1+1,c1);
-    // glRotatef(,0,1,0);
-    cube(0,1,1);
-    glPopMatrix();
-    glPushMatrix();
-    //glTranslatef(-300,0,-300);
-
-    glTranslatef(-15+169+46+11-19-123,.1,-202+82-39+132);
-    glScalef(120,120,120);
-    //glTranslatef(a1,b1+1,c1);
-    // glRotatef(,0,1,0);
-    cube(0,1,1);
-    glPopMatrix();
-    cout<<spt_cutoff<<endl;
-
-
-    glDisable(GL_TEXTURE_2D);
-}
 void wall()
 {
     flr();
-   wall1();
+    wall1();
     wall2();
     headwall();
     walloff();
@@ -819,19 +794,19 @@ int cnt_dwn=0;
 bool mark11=0;
 void fire()
 {
-     glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[6]);
     glPushMatrix();
-    glTranslatef(-15,-1.5,-155+45);
-    glScalef(20,2,4);
-    cube(1,1,0);
+    glTranslatef(-45+fire1,-1.5,-155+45);
+    glScalef(85,1.5,6);
+    cube(1,1,0,0,3);
 //cout<<spt_cutoff<<" "<<l_height<<endl;
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(-15,-1.5,-155+85);
-   glScalef(20,2,4);
-    cube(1,1,1);
+    glTranslatef(-45+fire1,-1.5,-155+85);
+    glScalef(85,1.5,6);
+    cube(1,1,0,0,3);
 //cout<<spt_cutoff<<" "<<l_height<<endl;
     glPopMatrix();
     if(mark11)
@@ -853,13 +828,13 @@ void fire()
         cout<<"game over1"<<endl;
     }
 //cout<<a<<" "<<c<<endl;
- glDisable(GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_2D);
 }
 float add_lef=0;
 void point()
 {
 
-     glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[7]);
     glPushMatrix();
     glTranslatef(-15,3,-155+25);
@@ -902,40 +877,124 @@ void design()
 {
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[9]);
-    for(int i=0;i<=95;i+=15){
-    glPushMatrix();
-    glTranslatef(27,4,-155+25+i);
-    glRotatef(-25,0,1,0);
-    glScalef(4,6,4);
-    cube(1,1,1);
-    //cout<<add_lef<<" "<<c<<endl;
+    for(int i=0; i<=95; i+=15)
+    {
+        glPushMatrix();
+        glTranslatef(27,4,-155+25+i);
+        glRotatef(-25,0,1,0);
+        glScalef(4,8,4);
+        cube(1,1,1);
+        //cout<<add_lef<<" "<<c<<endl;
 //cout<<spt_cutoff<<" "<<l_height<<endl;
-    glPopMatrix();
+        glPopMatrix();
     }
     glDisable(GL_TEXTURE_2D);
 
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[8]);
-    for(int i=0;i<=115;i+=25){
-    glPushMatrix();
-    glTranslatef(-27,0,-155+25+i);
-    glRotatef(-25,0,1,0);
-    glScalef(4,15,4);
-    cube(1,1,1);
-    //cout<<add_lef<<" "<<c<<endl;
+    for(int i=0; i<=115; i+=25)
+    {
+        glPushMatrix();
+        glTranslatef(-27,0,-155+25+i);
+        glRotatef(-25,0,1,0);
+        glScalef(4,15,4);
+        cube(1,1,1);
+        //cout<<add_lef<<" "<<c<<endl;
 //cout<<spt_cutoff<<" "<<l_height<<endl;
-    glPopMatrix();
+        glPopMatrix();
     }
     glDisable(GL_TEXTURE_2D);
+}
+float rop_inc=8;
+float rop_inc1=8;
+float rop_inc_bool=0;
+float rop_inc_bool1=0;
+void rope()
+{
+    //laser1
+    glLineWidth(12);
+    glPushMatrix();
+    glTranslatef(-25,-1.5,-155+45);
+    glBegin(GL_LINES);
+    glVertex2f(104-93,167-146);
+
+    glVertex2f(1+rop_inc+13, 7-43);
+    if(rop_inc_bool&&rop_inc<=29&&rop_inc>=12)
+        rop_inc-=.1;
+    else if(rop_inc<28)
+    {
+        rop_inc_bool=0;
+        rop_inc+=.1;
+
+    }
+    else
+        rop_inc_bool=1;
+
+    glEnd();
+
+    if(c>=-112 && c<=-108)
+    {
+        if(add_lef>-.8)
+        {
+            cout<<"game over"<<endl;
+        }
+    }
+    glPopMatrix();
+
+//laser
+
+    glPushMatrix();
+    glTranslatef(-25-1+l_height-2,-1.5,-155+45-12+spt_cutoff);
+    //
+    glBegin(GL_LINES);
+    glVertex2f(104-93,167-146);
+
+    glVertex2f(1+rop_inc1+13, 7-43);
+    if(rop_inc_bool1&&rop_inc1<=35&&rop_inc1>=16)
+    {
+        rop_inc1-=.1;
+
+    }
+    else if(rop_inc1<34)
+    {
+        rop_inc_bool1=0;
+        rop_inc1+=.1;
+
+    }
+    else
+        rop_inc_bool1=1;
+
+//cout<<rop_inc+14<<" "<<7-43<<endl;
+    glEnd();
+
+//cout<<add_lef<<endl;
+    if(c>=-123 && c<=-120)
+    {
+        if(add_lef<1)
+        {
+            cout<<"game over1"<<endl;
+        }
+    }
+    glPopMatrix();
+ //   cout<<add_lef<<endl;
+     // cout<<c<<endl;
+  // cout<<l_height<<" "<<spt_cutoff<<endl;
 }
 void light()
 {
 
 //light 1
 //fire1
-    fire();
-    point();
-design();
+    if(left_turn)
+    {
+        fire();
+        point();
+        design();
+    }
+    else
+    {
+        rope();
+    }
     glPushMatrix();
 
     glTranslatef(a+add_lef,b,c);
@@ -949,7 +1008,7 @@ design();
     glPushMatrix();
 
     glRotatef(200, 0,1,0);
-
+//cout<<add_lef<<" "<<c<<" ->"<<endl;
     if(!left_turn)
         a+=lef,c+=fowd;
     else
@@ -1041,21 +1100,25 @@ static void display(void)
     glPushMatrix();
     glTranslatef(check2,0,check1);
 
-   if(!left_turn)  wall();
+    if(!left_turn)
+        wall();
     // secondwall();
     glPushMatrix();
     glTranslatef(check3,0,check4);
     glRotatef(90,0,2,0);
-   if(left_turn)  wall();
-    if(!left_turn)
-        check1-=.08,check2-=.015;
-    else
-        check3-=.08,check4+=.015;
+    if(left_turn)
+        wall();
+    check1-=.08,check2-=.015;
+    //if(!left_turn)
+    //   check1-=.08,check2-=.015;
+    // else
+    //    check3-=.08,check4+=.015;
     glPopMatrix();
     light();
 
     glPopMatrix();
     glPopMatrix();
+    glLineWidth(1);
     drawStrokeText("UP: W, DOWN: S, LEFT: A, RIGHT: D, MAIN MENU: M",0,0,0);
     // if(check3<=50)check3=50,check4-=.015;
 
@@ -1243,17 +1306,17 @@ static void key(unsigned char key, int x, int y)
 
 
     case '1':
-        l_height+=.1;
+        l_height+=1;
         break;
     case '2':
-        l_height-=.1;
+        l_height-=1;
         break;
 
     case '3':
-        spt_cutoff+=.1;
+        spt_cutoff+=1;
         break;
     case '4':
-        spt_cutoff-=.1;
+        spt_cutoff-=1;
         break;
 
     case 'u':
@@ -1336,19 +1399,19 @@ void texture_image()
     v.push_back(ID);
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\top.bmp");//2
     v.push_back(ID);
-     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\brick road.bmp");//3
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\brick road.bmp");//3
     v.push_back(ID);
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\door1.bmp");//4
     v.push_back(ID);
-     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\spike.bmp");//5
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\spike.bmp");//5
     v.push_back(ID);
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\fire.bmp");//6
-     v.push_back(ID);
+    v.push_back(ID);
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\gold.bmp");//7
     v.push_back(ID);
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\momy.bmp");//8
     v.push_back(ID);
-        LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\mask.bmp");//9
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\mask.bmp");//9
     v.push_back(ID);
 }
 int main(int argc, char *argv[])
@@ -1365,7 +1428,7 @@ int main(int argc, char *argv[])
     glutIdleFunc(idle);
     glEnable(GL_BLEND);
     glEnable(GL_LINE_SMOOTH);
-    glLineWidth(1);
+
     glEnable(GL_DEPTH_TEST);
     glShadeModel( GL_SMOOTH );
     glEnable(GL_NORMALIZE);
