@@ -235,7 +235,8 @@ void axes()
 void flr()
 {
     glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[3]);
+    if(left_turn)glBindTexture(GL_TEXTURE_2D,v[3]);
+    else glBindTexture(GL_TEXTURE_2D,v[10]);
 
     glPushMatrix();
 
@@ -252,7 +253,8 @@ void flr()
 void wall1()
 {
     glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[0]);
+    if(left_turn)glBindTexture(GL_TEXTURE_2D,v[0]);
+    else glBindTexture(GL_TEXTURE_2D,v[12]);
 
     glPushMatrix();
 
@@ -268,7 +270,8 @@ void wall1()
 void wall2()
 {
     glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[0]);
+   if(left_turn)glBindTexture(GL_TEXTURE_2D,v[0]);
+    else glBindTexture(GL_TEXTURE_2D,v[12]);
     glPushMatrix();
 //    glTranslatef(0,-0.5,0);
     glScalef(1,160,160);
@@ -284,8 +287,8 @@ void wall2()
 void headwall()
 {
     glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[2]);
-    glPushMatrix();
+if(left_turn)glBindTexture(GL_TEXTURE_2D,v[2]);
+    else glBindTexture(GL_TEXTURE_2D,v[11]);    glPushMatrix();
 
 //    glTranslatef(0,-0.5,0);
 
@@ -639,13 +642,14 @@ void walloff()
 
         //back wall
         glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D,v[5]);
+      if(left_turn)  glBindTexture(GL_TEXTURE_2D,v[5]);
+   else    glBindTexture(GL_TEXTURE_2D,v[14]);
 
         glPushMatrix();
-        glScalef(60,20,20);
+        glScalef(68,20,20);
         // glRotatef(,0,1,0);
-        glTranslatef(3.11-3.599,0,.9+.05-.9);
-        cube(1,1,0,0,1);
+        glTranslatef(3.11-3.599-.05,0,.9+.05-.9);
+        cube(1,1,1-left_turn,0,1);
         if(fire1<=15&&!fire2)
             fire1+=.1;
         else
@@ -913,11 +917,11 @@ void point1()
 
     // cout<<add_lef<<endl;
 
-    if(c>=-81&&c<=-78&&add_lef>=1.5)
+    if(c>=-81&&c<=-78&&add_lef>=0)
     {
         cout<<"point2"<<endl;
     }
-    if(c>=-71&&c<=-68&&add_lef>=1.5)
+    if(c>=-71&&c<=-68&&add_lef>=0)
     {
         cout<<"point3"<<endl;
     }
@@ -963,6 +967,9 @@ void rope()
 {
 
     //laser1
+    // glEnable(GL_TEXTURE_2D);
+    //glBindTexture(GL_TEXTURE_2D,v[14]);
+    cube(1,0,0,0,1,1);
     glLineWidth(12);
     glPushMatrix();
     glTranslatef(-25,-1.5,-155+45);
@@ -1030,15 +1037,24 @@ void rope()
 //   cout<<add_lef<<endl;
     // cout<<c<<endl;
     // cout<<l_height<<" "<<spt_cutoff<<endl;
+  //  glDisable(GL_TEXTURE_2D);
 }
 bool bridge_j=0;
 
 void bridge()
 {
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[2]);
     glPushMatrix();
-    glTranslatef(-32+l_height+20,3,-155+45+spt_cutoff+5+6);
+    glTranslatef(-32+20,3,-155+45+5+6);
     glScalef(20,2,45);
-    cube(1,1,1);
+    cube(1,1,1,0,3);
+    glPopMatrix();
+    glBindTexture(GL_TEXTURE_2D,v[6]);
+    glPushMatrix();
+    glTranslatef(-32+l_height-1,-1.5,-155+45+spt_cutoff+16);
+    glScalef(80,2,45);
+    cube(1,1,1,0,3);
     glPopMatrix();
     if(c>=-99 &&c<=-50)
     {
@@ -1061,8 +1077,8 @@ void bridge()
         bridge_j=0;
         eyeY = 5;
     }
-    // cout<<l_height<<" "<<spt_cutoff<<endl;
-
+    cout<<l_height<<" "<<spt_cutoff<<endl;
+    glDisable(GL_TEXTURE_2D);
 }
 void light()
 {
@@ -1507,6 +1523,16 @@ void texture_image()
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\momy.bmp");//8
     v.push_back(ID);
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\mask.bmp");//9
+    v.push_back(ID);
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\grash.bmp");//10
+    v.push_back(ID);
+     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\wall2.bmp");//11
+    v.push_back(ID);
+     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\top2.bmp");//12
+    v.push_back(ID);
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\backwall.bmp");//13
+    v.push_back(ID);
+      LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\laser.bmp");//14
     v.push_back(ID);
 }
 int main(int argc, char *argv[])
