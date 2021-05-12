@@ -292,7 +292,7 @@ void headwall()
     glTranslatef(0,-0.5,-80);
     glScalef(300,1,240);
     glTranslatef(-0.5,19,-.5);
-    cube(0.690, 0.769, 0.871,0,4);
+    cube(0.690, 0.769, 0.871,0,10);
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
 
@@ -631,7 +631,7 @@ void walloff()
         //door
          glPushMatrix();
         glScalef(20,20,10);
-        glTranslatef(11-13.45+.1,0,-0.4+.6-.2-1.1+spt_cutoff);
+        glTranslatef(11-13.45+.1+3.7,0,-0.4+.6-.2-1.1);
         // glRotatef(,0,1,0);
         cube(1,1,1);
         glPopMatrix();
@@ -644,7 +644,7 @@ void walloff()
         glPushMatrix();
         glScalef(60,20,20);
         // glRotatef(,0,1,0);
-        glTranslatef(3.11-3.599+fire1,0,.9+.05-.9);
+        glTranslatef(3.11-3.599,0,.9+.05-.9);
         cube(1,1,0,0,1);
         if(fire1<=.01&&!fire2)
         fire1+=.0003;
@@ -819,16 +819,18 @@ int cnt_dwn=0;
 bool mark11=0;
 void fire()
 {
+     glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[6]);
     glPushMatrix();
-    glTranslatef(-15,1,-155+45);
-    glScalef(20,2,2);
-    cube(1,1,1);
+    glTranslatef(-15,-1.5,-155+45);
+    glScalef(20,2,4);
+    cube(1,1,0);
 //cout<<spt_cutoff<<" "<<l_height<<endl;
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(-15,1,-155+85);
-    glScalef(20,2,2);
+    glTranslatef(-15,-1.5,-155+85);
+   glScalef(20,2,4);
     cube(1,1,1);
 //cout<<spt_cutoff<<" "<<l_height<<endl;
     glPopMatrix();
@@ -851,11 +853,14 @@ void fire()
         cout<<"game over1"<<endl;
     }
 //cout<<a<<" "<<c<<endl;
-
+ glDisable(GL_TEXTURE_2D);
 }
 float add_lef=0;
 void point()
 {
+
+     glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[7]);
     glPushMatrix();
     glTranslatef(-15,3,-155+25);
     glRotatef(45,0,1,0);
@@ -891,8 +896,38 @@ void point()
     //cout<<add_lef<<" "<<c<<endl;
 //cout<<spt_cutoff<<" "<<l_height<<endl;
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 }
+void design()
+{
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[9]);
+    for(int i=0;i<=95;i+=15){
+    glPushMatrix();
+    glTranslatef(27,4,-155+25+i);
+    glRotatef(-25,0,1,0);
+    glScalef(4,6,4);
+    cube(1,1,1);
+    //cout<<add_lef<<" "<<c<<endl;
+//cout<<spt_cutoff<<" "<<l_height<<endl;
+    glPopMatrix();
+    }
+    glDisable(GL_TEXTURE_2D);
 
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[8]);
+    for(int i=0;i<=115;i+=25){
+    glPushMatrix();
+    glTranslatef(-27,0,-155+25+i);
+    glRotatef(-25,0,1,0);
+    glScalef(4,15,4);
+    cube(1,1,1);
+    //cout<<add_lef<<" "<<c<<endl;
+//cout<<spt_cutoff<<" "<<l_height<<endl;
+    glPopMatrix();
+    }
+    glDisable(GL_TEXTURE_2D);
+}
 void light()
 {
 
@@ -900,6 +935,7 @@ void light()
 //fire1
     fire();
     point();
+design();
     glPushMatrix();
 
     glTranslatef(a+add_lef,b,c);
@@ -1305,6 +1341,14 @@ void texture_image()
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\door1.bmp");//4
     v.push_back(ID);
      LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\spike.bmp");//5
+    v.push_back(ID);
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\fire.bmp");//6
+     v.push_back(ID);
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\gold.bmp");//7
+    v.push_back(ID);
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\momy.bmp");//8
+    v.push_back(ID);
+        LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\mask.bmp");//9
     v.push_back(ID);
 }
 int main(int argc, char *argv[])
