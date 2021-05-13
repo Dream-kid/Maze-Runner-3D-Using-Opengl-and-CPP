@@ -30,13 +30,60 @@ float spt_cutoff = 0;
 unsigned int ID;
 float fowd=0;
 float lef=0;
-bool left_turn=0;
-bool right_turn=0;
+bool left_turn=1;
 vector<int>v;
 float check1=-300;
 float check2=-300;
-float check3=195;
-float check4=-10;
+float fire1=0;
+bool fire2=0;
+float a=-15,b=1,c=-155;
+float ok=0;
+int cnt_dwn=0;
+bool mark11=0;
+float add_lef=0;
+float rop_inc=8;
+float rop_inc1=8;
+float rop_inc_bool=0;
+float rop_inc_bool1=0;
+bool bridge_j=0;
+
+float l_val=.1;
+void reset()
+{
+
+ eyeX = -214;
+ eyeY = 5;
+ eyeZ = -518;
+
+ centerX = -288;
+centerY = 0;
+ centerZ = 28;
+
+ stop=1;
+ door_angle=.5;
+ l_height =0;
+ spt_cutoff = 0;
+
+ fowd=0;
+lef=0;
+
+ check1=-300;
+ check2=-300;
+ fire1=0;
+ fire2=0;
+ a=-15,b=1,c=-155;
+ ok=0;
+ cnt_dwn=0;
+ mark11=0;
+ add_lef=0;
+ rop_inc=8;
+ rop_inc1=8;
+ rop_inc_bool=0;
+ rop_inc_bool1=0;
+ bridge_j=0;
+
+ l_val=.1;
+}
 static void getNormal3p(GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GLfloat z2, GLfloat x3, GLfloat y3, GLfloat z3)
 {
     GLfloat Ux, Uy, Uz, Vx, Vy, Vz, Nx, Ny, Nz;
@@ -235,8 +282,10 @@ void axes()
 void flr()
 {
     glEnable(GL_TEXTURE_2D);
-    if(left_turn)glBindTexture(GL_TEXTURE_2D,v[3]);
-    else glBindTexture(GL_TEXTURE_2D,v[10]);
+    if(left_turn)
+        glBindTexture(GL_TEXTURE_2D,v[3]);
+    else
+        glBindTexture(GL_TEXTURE_2D,v[10]);
 
     glPushMatrix();
 
@@ -253,8 +302,10 @@ void flr()
 void wall1()
 {
     glEnable(GL_TEXTURE_2D);
-    if(left_turn)glBindTexture(GL_TEXTURE_2D,v[0]);
-    else glBindTexture(GL_TEXTURE_2D,v[12]);
+    if(left_turn)
+        glBindTexture(GL_TEXTURE_2D,v[0]);
+    else
+        glBindTexture(GL_TEXTURE_2D,v[12]);
 
     glPushMatrix();
 
@@ -270,8 +321,10 @@ void wall1()
 void wall2()
 {
     glEnable(GL_TEXTURE_2D);
-   if(left_turn)glBindTexture(GL_TEXTURE_2D,v[0]);
-    else glBindTexture(GL_TEXTURE_2D,v[12]);
+    if(left_turn)
+        glBindTexture(GL_TEXTURE_2D,v[0]);
+    else
+        glBindTexture(GL_TEXTURE_2D,v[12]);
     glPushMatrix();
 //    glTranslatef(0,-0.5,0);
     glScalef(1,160,160);
@@ -287,8 +340,11 @@ void wall2()
 void headwall()
 {
     glEnable(GL_TEXTURE_2D);
-if(left_turn)glBindTexture(GL_TEXTURE_2D,v[2]);
-    else glBindTexture(GL_TEXTURE_2D,v[11]);    glPushMatrix();
+    if(left_turn)
+        glBindTexture(GL_TEXTURE_2D,v[2]);
+    else
+        glBindTexture(GL_TEXTURE_2D,v[11]);
+    glPushMatrix();
 
 //    glTranslatef(0,-0.5,0);
 
@@ -609,8 +665,7 @@ void bottombutton()
     glPopMatrix();
 }
 
-float fire1=0;
-bool fire2=0;
+
 void walloff()
 {
     glEnable(GL_TEXTURE_2D);
@@ -618,67 +673,46 @@ void walloff()
 
 
     //cout<<spt_cutoff<<endl;
-    if(!left_turn)
-    {
 
-        glPushMatrix();
-        glScalef(20,20,60);
-        // glRotatef(,0,1,0);
-        glTranslatef(11-13.45,0,-0.4+.6);
-        cube(1,1,1,2);
-        glPopMatrix();
+    glPushMatrix();
+    glScalef(20,20,60);
+    // glRotatef(,0,1,0);
+    glTranslatef(11-13.45,0,-0.4+.6);
+    cube(1,1,1,2);
+    glPopMatrix();
 
 
-        glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D,v[4]);
-        //door
-        glPushMatrix();
-        glScalef(20,20,10);
-        glTranslatef(11-13.45+.1+3.7,0,-0.4+.6-.2-1.1);
-        // glRotatef(,0,1,0);
-        cube(1,1,1);
-        glPopMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[4]);
+    //door
+    glPushMatrix();
+    glScalef(20,20,10);
+    glTranslatef(11-13.45+.1+3.7,0,-0.4+.6-.2-1.1);
+    // glRotatef(,0,1,0);
+    cube(1,1,1);
+    glPopMatrix();
 
 
-        //back wall
-        glEnable(GL_TEXTURE_2D);
-      if(left_turn)  glBindTexture(GL_TEXTURE_2D,v[5]);
-   else    glBindTexture(GL_TEXTURE_2D,v[14]);
-
-        glPushMatrix();
-        glScalef(68,20,20);
-        // glRotatef(,0,1,0);
-        glTranslatef(3.11-3.599-.05,0,.9+.05-.9);
-        cube(1,1,1-left_turn,0,1);
-        if(fire1<=15&&!fire2)
-            fire1+=.1;
-        else
-            fire1-=.1,fire2=1;
-        if(fire1<=-15)
-            fire2=0;
-
-        glPopMatrix();
-    }
+    //back wall
+    glEnable(GL_TEXTURE_2D);
+    if(left_turn)
+        glBindTexture(GL_TEXTURE_2D,v[5]);
     else
-    {
+        glBindTexture(GL_TEXTURE_2D,v[14]);
 
-        glPushMatrix();
-        glScalef(40,20,40);
-        // glRotatef(,0,1,0);
-        glTranslatef(3.11-3.599+1+.7,0,.9+.05-2.1-.14-.01);
-        if(check3<=105)
-            cube(0,1,1,2);
-        glPopMatrix();
+    glPushMatrix();
+    glScalef(68,20,20);
+    // glRotatef(,0,1,0);
+    glTranslatef(3.11-3.599-.05,0,.9+.05-.9);
+    cube(1,1,1-left_turn,0,1);
+    if(fire1<=15&&!fire2)
+        fire1+=.1;
+    else
+        fire1-=.1,fire2=1;
+    if(fire1<=-15)
+        fire2=0;
 
-
-        glPushMatrix();
-        glScalef(120,120,120);
-        // glRotatef(,0,1,0);
-        glTranslatef(3.11-3.599-.3+.04,0,.9+.05-.8);
-        cube(0,1,1,2);
-        glPopMatrix();
-
-    }
+    glPopMatrix();
     glDisable(GL_TEXTURE_2D);
 
     //cout<<spt_cutoff<<" "<<l_height<<endl;
@@ -792,10 +826,7 @@ void player()
 
 
 }
-float a=-15,b=1,c=-155;
-float ok=0;
-int cnt_dwn=0;
-bool mark11=0;
+
 void fire()
 {
     glEnable(GL_TEXTURE_2D);
@@ -827,7 +858,7 @@ void fire()
 //cout<<a<<" "<<c<<endl;
     glDisable(GL_TEXTURE_2D);
 }
-float add_lef=0;
+
 void point()
 {
 
@@ -959,10 +990,7 @@ void design()
     }
     glDisable(GL_TEXTURE_2D);
 }
-float rop_inc=8;
-float rop_inc1=8;
-float rop_inc_bool=0;
-float rop_inc_bool1=0;
+
 void rope()
 {
 
@@ -1037,9 +1065,8 @@ void rope()
 //   cout<<add_lef<<endl;
     // cout<<c<<endl;
     // cout<<l_height<<" "<<spt_cutoff<<endl;
-  //  glDisable(GL_TEXTURE_2D);
+    //  glDisable(GL_TEXTURE_2D);
 }
-bool bridge_j=0;
 
 void bridge()
 {
@@ -1120,10 +1147,7 @@ void light()
 
     glRotatef(200, 0,1,0);
 //cout<<add_lef<<" "<<c<<" ->"<<endl;
-    if(!left_turn)
         a+=lef,c+=fowd;
-    else
-        a+=fowd/50,c-=lef/10;
     light1(a,b,c);
     glPopMatrix();
     glTranslatef(a,b+1,c);
@@ -1210,15 +1234,11 @@ static void display(void)
     // glPushMatrix();
     glPushMatrix();
     glTranslatef(check2,0,check1);
-
-    if(!left_turn)
         wall();
     // secondwall();
     glPushMatrix();
-    glTranslatef(check3,0,check4);
-    glRotatef(90,0,2,0);
-    if(left_turn)
-        wall();
+//    glTranslatef(check3,0,check4);
+   // glRotatef(90,0,2,0);
     check1-=.08,check2-=.015;
     //if(!left_turn)
     //   check1-=.08,check2-=.015;
@@ -1239,7 +1259,6 @@ static void display(void)
 
 static void key(unsigned char key, int x, int y);
 
-float l_val=.1;
 
 static void light14(unsigned char light1, int x, int y)
 {
@@ -1453,39 +1472,8 @@ static void key(unsigned char key, int x, int y)
         break;
 
     case 'b':
-        if(!left_turn)
-        {
-            check1=-300;
-            check2=-300;
-            a=37.5;
-            c=5.5;
-            eyeX = -203;
-            eyeY = 5;
-            eyeZ = -343;
-
-            centerX = 780;
-            centerY = 0;
-            centerZ = 28;
-            left_turn=1;
-            right_turn=0;
-
-        }
-        break;
-    case 'n':
-        if(eyeX<=-36&&eyeX>=-60&&!right_turn)
-        {
-            a=-15,b=0,c=-155;
-            eyeX = -214;
-            eyeY = 5;
-            eyeZ = -518;
-
-            centerX = -288;
-            centerY = 0;
-            centerZ = 28;
-            left_turn=0;
-            right_turn=1;
-
-        }
+       reset();
+       left_turn=1-left_turn;
         break;
     case 'm':
         glutKeyboardFunc(spot_light14);
@@ -1526,13 +1514,13 @@ void texture_image()
     v.push_back(ID);
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\grash.bmp");//10
     v.push_back(ID);
-     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\wall2.bmp");//11
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\wall2.bmp");//11
     v.push_back(ID);
-     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\top2.bmp");//12
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\top2.bmp");//12
     v.push_back(ID);
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\backwall.bmp");//13
     v.push_back(ID);
-      LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\laser.bmp");//14
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\laser.bmp");//14
     v.push_back(ID);
 }
 int main(int argc, char *argv[])
