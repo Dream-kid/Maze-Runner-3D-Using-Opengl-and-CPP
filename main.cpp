@@ -9,7 +9,7 @@
 using namespace std;
 const int width = 700;
 const int height = 700;
-
+float flw=0;
 GLfloat eyeX = -214;
 GLfloat eyeY = 5;
 GLfloat eyeZ = -518;
@@ -23,7 +23,7 @@ bool l_on2 = true;
 bool l_on3 = true;
 bool l_on4 = false;
 float rot = -12;
-int stop=1;
+float stop=0;
 float door_angle=.5;
 float l_height =0;
 float spt_cutoff = 0;
@@ -48,43 +48,43 @@ float rop_inc_bool1=0;
 bool bridge_j=0;
 bool arr[10];
 float l_val=.1;
- int bridge_val=0;
+int bridge_val=0;
 void reset()
 {
-memset(arr,0,sizeof(arr));
- bridge_val=0;
- eyeX = -214;
- eyeY = 5;
- eyeZ = -518;
+    memset(arr,0,sizeof(arr));
+    bridge_val=0;
+    eyeX = -214;
+    eyeY = 5;
+    eyeZ = -518;
 
- centerX = -288;
-centerY = 0;
- centerZ = 28;
+    centerX = -288;
+    centerY = 0;
+    centerZ = 28;
 
- stop=1;
- door_angle=.5;
- l_height =0;
- spt_cutoff = 0;
+    stop=1;
+    door_angle=.5;
+    l_height =0;
+    spt_cutoff = 0;
 
- fowd=0;
-lef=0;
+    fowd=0;
+    lef=0;
 
- check1=-300;
- check2=-300;
- fire1=0;
- fire2=0;
- a=-15,b=1,c=-155;
- ok=0;
- cnt_dwn=0;
- mark11=0;
- add_lef=0;
- rop_inc=8;
- rop_inc1=8;
- rop_inc_bool=0;
- rop_inc_bool1=0;
- bridge_j=0;
+    check1=-300;
+    check2=-300;
+    fire1=0;
+    fire2=0;
+    a=-15,b=1,c=-155;
+    ok=0;
+    cnt_dwn=0;
+    mark11=0;
+    add_lef=0;
+    rop_inc=8;
+    rop_inc1=8;
+    rop_inc_bool=0;
+    rop_inc_bool1=0;
+    bridge_j=0;
 
- l_val=.1;
+    l_val=.1;
 }
 static void getNormal3p(GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GLfloat z2, GLfloat x3, GLfloat y3, GLfloat z3)
 {
@@ -368,9 +368,9 @@ void light1(float a,float b,float c)
 
     //light
     GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {0.8+al1, 0.8+al1, 0.8+al1, 1.0};
-    GLfloat l_dif[] = {.8+dl1,.8+dl1,.8+dl1,1};
-    GLfloat l_spec[] = {.8+sl1,.8+sl1,.8+sl1,1};
+    GLfloat l_amb[] = {0.3+al1, 0.3+al1, .3+al1, 1.0};
+    GLfloat l_dif[] =  {0.3+al1, 0.3+al1, .3+al1, 1.0};
+    GLfloat l_spec[] = {0.3+al1, 0.3+al1, .3+al1, 1.0};
     GLfloat l_pos[] = {a,b,c,1.0};
 
     if(l_on1)
@@ -730,37 +730,7 @@ void wall()
     walloff();
 }
 
-void spot_light(float a,float b,float c)
-{
-    //light
-    glEnable(GL_LIGHT1);
 
-    GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {1+al3, 0+al3, 0+al3, 1.0};
-    GLfloat l_dif[] = {1+dl3,1+dl3,1+dl3,1};
-    GLfloat l_spec[] = {1+sl3,1+sl3,1+sl3,1};
-    GLfloat l_pos[] = {a,b,c,1.0};
-
-    if(l_on2)
-        glLightfv(GL_LIGHT1, GL_AMBIENT, l_amb);
-    else
-        glLightfv(GL_LIGHT1, GL_AMBIENT, l_no);
-    if(l_on2)
-        glLightfv(GL_LIGHT1, GL_DIFFUSE, l_dif);
-    else
-        glLightfv(GL_LIGHT1, GL_DIFFUSE, l_no);
-    if(l_on2)
-        glLightfv(GL_LIGHT1, GL_SPECULAR, l_spec);
-    else
-        glLightfv(GL_LIGHT1, GL_SPECULAR, l_no);
-
-    glLightfv(GL_LIGHT1, GL_POSITION, l_pos);
-    GLfloat l_spt[] = {0,-1,0,1};
-    GLfloat spt_ct[] = {30};
-    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, l_spt);
-    glLightfv(GL_LIGHT1, GL_SPOT_CUTOFF, spt_ct);
-
-}
 float window_val=1;
 void window_light(float a,float b,float c)
 {
@@ -874,8 +844,8 @@ void point()
     if(c<=-129&&c>=-131&&add_lef<=-2)
     {
         if(!arr[0])
-        score++,arr[0]=1;
-       // cout<<"point"<<endl;
+            score++,arr[0]=1;
+        // cout<<"point"<<endl;
     }
     //cout<<add_lef<<" "<<c<<endl;
 //cout<<spt_cutoff<<" "<<l_height<<endl;
@@ -894,15 +864,15 @@ void point()
     cube(1,1,1);
     if(c<=-84&&c>=-87&&add_lef>=2)
     {
-       if(!arr[1])
-        score++,arr[1]=1;
-       // cout<<"point1"<<endl;
+        if(!arr[1])
+            score++,arr[1]=1;
+        // cout<<"point1"<<endl;
     }
     if(c<=-78&&c>=-81&&add_lef>=2)
     {
-       if(!arr[2])
-        score++,arr[2]=1;
-       // cout<<"point2"<<endl;
+        if(!arr[2])
+            score++,arr[2]=1;
+        // cout<<"point2"<<endl;
     }
     //cout<<add_lef<<" "<<c<<endl;
 //cout<<spt_cutoff<<" "<<l_height<<endl;
@@ -921,9 +891,9 @@ void point1()
     cube(1,1,1);
     if(c<=-129&&c>=-131&&add_lef>=1)
     {
-      //  cout<<"point"<<endl;
-      if(!arr[3])
-        score++,arr[3]=1;
+        //  cout<<"point"<<endl;
+        if(!arr[3])
+            score++,arr[3]=1;
     }
 
     glPopMatrix();
@@ -936,8 +906,8 @@ void point1()
     if(c<=-104&&c>=-106&&add_lef<=-3)
     {
         if(!arr[4])
-        score++,arr[4]=1;
-       // cout<<"point23"<<endl;
+            score++,arr[4]=1;
+        // cout<<"point23"<<endl;
     }
 
     glPopMatrix();
@@ -962,14 +932,14 @@ void point1()
 
     if(c>=-81&&c<=-78&&add_lef>=0)
     {
-       if(!arr[5])
-        score++,arr[5]=1;
-     //   cout<<"point2"<<endl;
+        if(!arr[5])
+            score++,arr[5]=1;
+        //   cout<<"point2"<<endl;
     }
     if(c>=-71&&c<=-68&&add_lef>=0)
     {
-      if(!arr[6])
-        score++,arr[6]=1;
+        if(!arr[6])
+            score++,arr[6]=1;
         //cout<<"point3"<<endl;
     }
     //cout
@@ -982,23 +952,33 @@ void design()
     {
         glPushMatrix();
         glTranslatef(27,4,-155+25+i);
-        glRotatef(-25,0,1,0);
-        glScalef(4,8,4);
+        //glRotatef(-29.9,0,1,0);
+        glScalef(1,8,4);
         cube(1,1,1);
         //cout<<add_lef<<" "<<c<<endl;
 //cout<<spt_cutoff<<" "<<l_height<<endl;
         glPopMatrix();
     }
-    glDisable(GL_TEXTURE_2D);
-
-    glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[8]);
     for(int i=0; i<=115; i+=25)
     {
         glPushMatrix();
-        glTranslatef(-27,0,-155+25+i);
-        glRotatef(-25,0,1,0);
+        glTranslatef(-30,0,-155+25+i);
+        //glRotatef(-25,0,1,0);
         glScalef(4,15,4);
+        cube(1,1,1);
+        //cout<<add_lef<<" "<<c<<endl;
+//cout<<spt_cutoff<<" "<<l_height<<endl;
+        glPopMatrix();
+    }
+
+    glBindTexture(GL_TEXTURE_2D,v[14]);
+      for(int i=0; i<=115; i+=25)
+    {
+        glPushMatrix();
+        glTranslatef(-30,0,-155+25+i-.1);
+        //glRotatef(-25,0,1,0);
+        glScalef(4,15,.1);
         cube(1,1,1);
         //cout<<add_lef<<" "<<c<<endl;
 //cout<<spt_cutoff<<" "<<l_height<<endl;
@@ -1120,17 +1100,124 @@ void bridge()
     {
         bridge_j=0;
         eyeY = 5;
-         bridge_val=0;
+        bridge_val=0;
     }
-  //  cout<<l_height<<" "<<spt_cutoff<<endl;
+    //  cout<<l_height<<" "<<spt_cutoff<<endl;
     glDisable(GL_TEXTURE_2D);
 }
+void spot_light1(float a,float b,float c)
+{
+    //light
+    glEnable(GL_LIGHT1);
+
+    GLfloat l_no[] = {0, 0, 0, 1.0};
+    GLfloat l_amb[] = {1+al3, 1+al3, 1+al3, 1.0};
+    GLfloat l_dif[] = {1+dl3,1+dl3,1+dl3,1};
+    GLfloat l_spec[] = {1+sl3,1+sl3,1+sl3,1};
+    GLfloat l_pos[] = {a,b,c,1.0};
+
+    if(l_on2)
+        glLightfv(GL_LIGHT1, GL_AMBIENT, l_amb);
+    else
+        glLightfv(GL_LIGHT1, GL_AMBIENT, l_no);
+    if(l_on2)
+        glLightfv(GL_LIGHT1, GL_DIFFUSE, l_dif);
+    else
+        glLightfv(GL_LIGHT1, GL_DIFFUSE, l_no);
+    if(l_on2)
+        glLightfv(GL_LIGHT1, GL_SPECULAR, l_spec);
+    else
+        glLightfv(GL_LIGHT1, GL_SPECULAR, l_no);
+
+    glLightfv(GL_LIGHT1, GL_POSITION, l_pos);
+    GLfloat l_spt[] = {0,-1,0,1};
+    GLfloat spt_ct[] = {30};
+    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, l_spt);
+    glLightfv(GL_LIGHT1, GL_SPOT_CUTOFF, spt_ct);
+
+}
+void spot_light2(float a,float b,float c)
+{
+    //light
+    glEnable(GL_LIGHT2);
+
+    GLfloat l_no[] = {0, 0, 0, 1.0};
+    GLfloat l_amb[] = {1+al3, 1+al3, 1+al3, 1.0};
+    GLfloat l_dif[] = {dl3,dl3,dl3,1};
+    GLfloat l_spec[] = {sl3,sl3,sl3,1};
+    GLfloat l_pos[] = {a,b,c,1.0};
+
+    if(l_on3)
+        glLightfv(GL_LIGHT2, GL_AMBIENT, l_amb);
+    else
+        glLightfv(GL_LIGHT2, GL_AMBIENT, l_no);
+    if(l_on3)
+        glLightfv(GL_LIGHT2, GL_DIFFUSE, l_dif);
+    else
+        glLightfv(GL_LIGHT2, GL_DIFFUSE, l_no);
+    if(l_on3)
+        glLightfv(GL_LIGHT2, GL_SPECULAR, l_spec);
+    else
+        glLightfv(GL_LIGHT2, GL_SPECULAR, l_no);
+
+    glLightfv(GL_LIGHT2, GL_POSITION, l_pos);
+    GLfloat l_spt[] = {0,-1,0,1};
+    GLfloat spt_ct[] = {30};
+    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, l_spt);
+    glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, spt_ct);
+
+}
+void moshal()
+{
+glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[15]);
+    for(int i=0; i<=95; i+=15){
+    glPushMatrix();
+    glTranslatef(28.9,5,-155+30+i+5);
+    //glRotatef(-25,0,1,0);
+    glScalef(1,6,2);
+    cube(1,1,1);
+    glPopMatrix();
+    }
+
+     for(int i=0; i<=115; i+=25){
+    glPushMatrix();
+    glTranslatef(-29.9,5,-155+30+i+5);
+    //glRotatef(-25,0,1,0);
+    glScalef(1,6,2);
+    cube(1,1,1);
+    glPopMatrix();
+    }
+
+
+glBindTexture(GL_TEXTURE_2D,v[16]);
+//rocks
+     for(int i=-20; i<=100; i+=15){
+    glPushMatrix();
+    glTranslatef(15.9,-1,-155+30+i+6+6);
+    //glRotatef(-45,0,1,0);
+    glScalef(15,3,3);
+    cube(1,1,1);
+    glPopMatrix();
+    }
+
+    glDisable(GL_TEXTURE_2D);
+
+
+}
+int control;
 void light()
 {
 
 //light 1
 //fire1
 //
+
+
+       // l_on1=1-l_on1;
+      //  l_on2=1-l_on2;
+     //   l_on1=1-l_on1;
+
     if(mark11)
         cnt_dwn++;
     if(cnt_dwn>=95||!mark11)
@@ -1144,6 +1231,7 @@ void light()
         fire();
         point();
         design();
+        moshal();
     }
     else
     {
@@ -1153,20 +1241,55 @@ void light()
     }
     glPushMatrix();
 
+
     glTranslatef(a+add_lef,b,c);
+    glPushMatrix();
     glRotatef(ok,0,1,0);
     if(ok>=360)
         ok=0;
     ok++;
     player();
+   // cout<<spt_cutoff<<" "<<l_height<<" "<<stop<<" "<<flw<<endl;
+
     glPopMatrix();
+
+    glPopMatrix();
+
+    //spot light
+
+    glPushMatrix();
+     glTranslatef(a+add_lef,18,c+39+13);
+     int a1=15,b1=30,c1=-15;
+     glRotatef(spt_cutoff-39,0,1,0);
+     spot_light1(a1+l_height-157+31,b+1+stop+263,c1+flw-131);
+       glPopMatrix();
+
+    glPushMatrix();
+     glTranslatef(a+add_lef,18,c+39+13);
+    a1=15,b1=30,c1=-15;
+     glRotatef(spt_cutoff-39+37,0,1,0);
+       spot_light2(a1+l_height-165-157+31,b+1+stop+263+1,c1+flw-131);
+       glPopMatrix();
+
+
+
+
+
+
+
+
+
+
+
+
+
     glPushMatrix();
     glPushMatrix();
 
     glRotatef(200, 0,1,0);
 //cout<<add_lef<<" "<<c<<" ->"<<endl;
-        a+=lef,c+=fowd;
-    light1(a,b,c);
+  a+=lef,c+=fowd;
+   light1(a,b,c);
     glPopMatrix();
     glTranslatef(a,b+1,c);
 
@@ -1249,19 +1372,12 @@ static void display(void)
 
     glRotatef(rot, 0,1,0);
 
-    // glPushMatrix();
     glPushMatrix();
     glTranslatef(check2,0,check1);
-        wall();
-    // secondwall();
+    wall();
     glPushMatrix();
-//    glTranslatef(check3,0,check4);
-   // glRotatef(90,0,2,0);
-    check1-=.08,check2-=.015;
-    //if(!left_turn)
-    //   check1-=.08,check2-=.015;
-    // else
-    //    check3-=.08,check4+=.015;
+check1-=.08,check2-=.015;
+
     glPopMatrix();
     light();
 
@@ -1273,15 +1389,15 @@ static void display(void)
     string str,str1;
     okk>>str;
     okk.clear();
-glLineWidth(2);
+    glLineWidth(2);
     str1="       Score:["+str+"]";
-string str2="Life:[@@@]";
-  //  cout<<arr11<<endl;
-str1=str2+str1;
+    string str2="Life:[@@@]";
+    //  cout<<arr11<<endl;
+    str1=str2+str1;
 
 
     //drawStrokeText("Score ",0,0,0);
-   // drawStrokeText(arr12,0,0,4);
+    // drawStrokeText(arr12,0,0,4);
     drawStrokeText(str1,0,0,0);
     // if(check3<=50)check3=50,check4-=.015;
 
@@ -1480,6 +1596,18 @@ static void key(unsigned char key, int x, int y)
     case '4':
         spt_cutoff-=1;
         break;
+         case '5':
+        flw+=1;
+        break;
+         case '6':
+        flw-=1;
+        break;
+         case '7':
+        stop+=1;
+        break;
+         case '8':
+        stop-=1;
+        break;
 
     case 'u':
         if(cnt_dwn==0)
@@ -1504,8 +1632,8 @@ static void key(unsigned char key, int x, int y)
         break;
 
     case 'b':
-       reset();
-       left_turn=1-left_turn;
+        reset();
+        left_turn=1-left_turn;
         break;
     case 'm':
         glutKeyboardFunc(spot_light14);
@@ -1553,6 +1681,10 @@ void texture_image()
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\backwall.bmp");//13
     v.push_back(ID);
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\laser.bmp");//14
+    v.push_back(ID);
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\flame.bmp");//15
+    v.push_back(ID);
+     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\rock.bmp");//16
     v.push_back(ID);
 }
 int main(int argc, char *argv[])
