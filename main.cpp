@@ -13,7 +13,7 @@ const int height = 700;
 GLfloat eyeX = -214;
 GLfloat eyeY = 5;
 GLfloat eyeZ = -518;
-
+int score=0;
 GLfloat centerX = -288;
 GLfloat centerY = 0;
 GLfloat centerZ = 28;
@@ -46,11 +46,13 @@ float rop_inc1=8;
 float rop_inc_bool=0;
 float rop_inc_bool1=0;
 bool bridge_j=0;
-
+bool arr[10];
 float l_val=.1;
+ int bridge_val=0;
 void reset()
 {
-
+memset(arr,0,sizeof(arr));
+ bridge_val=0;
  eyeX = -214;
  eyeY = 5;
  eyeZ = -518;
@@ -871,7 +873,9 @@ void point()
     cube(1,1,1);
     if(c<=-129&&c>=-131&&add_lef<=-2)
     {
-        cout<<"point"<<endl;
+        if(!arr[0])
+        score++,arr[0]=1;
+       // cout<<"point"<<endl;
     }
     //cout<<add_lef<<" "<<c<<endl;
 //cout<<spt_cutoff<<" "<<l_height<<endl;
@@ -890,11 +894,15 @@ void point()
     cube(1,1,1);
     if(c<=-84&&c>=-87&&add_lef>=2)
     {
-        cout<<"point1"<<endl;
+       if(!arr[1])
+        score++,arr[1]=1;
+       // cout<<"point1"<<endl;
     }
     if(c<=-78&&c>=-81&&add_lef>=2)
     {
-        cout<<"point2"<<endl;
+       if(!arr[2])
+        score++,arr[2]=1;
+       // cout<<"point2"<<endl;
     }
     //cout<<add_lef<<" "<<c<<endl;
 //cout<<spt_cutoff<<" "<<l_height<<endl;
@@ -913,7 +921,9 @@ void point1()
     cube(1,1,1);
     if(c<=-129&&c>=-131&&add_lef>=1)
     {
-        cout<<"point"<<endl;
+      //  cout<<"point"<<endl;
+      if(!arr[3])
+        score++,arr[3]=1;
     }
 
     glPopMatrix();
@@ -925,7 +935,9 @@ void point1()
     cube(1,1,1);
     if(c<=-104&&c>=-106&&add_lef<=-3)
     {
-        cout<<"point23"<<endl;
+        if(!arr[4])
+        score++,arr[4]=1;
+       // cout<<"point23"<<endl;
     }
 
     glPopMatrix();
@@ -950,11 +962,15 @@ void point1()
 
     if(c>=-81&&c<=-78&&add_lef>=0)
     {
-        cout<<"point2"<<endl;
+       if(!arr[5])
+        score++,arr[5]=1;
+     //   cout<<"point2"<<endl;
     }
     if(c>=-71&&c<=-68&&add_lef>=0)
     {
-        cout<<"point3"<<endl;
+      if(!arr[6])
+        score++,arr[6]=1;
+        //cout<<"point3"<<endl;
     }
     //cout
 }
@@ -1079,7 +1095,7 @@ void bridge()
     glPopMatrix();
     glBindTexture(GL_TEXTURE_2D,v[6]);
     glPushMatrix();
-    glTranslatef(-32+l_height-1,-1.5,-155+45+spt_cutoff+16);
+    glTranslatef(-32+-1,-1.5,-155+45+16);
     glScalef(80,2,45);
     cube(1,1,1,0,3);
     glPopMatrix();
@@ -1096,6 +1112,7 @@ void bridge()
         {
             cout<<"game over bridge"<<endl;
         }
+        bridge_val=3;
 
         //cout<<"bridge"<<endl;
     }
@@ -1103,8 +1120,9 @@ void bridge()
     {
         bridge_j=0;
         eyeY = 5;
+         bridge_val=0;
     }
-    cout<<l_height<<" "<<spt_cutoff<<endl;
+  //  cout<<l_height<<" "<<spt_cutoff<<endl;
     glDisable(GL_TEXTURE_2D);
 }
 void light()
@@ -1198,26 +1216,26 @@ void light()
     //  cout<<window_val<<endl;
     // cout<<l_height<<" "<<spt_cutoff<<endl;
 }
-void drawStrokeText(char* str,int x,int y,int z)
+void drawStrokeText(string str,int x,int y,int z)
 {
-    char *c;
+    //char *c;
     glPushMatrix();
 
 
-    glTranslatef(-300,0,-300);
-    glTranslatef(-15+4-2, 2+13,-155);
+    glTranslatef(-300+4,0,-300);
+    glTranslatef(-15+4-2-4, 2+13+bridge_val,-155);
     glRotatef(184,0,1,0);
-    cube(1,1,1,0,1,1);
+    cube(1,0,0,0,1,1);
     glScalef(.004f,.004f,10);
 
-    for (c=str; *c != '\0'; c++)
+    for (int c=0; c != str.size(); c++)
     {
-        glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, *c);
+        glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, str[c]);
     }
     glPopMatrix();
     //cout<<spt_cutoff<<" "<<l_height<<endl;
 }
-
+char arr11[100];
 static void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -1250,7 +1268,21 @@ static void display(void)
     glPopMatrix();
     glPopMatrix();
     glLineWidth(1);
-    drawStrokeText("UP: W, DOWN: S, LEFT: A, RIGHT: D, MAIN MENU: M",0,0,0);
+    stringstream okk;
+    okk<<score;
+    string str,str1;
+    okk>>str;
+    okk.clear();
+glLineWidth(2);
+    str1="       Score:["+str+"]";
+string str2="Life:[@@@]";
+  //  cout<<arr11<<endl;
+str1=str2+str1;
+
+
+    //drawStrokeText("Score ",0,0,0);
+   // drawStrokeText(arr12,0,0,4);
+    drawStrokeText(str1,0,0,0);
     // if(check3<=50)check3=50,check4-=.015;
 
     //cout<<check3<<endl;
@@ -1527,10 +1559,10 @@ int main(int argc, char *argv[])
 {
     glutInit(&argc, argv);
     glutInitWindowSize(width,height);
-    glutInitWindowPosition(50,50);
+    glutInitWindowPosition(550,50);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
-    glutCreateWindow("3D Class Room");
+    glutCreateWindow("Maze Runner 3D");
     glutReshapeFunc(res);
     glutDisplayFunc(display);
     glutKeyboardFunc(key);
