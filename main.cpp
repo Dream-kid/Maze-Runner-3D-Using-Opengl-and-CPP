@@ -49,6 +49,7 @@ bool bridge_j=0;
 bool arr[10];
 float l_val=.1;
 int bridge_val=0;
+bool is_start=1;
 void reset()
 {
     memset(arr,0,sizeof(arr));
@@ -138,7 +139,7 @@ void cube(float R=0.5, float G=0.5, float B=0.5, int type=0, float val=1,bool pl
     GLfloat m_spec[] = {1,1,1,1};
     GLfloat m_sh[] = {30};
 
-    GLfloat m_em[] = {1,1,1,1};
+    GLfloat m_em[] = {1,0,0,1};
 
     glMaterialfv(GL_FRONT, GL_AMBIENT, m_amb);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, m_diff);
@@ -147,10 +148,10 @@ void cube(float R=0.5, float G=0.5, float B=0.5, int type=0, float val=1,bool pl
     if(type==1)
     {
 
-        if(l_on1)
-            glMaterialfv(GL_FRONT, GL_EMISSION, m_em);
-        else
-            glMaterialfv(GL_FRONT, GL_EMISSION, m_no);
+        // if(l_on1)
+        glMaterialfv(GL_FRONT, GL_EMISSION, m_em);
+        //  else
+        //     glMaterialfv(GL_FRONT, GL_EMISSION, m_no);
 
     }
     else if(type==2)
@@ -764,9 +765,115 @@ void window_light(float a,float b,float c)
 
 }
 
+
+
+int life=3;
+bool over=0;
+
+void game_over()
+{
+    life--;
+    if(life==0)
+    {
+        over=1;
+    }
+    reset();
+}
+void spot_light4(float a,float b,float c)
+{
+    //light
+    glEnable(GL_LIGHT5);
+
+    GLfloat l_no[] = {0, 0, 0, 1.0};
+    GLfloat l_amb[] = {1+al3, 1+al3, 1+al3, 1.0};
+    GLfloat l_dif[] = {1+dl3,1+dl3,1+dl3,1};
+    GLfloat l_spec[] = {1+sl3,1+sl3,1+sl3,1};
+    GLfloat l_pos[] = {a,b,c,1.0};
+
+    if(l_on4)
+        glLightfv(GL_LIGHT5, GL_AMBIENT, l_amb);
+    else
+        glLightfv(GL_LIGHT5, GL_AMBIENT, l_no);
+    if(l_on4)
+        glLightfv(GL_LIGHT5, GL_DIFFUSE, l_dif);
+    else
+        glLightfv(GL_LIGHT5, GL_DIFFUSE, l_no);
+    if(l_on4)
+        glLightfv(GL_LIGHT5, GL_SPECULAR, l_spec);
+    else
+        glLightfv(GL_LIGHT5, GL_SPECULAR, l_no);
+
+    glLightfv(GL_LIGHT5, GL_POSITION, l_pos);
+    GLfloat l_spt[] = {0,-1,0,1};
+    GLfloat spt_ct[] = {30};
+    glLightfv(GL_LIGHT5, GL_SPOT_DIRECTION, l_spt);
+    glLightfv(GL_LIGHT5, GL_SPOT_CUTOFF, spt_ct);
+
+}
+
+
+void spot_light3(float a,float b,float c)
+{
+    //light
+    glEnable(GL_LIGHT4);
+
+    GLfloat l_no[] = {0, 0, 0, 1.0};
+    GLfloat l_amb[] = {1+al3, 1+al3, 1+al3, 1.0};
+    GLfloat l_dif[] = {1+dl3,1+dl3,1+dl3,1};
+    GLfloat l_spec[] = {1+sl3,1+sl3,1+sl3,1};
+    GLfloat l_pos[] = {a,b,c,1.0};
+
+    if(l_on3)
+        glLightfv(GL_LIGHT4, GL_AMBIENT, l_amb);
+    else
+        glLightfv(GL_LIGHT4, GL_AMBIENT, l_no);
+    if(l_on3)
+        glLightfv(GL_LIGHT4, GL_DIFFUSE, l_dif);
+    else
+        glLightfv(GL_LIGHT4, GL_DIFFUSE, l_no);
+    if(l_on3)
+        glLightfv(GL_LIGHT4, GL_SPECULAR, l_spec);
+    else
+        glLightfv(GL_LIGHT4, GL_SPECULAR, l_no);
+
+    glLightfv(GL_LIGHT4, GL_POSITION, l_pos);
+    GLfloat l_spt[] = {0,-1,0,1};
+    GLfloat spt_ct[] = {30};
+    glLightfv(GL_LIGHT4, GL_SPOT_DIRECTION, l_spt);
+    glLightfv(GL_LIGHT4, GL_SPOT_CUTOFF, spt_ct);
+
+}
+
+int timer;
+int a1=1,b1=0,c1=0;
+void swoard()
+{
+    timer++;
+
+    glPushMatrix();
+    glTranslatef(0-1,.78-1.7,.74-.6);
+    glScalef(.1,4,.1);
+
+    if(timer%50==0)
+    {
+        a1 = rand() % 2;
+        b1 = rand() % 2;
+        c1 = rand() % 2;
+    }
+    cube(a1,b1,c1);
+
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(0-1+1.9,.78-1.7,.74-.6);
+    glScalef(.1,4,.1);
+    cube(c1,a1,b1);
+
+    glPopMatrix();
+    // cout<<flw<<" "<<spt_cutoff<<" "<<stop<<" "<<l_height<<endl;
+}
 void player()
 {
-
+    swoard();
     eyeright();
     eyeleft();
     eyebrowleft();
@@ -820,12 +927,12 @@ void fire()
 
     if(c>=-109&&c<=-108.5&&b==1)
     {
-        cout<<"game over"<<endl;
+        game_over();
     }
 
     if(c>=-69&&c<=-68.5&&b==1)
     {
-        cout<<"game over1"<<endl;
+        game_over();
     }
 //cout<<a<<" "<<c<<endl;
     glDisable(GL_TEXTURE_2D);
@@ -973,7 +1080,7 @@ void design()
     }
 
     glBindTexture(GL_TEXTURE_2D,v[14]);
-      for(int i=0; i<=115; i+=25)
+    for(int i=0; i<=115; i+=25)
     {
         glPushMatrix();
         glTranslatef(-30,0,-155+25+i-.1);
@@ -1018,7 +1125,7 @@ void rope()
     {
         if(add_lef>-.8)
         {
-            cout<<"game over"<<endl;
+            game_over();
         }
     }
     glPopMatrix();
@@ -1054,7 +1161,7 @@ void rope()
     {
         if(add_lef<1)
         {
-            cout<<"game over1"<<endl;
+            game_over();
         }
     }
     glPopMatrix();
@@ -1090,7 +1197,7 @@ void bridge()
         }
         else
         {
-            cout<<"game over bridge"<<endl;
+            game_over();
         }
         bridge_val=3;
 
@@ -1169,36 +1276,39 @@ void spot_light2(float a,float b,float c)
 }
 void moshal()
 {
-glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[15]);
-    for(int i=0; i<=95; i+=15){
-    glPushMatrix();
-    glTranslatef(28.9,5,-155+30+i+5);
-    //glRotatef(-25,0,1,0);
-    glScalef(1,6,2);
-    cube(1,1,1);
-    glPopMatrix();
+    for(int i=0; i<=95; i+=15)
+    {
+        glPushMatrix();
+        glTranslatef(28.9,5,-155+30+i+5);
+        //glRotatef(-25,0,1,0);
+        glScalef(1,6,2);
+        cube(1,1,1);
+        glPopMatrix();
     }
 
-     for(int i=0; i<=115; i+=25){
-    glPushMatrix();
-    glTranslatef(-29.9,5,-155+30+i+5);
-    //glRotatef(-25,0,1,0);
-    glScalef(1,6,2);
-    cube(1,1,1);
-    glPopMatrix();
+    for(int i=0; i<=115; i+=25)
+    {
+        glPushMatrix();
+        glTranslatef(-29.9,5,-155+30+i+5);
+        //glRotatef(-25,0,1,0);
+        glScalef(1,6,2);
+        cube(1,1,1);
+        glPopMatrix();
     }
 
 
-glBindTexture(GL_TEXTURE_2D,v[16]);
+    glBindTexture(GL_TEXTURE_2D,v[16]);
 //rocks
-     for(int i=-20; i<=100; i+=15){
-    glPushMatrix();
-    glTranslatef(15.9,-1,-155+30+i+6+6);
-    //glRotatef(-45,0,1,0);
-    glScalef(15,3,3);
-    cube(1,1,1);
-    glPopMatrix();
+    for(int i=-20; i<=100; i+=15)
+    {
+        glPushMatrix();
+        glTranslatef(15.9,-1,-155+30+i+6+6);
+        //glRotatef(-45,0,1,0);
+        glScalef(15,3,3);
+        cube(1,1,1);
+        glPopMatrix();
     }
 
     glDisable(GL_TEXTURE_2D);
@@ -1212,32 +1322,39 @@ void light()
 //light 1
 //fire1
 //
+    if(over)
+        is_start=1;
 
+    // l_on1=1-l_on1;
+    //  l_on2=1-l_on2;
+    //   l_on1=1-l_on1;
+    if(!over)
+    {
+        if(!is_start)
+        {
 
-       // l_on1=1-l_on1;
-      //  l_on2=1-l_on2;
-     //   l_on1=1-l_on1;
-
-    if(mark11)
-        cnt_dwn++;
-    if(cnt_dwn>=95||!mark11)
-    {
-        mark11=0;
-        b=1;
-        cnt_dwn=0;
-    }
-    if(left_turn)
-    {
-        fire();
-        point();
-        design();
-        moshal();
-    }
-    else
-    {
-        rope();
-        bridge();
-        point1();
+            if(mark11)
+                cnt_dwn++;
+            if(cnt_dwn>=95||!mark11)
+            {
+                mark11=0;
+                b=1;
+                cnt_dwn=0;
+            }
+            if(left_turn)
+            {
+                fire();
+                point();
+                design();
+                moshal();
+            }
+            else
+            {
+                rope();
+                bridge();
+                point1();
+            }
+        }
     }
     glPushMatrix();
 
@@ -1249,7 +1366,7 @@ void light()
         ok=0;
     ok++;
     player();
-   // cout<<spt_cutoff<<" "<<l_height<<" "<<stop<<" "<<flw<<endl;
+    // cout<<spt_cutoff<<" "<<l_height<<" "<<stop<<" "<<flw<<endl;
 
     glPopMatrix();
 
@@ -1258,38 +1375,36 @@ void light()
     //spot light
 
     glPushMatrix();
-     glTranslatef(a+add_lef,18,c+39+13);
-     int a1=15,b1=30,c1=-15;
-     glRotatef(spt_cutoff-39,0,1,0);
-     spot_light1(a1+l_height-157+31,b+1+stop+263,c1+flw-131);
-       glPopMatrix();
+    glTranslatef(a+add_lef,18,c+39+13);
+    int a1=15,b1=30,c1=-15;
+    glRotatef(spt_cutoff-39,0,1,0);
+    spot_light1(a1+l_height-157+31,b+1+stop+263,c1+flw-131);
+    glPopMatrix();
 
     glPushMatrix();
-     glTranslatef(a+add_lef,18,c+39+13);
+    glTranslatef(a+add_lef,18,c+39+13);
     a1=15,b1=30,c1=-15;
-     glRotatef(spt_cutoff-39+37,0,1,0);
-       spot_light2(a1+l_height-165-157+31,b+1+stop+263+1,c1+flw-131);
-       glPopMatrix();
+    glRotatef(spt_cutoff-39+37,0,1,0);
+    //spot_light2(a1+l_height-165-157+31,b+1+stop+263+1,c1+flw-131);
+    glPopMatrix();
 
-
-
-
-
-
-
-
-
-
-
-
+    glPushMatrix();
+    glTranslatef(a+add_lef,18,c+39+13);
+    a1=15,b1=30,c1=-15;
+    glRotatef(spt_cutoff+2-39,0,1,0);
+    spot_light3(a1+l_height-157+31-40,5+b+1+stop+263,c1+flw-131);
+    //   spot_light4(a1+l_height-157+31-40,5+b+1+stop+263,c1+flw-131);
+    glPopMatrix();
+//cout<<spt_cutoff<<" "<<l_height<<" "<<stop<<" "<<flw<<endl;
 
     glPushMatrix();
     glPushMatrix();
 
     glRotatef(200, 0,1,0);
 //cout<<add_lef<<" "<<c<<" ->"<<endl;
-  a+=lef,c+=fowd;
-   light1(a,b,c);
+    if(!is_start)
+        a+=lef,c+=fowd;
+    light1(a1,b1,c1);
     glPopMatrix();
     glTranslatef(a,b+1,c);
 
@@ -1339,17 +1454,17 @@ void light()
     //  cout<<window_val<<endl;
     // cout<<l_height<<" "<<spt_cutoff<<endl;
 }
-void drawStrokeText(string str,int x,int y,int z)
+void drawStrokeText(string str,int x,int y,int z,float val=1.15,int col=0)
 {
     //char *c;
     glPushMatrix();
-
+    glLineWidth(2);
 
     glTranslatef(-300+4,0,-300);
-    glTranslatef(-15+4-2-4, 2+13+bridge_val,-155);
+    glTranslatef(-15+4-2-4+y, 2+13+bridge_val+z,-155);
     glRotatef(184,0,1,0);
-    cube(1,0,0,0,1,1);
-    glScalef(.004f,.004f,10);
+    cube(1,col,0,0,1,1);
+    glScalef(.004f*val,.004f*val,10);
 
     for (int c=0; c != str.size(); c++)
     {
@@ -1376,7 +1491,8 @@ static void display(void)
     glTranslatef(check2,0,check1);
     wall();
     glPushMatrix();
-check1-=.08,check2-=.015;
+    if(!is_start)
+        check1-=.08,check2-=.015;
 
     glPopMatrix();
     light();
@@ -1389,16 +1505,40 @@ check1-=.08,check2-=.015;
     string str,str1;
     okk>>str;
     okk.clear();
-    glLineWidth(2);
+    string str3="";
+    for(int i=0; i<life; i++)
+    {
+        str3+='@';
+    }
+    glEnable(GL_LINE_SMOOTH);
     str1="       Score:["+str+"]";
-    string str2="Life:[@@@]";
+    string str2="Life:["+str3+"]";
     //  cout<<arr11<<endl;
     str1=str2+str1;
 
-
+//over=1;
     //drawStrokeText("Score ",0,0,0);
     // drawStrokeText(arr12,0,0,4);
-    drawStrokeText(str1,0,0,0);
+    if(!over)
+    {
+        if(!is_start)
+            drawStrokeText(str1,0,0,0);
+        if(is_start)
+            drawStrokeText("Press v for strat the game",0,6,-6);
+        if(is_start)
+            drawStrokeText("Press 0 for change character name",0,6,-7);
+        if(is_start)
+            drawStrokeText("Press q for quiet game",0,6,-8);
+        if(is_start)
+            drawStrokeText("Maze Runner 3D",0,6,-2,3.0,1);
+    }
+    else
+    {
+        str="Score:"+str;
+        drawStrokeText("Maze Runner 3D",0,6,-2,3.0,1);
+        drawStrokeText("Game Over",0,-1,-5,2.0);
+        drawStrokeText(str,0,-1,-7,2.0);
+    }
     // if(check3<=50)check3=50,check4-=.015;
 
     //cout<<check3<<endl;
@@ -1528,6 +1668,8 @@ static void key(unsigned char key, int x, int y)
 
     case 'g':
         eyeY++;
+    case 'v':
+        is_start=0;
         //eyeY++;
         break;
     case 'h':
@@ -1596,16 +1738,16 @@ static void key(unsigned char key, int x, int y)
     case '4':
         spt_cutoff-=1;
         break;
-         case '5':
+    case '5':
         flw+=1;
         break;
-         case '6':
+    case '6':
         flw-=1;
         break;
-         case '7':
+    case '7':
         stop+=1;
         break;
-         case '8':
+    case '8':
         stop-=1;
         break;
 
@@ -1684,7 +1826,7 @@ void texture_image()
     v.push_back(ID);
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\flame.bmp");//15
     v.push_back(ID);
-     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\rock.bmp");//16
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\rock.bmp");//16
     v.push_back(ID);
 }
 int main(int argc, char *argv[])
