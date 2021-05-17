@@ -61,7 +61,7 @@ void reset()
     centerX = -288;
     centerY = 0;
     centerZ = 28;
-
+    angle=0;
     stop=1;
     door_angle=.5;
     l_height =0;
@@ -430,7 +430,7 @@ void eyeright()
     glTranslatef(.17,1.1,.75);     //Specify the coordinates for the right eye
     glRotatef(-45,0,0,1);
     glScalef(.9,.7,.7);            //Specify the size of the right eye
-    cube(1.0,1.0,1.0,0,1,1);       //Specify the color of the eye
+    cube(1.0,0.0,0.0,0,1,1);       //Specify the color of the eye
     gluSphere(gluNewQuadric(),.3,100,100);
     glPopMatrix();
 }
@@ -440,7 +440,7 @@ void eyeleft()
     glTranslatef(-.17,1.1,.75);     //Specify the position for the left eye
     glRotatef(45,0,0,1);
     glScalef(.9,.7,.7);
-    cube(1.0,1.0,1.0,0,1,1);
+    cube(1.0,0.0,0.0,0,1,1);
     gluSphere(gluNewQuadric(),.3,100,100);
     glPopMatrix();
 }
@@ -457,6 +457,7 @@ void legleft()
 
 void legright()
 {
+
     glPushMatrix();
     glTranslatef(-.3,-.5,0);     //Specify the position for the right leg
     glRotatef(-90.0,1,0,0);
@@ -467,22 +468,40 @@ void legright()
 
 void armleft()
 {
+    GLUquadric *quad;
+    quad = gluNewQuadric();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[1]);
+    gluQuadricTexture(quad,1);
+
+
     glPushMatrix();
     glTranslatef(-.82,0,.1);     //Specify the position for the left arm
     glRotatef(90,0,1,0);
     glRotatef(-50,1,0,0);
-    gluCylinder(gluNewQuadric(),.15,.15,.48,30,6);
+    cube(1,1,1,0,1,1);
+    gluCylinder(quad,.15,.15,.48,30,6);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 }
 
 void armright()
 {
+    GLUquadric *quad;
+    quad = gluNewQuadric();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[1]);
+    gluQuadricTexture(quad,1);
+
     glPushMatrix();
     glTranslatef(.82,0,.1);      //Specify the position for the right arm
     glRotatef(90,0,1,0);
     glRotatef(-130,1,0,0);
-    gluCylinder(gluNewQuadric(),.15,.15,.48,30,6);
+    cube(1,1,1,0,1,1);
+    gluCylinder(quad,.15,.15,.48,30,6);
     glPopMatrix();
+
+    glDisable(GL_TEXTURE_2D);
 }
 
 void handleft()
@@ -526,7 +545,7 @@ void teeth()
 void eyebrowleft()
 {
     glPushMatrix();
-    glTranslatef(-.3,1.5,.97);;
+    glTranslatef(-.3,1.5,.9);;
     glRotatef(90,0,1,0);
     glRotatef(45,1,0,0);
     cube(0.0,0.0,0.0,0,1,1);
@@ -537,7 +556,7 @@ void eyebrowleft()
 void eyebrowright()
 {
     glPushMatrix();
-    glTranslatef(.3,1.5,.97);
+    glTranslatef(.3,1.5,.9);
     glRotatef(270,0,1,0);
     glRotatef(45,1,0,0);
     gluCylinder(gluNewQuadric(),.05,.01,.3,4,6);
@@ -555,33 +574,99 @@ void neckring()
 }
 
 
+
 void head()
 {
+    GLUquadric *quad;
+    quad = gluNewQuadric();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[17]);
     glPushMatrix();
     glTranslatef(0,1.2,0);
     glScalef(.9,.9,.9 );
-    cube(1.0,0.8,0.6,0,1,1);
-    gluSphere(gluNewQuadric(),1,100,100);
+    cube(1,1,1,0,1,1);
+    gluQuadricTexture(quad,1);
+    gluSphere(quad,1,100,100);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 }
+float k=0;
+void spin()
+{
+    angle +=k;
+    k=4;
+    if (angle >= 360)
+        angle = 0;
+
+}
+double a4=2;
+double b4=1;
+double c4= 10;
+void fan()
+{
+    //fan stand
+
+    float length = 10;
+    float width = 0.7;
+    glPushMatrix();
+    glTranslatef(.5,-3+.7,-.2);
+    glPushMatrix();
+    // glRotatef(l_height,0,1,0);
+    glScalef(.1,.3,.1);
+    glPushMatrix();
+    glTranslatef(1,length/2,-4);
+    glScalef(width,length,width);
+    glTranslatef(-20+15,0,20-12);
+    //cube(0.4,0.4,0.1);
+    glPopMatrix();
+
+
+    glPushMatrix();
+    glScalef(1,.1,1);
+    glTranslatef(-5,150,2);
+    cube(1, 1, 1);            // Set color as glColor3f(R,G,B)
+    glRotatef(angle, 0, 0, 1);
+    glRecti(-a4, -a4, a4, a4);
+    cube(1, 0, 0);
+    glRecti(-b4, a4, b4, c4);
+    glRecti(-c4, -b4, -a4, b4);
+    glRecti(-b4, -c4, b4, -a4);
+    glRecti(a4, -b4, c4, b4);
+    glPopMatrix();
+    glPopMatrix();
+    glPopMatrix();
+    //cout<<l_height<<" "<<spt_cutoff<<" "<<stop<<endl;
+}
+
 
 void maintopball()
 {
+    GLUquadric *quad;
+    quad = gluNewQuadric();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[17]);
+    gluQuadricTexture(quad,1);
     glPushMatrix();
-    glTranslatef(0,2.2,0);
-    glScalef(.9,.9,.9);
-    gluSphere(gluNewQuadric(),.18,100,100);
+    cube(1,1,1,0,1,1);
+    glTranslatef(0,2.3,0);
+    glScalef(1.2,1.2,1.2);
+    gluSphere(quad,.18,100,100);
     glPopMatrix() ;
+    glDisable(GL_TEXTURE_2D);
 }
 
 void hatring()
 {
+
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[1]);
     glPushMatrix();
     glTranslatef(0,1.4,0);
     glScalef(.84,.84,.84);
     glRotatef(90.0,1,0,0);
     glutSolidTorus(.1,1.0,20,20);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 }
 
 void footleft()
@@ -616,12 +701,20 @@ void bellyCoatbottom()
 
 void BellyCoat()
 {
+    GLUquadric *quad;
+    quad = gluNewQuadric();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[17]);
+    gluQuadricTexture(quad,1);
+
     glPushMatrix();
     glTranslatef(0,.5,0);
     glScalef(1,.7,1);
     glRotatef(90.0,1,0,0);
-    gluCylinder(gluNewQuadric(),.6,.8,1,100,100);
+    cube(1,1,1,0,1,1);
+    gluCylinder(quad,.6,.8,1,100,100);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 }
 
 void pupilleft()
@@ -873,6 +966,8 @@ void swoard()
 }
 void player()
 {
+    maintopball();
+    fan();
     swoard();
     eyeright();
     eyeleft();
@@ -1316,6 +1411,24 @@ void moshal()
 
 }
 int control;
+void drawStrokeText1(string str,int x,int y,int z,float val=1,int col=0)
+{
+    //char *c;
+    glPushMatrix();
+    glLineWidth(1);
+    glTranslatef(x, y,z);
+
+    //  glRotatef(184,0,1,0);
+    cube(1,col,0,0,1,1);
+    glScalef(.004f*val,.004f*val,10);
+
+    for (int c=0; c != str.size(); c++)
+    {
+        glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, str[c]);
+    }
+    glPopMatrix();
+    //cout<<spt_cutoff<<" "<<l_height<<endl;
+}
 void light()
 {
 
@@ -1365,8 +1478,9 @@ void light()
     if(ok>=360)
         ok=0;
     ok++;
+    drawStrokeText1("Sourav",l_height-1.9-.19+.2,3,spt_cutoff+.9);
     player();
-    // cout<<spt_cutoff<<" "<<l_height<<" "<<stop<<" "<<flw<<endl;
+//   cout<<spt_cutoff<<" "<<l_height<<" "<<stop<<" "<<flw<<endl;
 
     glPopMatrix();
 
@@ -1726,29 +1840,29 @@ static void key(unsigned char key, int x, int y)
 
 
     case '1':
-        l_height+=1;
+        l_height+=.1;
         break;
     case '2':
-        l_height-=1;
+        l_height-=.1;
         break;
 
     case '3':
-        spt_cutoff+=1;
+        spt_cutoff+=.1;
         break;
     case '4':
-        spt_cutoff-=1;
+        spt_cutoff-=.1;
         break;
     case '5':
-        flw+=1;
+        flw+=.1;
         break;
     case '6':
-        flw-=1;
+        flw-=.1;
         break;
     case '7':
-        stop+=1;
+        stop+=.1;
         break;
     case '8':
-        stop-=1;
+        stop-=.1;
         break;
 
     case 'u':
@@ -1788,7 +1902,7 @@ static void key(unsigned char key, int x, int y)
 static void idle(void)
 {
     glutPostRedisplay();
-
+    spin();
 }
 
 /* Program entry point */
@@ -1827,6 +1941,8 @@ void texture_image()
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\flame.bmp");//15
     v.push_back(ID);
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\rock.bmp");//16
+    v.push_back(ID);
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\face.bmp");//17
     v.push_back(ID);
 }
 int main(int argc, char *argv[])
