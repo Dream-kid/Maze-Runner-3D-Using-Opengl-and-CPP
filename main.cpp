@@ -1394,17 +1394,17 @@ void moshal()
     }
 
 
-    glBindTexture(GL_TEXTURE_2D,v[16]);
+    glBindTexture(GL_TEXTURE_2D,v[13]);
 //rocks
-    for(int i=-20; i<=100; i+=15)
-    {
-        glPushMatrix();
-        glTranslatef(15.9,-1,-155+30+i+6+6);
-        //glRotatef(-45,0,1,0);
-        glScalef(15,3,3);
-        cube(1,1,1);
-        glPopMatrix();
-    }
+
+    glPushMatrix();
+    glTranslatef(6,-1.4,-155);
+    //glRotatef(-45,0,1,0);
+    glScalef(55,1.5,200);
+    if(left_turn)
+        cube(left_turn,left_turn,0,0,10);
+    glPopMatrix();
+
 
     glDisable(GL_TEXTURE_2D);
 
@@ -1435,6 +1435,8 @@ void light()
 //light 1
 //fire1
 //
+    design();
+    moshal();
     if(over)
         is_start=1;
 
@@ -1458,8 +1460,7 @@ void light()
             {
                 fire();
                 point();
-                design();
-                moshal();
+
             }
             else
             {
