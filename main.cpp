@@ -50,6 +50,7 @@ bool arr[10];
 float l_val=.1;
 int bridge_val=0;
 bool is_start=1;
+string str_name="Sourav";
 void reset()
 {
     memset(arr,0,sizeof(arr));
@@ -1487,7 +1488,7 @@ void light()
     if(ok>=360)
         ok=0;
     ok++;
-    drawStrokeText1("Sourav",l_height-1.9-.19+.2,3,spt_cutoff+.9);
+    drawStrokeText1(str_name,l_height-1.9-.19+.2,3,spt_cutoff+.9);
     player();
 //   cout<<spt_cutoff<<" "<<l_height<<" "<<stop<<" "<<flw<<endl;
 
@@ -1577,7 +1578,7 @@ void light()
     //  cout<<window_val<<endl;
     // cout<<l_height<<" "<<spt_cutoff<<endl;
 }
-void drawStrokeText(string str,int x,int y,int z,float val=1.15,int col=0)
+void drawStrokeText(string str,int x,int y,float z,float val=1.15,int col=0)
 {
     //char *c;
     glPushMatrix();
@@ -1645,15 +1646,18 @@ static void display(void)
     if(!over)
     {
         if(!is_start)
+        {
             drawStrokeText(str1,0,0,0);
+            drawStrokeText("Press t,u,space,b for left,right,jump & escape door ",0,7,-.5,1.0,1);
+
+        }
         if(is_start)
-            drawStrokeText("Press v for strat the game",0,6,-6);
-        if(is_start)
-            drawStrokeText("Press 0 for change character name",0,6,-7);
-        if(is_start)
-            drawStrokeText("Press q for quiet game",0,6,-8);
-        if(is_start)
+        {
+            drawStrokeText("*** Press v for strat the game",0,6,-6);
+            //  drawStrokeText("Press 0 for change character name",0,6,-7);
+            drawStrokeText("*** Press Esc for exit game",0,6,-8);
             drawStrokeText("Maze Runner 3D",0,6,-2,3.0,1);
+        }
     }
     else
     {
@@ -1661,6 +1665,7 @@ static void display(void)
         drawStrokeText("Maze Runner 3D",0,6,-2,3.0,1);
         drawStrokeText("Game Over",0,-1,-5,2.0);
         drawStrokeText(str,0,-1,-7,2.0);
+        drawStrokeText("*** Press Esc for exit game",0,6,-9);
     }
     // if(check3<=50)check3=50,check4-=.015;
 
@@ -1842,10 +1847,6 @@ static void key(unsigned char key, int x, int y)
         rot--;
         break;
 
-    case '*':
-        stop=0;
-        break;
-
 
 
     case '1':
@@ -1874,7 +1875,7 @@ static void key(unsigned char key, int x, int y)
         stop-=.1;
         break;
 
-    case 'u':
+    case ' ':
         if(cnt_dwn==0)
         {
             b=6;
@@ -1890,14 +1891,14 @@ static void key(unsigned char key, int x, int y)
 
 
 
-    case 'y':
+    case 'u':
         add_lef-=.2;
         if(add_lef<-3)
             add_lef=-3;
         break;
 
     case 'b':
-        if(c>=-14)
+        if(c>=-16)
         {
             reset();
             left_turn=1-left_turn;
