@@ -1399,12 +1399,13 @@ void moshal()
     glBindTexture(GL_TEXTURE_2D,v[13]);
 //rocks
 
-        glPushMatrix();
-        glTranslatef(6,-1.4,-155);
-        //glRotatef(-45,0,1,0);
-        glScalef(55,1.5,200);
-     if(left_turn)   cube(left_turn,left_turn,0,0,10);
-        glPopMatrix();
+    glPushMatrix();
+    glTranslatef(6,-1.4,-155);
+    //glRotatef(-45,0,1,0);
+    glScalef(55,1.5,200);
+    if(left_turn)
+        cube(left_turn,left_turn,0,0,10);
+    glPopMatrix();
 
 
     glDisable(GL_TEXTURE_2D);
@@ -1436,8 +1437,10 @@ void light()
 //light 1
 //fire1
 //
-design();
-                moshal();
+    if(c>-7)
+        game_over();
+    design();
+    moshal();
     if(over)
         is_start=1,b=1,bridge_val=0;
 
@@ -1472,7 +1475,8 @@ design();
                 point1();
             }
         }
-        else b=1,bridge_val=0;
+        else
+            b=1,bridge_val=0;
     }
     glPushMatrix();
 
@@ -1893,8 +1897,11 @@ static void key(unsigned char key, int x, int y)
         break;
 
     case 'b':
-        reset();
-        left_turn=1-left_turn;
+        if(c>=-14)
+        {
+            reset();
+            left_turn=1-left_turn;
+        }
         break;
     case 'm':
         glutKeyboardFunc(spot_light14);
