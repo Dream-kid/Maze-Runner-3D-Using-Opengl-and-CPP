@@ -1281,6 +1281,7 @@ void bridge()
     glScalef(80,2,45);
     cube(1,1,1,0,3);
     glPopMatrix();
+
     if(c>=-99 &&c<=-50)
     {
         if(mark11||bridge_j)
@@ -1298,6 +1299,7 @@ void bridge()
 
         //cout<<"bridge"<<endl;
     }
+
     else if(c>-50)
     {
         bridge_j=0;
@@ -1397,13 +1399,12 @@ void moshal()
     glBindTexture(GL_TEXTURE_2D,v[13]);
 //rocks
 
-    glPushMatrix();
-    glTranslatef(6,-1.4,-155);
-    //glRotatef(-45,0,1,0);
-    glScalef(55,1.5,200);
-    if(left_turn)
-        cube(left_turn,left_turn,0,0,10);
-    glPopMatrix();
+        glPushMatrix();
+        glTranslatef(6,-1.4,-155);
+        //glRotatef(-45,0,1,0);
+        glScalef(55,1.5,200);
+     if(left_turn)   cube(left_turn,left_turn,0,0,10);
+        glPopMatrix();
 
 
     glDisable(GL_TEXTURE_2D);
@@ -1435,10 +1436,10 @@ void light()
 //light 1
 //fire1
 //
-    design();
-    moshal();
+design();
+                moshal();
     if(over)
-        is_start=1;
+        is_start=1,b=1,bridge_val=0;
 
     // l_on1=1-l_on1;
     //  l_on2=1-l_on2;
@@ -1449,12 +1450,14 @@ void light()
         {
 
             if(mark11)
-                cnt_dwn++;
+                cnt_dwn++,eyeY=8,bridge_val=3;
             if(cnt_dwn>=95||!mark11)
             {
+                eyeY=5;
                 mark11=0;
                 b=1;
                 cnt_dwn=0;
+                bridge_val=0;
             }
             if(left_turn)
             {
@@ -1469,6 +1472,7 @@ void light()
                 point1();
             }
         }
+        else b=1,bridge_val=0;
     }
     glPushMatrix();
 
