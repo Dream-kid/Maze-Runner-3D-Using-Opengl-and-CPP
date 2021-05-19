@@ -1585,7 +1585,7 @@ static void display(void)
         }
         if(is_start)
         {
-            drawStrokeText("*** Press v for strat the game",0,6,-6);
+            drawStrokeText("*** Press v for start the game",0,6,-6);
             //  drawStrokeText("Press 0 for change character name",0,6,-7);
             drawStrokeText("*** Press Esc for exit game",0,6,-8);
             drawStrokeText("Maze Runner 3D",0,6,-2,3.0,1);
