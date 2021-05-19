@@ -17,6 +17,9 @@ int score=0;
 GLfloat centerX = -288;
 GLfloat centerY = 0;
 GLfloat centerZ = 28;
+float a12=1.0;
+float s12=1.0;
+float d12=1.0;
 double angle = 0 ;
 bool l_on1 = true;
 bool l_on2 = true;
@@ -328,7 +331,7 @@ void wall1()
 
 
 }
-void wall2()
+void wal12()
 {
     glEnable(GL_TEXTURE_2D);
     if(left_turn)
@@ -367,18 +370,16 @@ void headwall()
 
 }
 
-float al1,dl1,sl1;
-float al2,dl2,sl2;
-float al3,dl3,sl3;
+
 void light1(float a,float b,float c) //l_on1
 {
     glEnable(GL_LIGHT0);
 
     //light
     GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {0.1+al2, 0.1+al2, 0.1+al2, 1.0};
-    GLfloat l_dif[] = {.1+dl2,.1+dl2,.1+dl2,1};
-    GLfloat l_spec[] = {.1+sl2,.1+sl2,.1+sl2,1};
+    GLfloat l_amb[] = {0.1*a12, 0.1*a12, 0.1*a12, 1.0};
+    GLfloat l_dif[] = {.1*d12,.1*d12,.1*d12,1};
+    GLfloat l_spec[] = {.1*s12,.1*s12,.1*s12,1};
     GLfloat l_pos[] = {a,b,c,1.0};
 
     if(l_on1)
@@ -404,9 +405,9 @@ void light2(float a,float b,float c) //l_on2
     glEnable(GL_LIGHT5);
     //light
     GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {0.1+al2, 0.1+al2, 0.1+al2, 1.0};
-    GLfloat l_dif[] = {.1+dl2,.1+dl2,.1+dl2,1};
-    GLfloat l_spec[] = {.1+sl2,.1+sl2,.1+sl2,1};
+    GLfloat l_amb[] = {0.1*a12, 0.1*a12, 0.1*a12, 1.0};
+    GLfloat l_dif[] = {.1*d12,.1*d12,.1*d12,1};
+    GLfloat l_spec[] = {.1*s12,.1*s12,.1*s12,1};
     GLfloat l_pos[] = {a,b,c,1.0};
 
     if(l_on2)
@@ -826,7 +827,7 @@ void wall()
 {
     flr();
     wall1();
-    wall2();
+    wal12();
     headwall();
     walloff();
 }
@@ -850,9 +851,9 @@ void spot_light4(float a,float b,float c) //l_on3
     glEnable(GL_LIGHT3);
 
     GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {1+al3, 1+al3, 1+al3, 1.0};
-    GLfloat l_dif[] = {1+dl3,1+dl3,1+dl3,1};
-    GLfloat l_spec[] = {1+sl3,1+sl3,1+sl3,1};
+    GLfloat l_amb[] = {1*a12, 1*a12, 1*a12, 1.0};
+    GLfloat l_dif[] = {1*d12,1*d12,1*d12,1};
+    GLfloat l_spec[] = {1*s12,1*s12,1*s12,1};
     GLfloat l_pos[] = {a,b,c,1.0};
 
     if(l_on3)
@@ -883,11 +884,10 @@ void spot_light3(float a,float b,float c) //l_on4
     glEnable(GL_LIGHT4);
 
     GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {1+al3, 1+al3, 1+al3, 1.0};
-    GLfloat l_dif[] = {1+dl3,1+dl3,1+dl3,1};
-    GLfloat l_spec[] = {1+sl3,1+sl3,1+sl3,1};
+    GLfloat l_amb[] = {1*a12, 1*a12, 1*a12, 1.0};
+    GLfloat l_dif[] = {1*d12,1*d12,1*d12,1};
+    GLfloat l_spec[] = {1*s12,1*s12,1*s12,1};
     GLfloat l_pos[] = {a,b,c,1.0};
-
     if(l_on4)
         glLightfv(GL_LIGHT4, GL_AMBIENT, l_amb);
     else
@@ -1285,9 +1285,9 @@ void spot_light1(float a,float b,float c)//l_on5
     glEnable(GL_LIGHT1);
 
     GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {1+al3, 1+al3, 1+al3, 1.0};
-    GLfloat l_dif[] = {1+dl3,1+dl3,1+dl3,1};
-    GLfloat l_spec[] = {1+sl3,1+sl3,1+sl3,1};
+    GLfloat l_amb[] = {1*a12, 1*a12, 1*a12, 1.0};
+    GLfloat l_dif[] = {1*d12,1*d12,1*d12,1};
+    GLfloat l_spec[] = {1*s12,1*s12,1*s12,1};
     GLfloat l_pos[] = {a,b,c,1.0};
 
     if(l_on5)
@@ -1316,11 +1316,10 @@ void spot_light2(float a,float b,float c) //l_on6
     glEnable(GL_LIGHT2);
 
     GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {1+al3, 1+al3, 1+al3, 1.0};
-    GLfloat l_dif[] = {dl3,dl3,dl3,1};
-    GLfloat l_spec[] = {sl3,sl3,sl3,1};
+    GLfloat l_amb[] = {1*a12, 1*a12, 1*a12, 1.0};
+    GLfloat l_dif[] = {1*d12,1*d12,1*d12,1};
+    GLfloat l_spec[] = {1*s12,1*s12,1*s12,1};
     GLfloat l_pos[] = {a,b,c,1.0};
-
     if(l_on6)
         glLightfv(GL_LIGHT2, GL_AMBIENT, l_amb);
     else
@@ -1609,97 +1608,7 @@ static void display(void)
 static void key(unsigned char key, int x, int y);
 
 
-static void light14(unsigned char light1, int x, int y)
-{
 
-    switch (light1)
-    {
-
-    case 27:
-        glutKeyboardFunc(key);
-        break;
-    case '1':
-        al1+=l_val;
-        break;
-    case '2':
-        al1-=l_val;
-        break;
-    case '3':
-        dl1+=l_val;
-        break;
-    case '4':
-        dl1-=l_val;
-        break;
-    case '5':
-        sl1+=l_val;
-        break;
-    case '6':
-        sl1-=l_val;
-        break;
-    }
-read:
-    return;
-}
-
-static void light24(unsigned char light2, int x, int y)
-{
-    switch (light2)
-    {
-
-    case 27:
-        glutKeyboardFunc(key);
-
-        break;
-    case '1':
-        al2+=l_val;
-        break;
-    case '2':
-        al2-=l_val;
-        break;
-    case '3':
-        dl2+=l_val;
-        break;
-    case '4':
-        dl2-=l_val;
-        break;
-    case '5':
-        sl2+=l_val;
-        break;
-    case '6':
-        sl2-=l_val;
-        break;
-    }
-}
-
-static void spot_light14(unsigned char spot_light, int x, int y)
-{
-    switch (spot_light)
-    {
-
-    case 27:
-
-        glutKeyboardFunc(key);
-        break;
-    case '1':
-        al3+=l_val;
-        break;
-    case '2':
-        al3-=l_val;
-        break;
-    case '3':
-        dl3+=l_val;
-        break;
-    case '4':
-        dl3-=l_val;
-        break;
-    case '5':
-        sl3+=l_val;
-        break;
-    case '6':
-        sl3-=l_val;
-        break;
-    }
-}
 static void key(unsigned char key, int x, int y)
 {
     switch (key)
@@ -1720,6 +1629,7 @@ static void key(unsigned char key, int x, int y)
     case 'a':
         eyeX++;
 
+
         //eyeY++;
         break;
     case 's':
@@ -1729,6 +1639,7 @@ static void key(unsigned char key, int x, int y)
 
     case 'g':
         eyeY++;
+        break;
     case 'v':
         is_start=0;
         //eyeY++;
@@ -1838,7 +1749,13 @@ static void key(unsigned char key, int x, int y)
         }
         break;
     case 'm':
-        glutKeyboardFunc(spot_light14);
+        a12=1-a12;
+        break;
+    case 'n':
+        d12=1-d12;
+        break;
+    case 'c':
+        s12=1-s12;
         break;
 
     }
@@ -1917,32 +1834,26 @@ int main(int argc, char *argv[])
     texture_image();
     int t=1;
     printf("Warning!!! please turn off caps lock and use shift key before * key and + key.\n");
-    printf("%d. Press '1' for off light1.\n",t++);
-    printf("%d. Press '2' for off light2.\n",t++);
-    printf("%d. Press '4' for off spot light1.\n",t++);
-    printf("%d. Press '5' for off spot light2.\n",t++);
-    printf("%d. Press '6' for off spot light3.\n",t++);
+    printf("%d. Press '1' for alter light1.\n",t++);
+    printf("%d. Press '2' for  alter light2.\n",t++);
+    printf("%d. Press '4' for  alter spot light1.\n",t++);
+    printf("%d. Press '5' for  alter spot light2.\n",t++);
+    printf("%d. Press '6' for  alter spot light3.\n",t++);
 
-    printf("%d. Press '*' for stop fans.\n",t++);
-    printf("%d. Press ';' for start fans.\n",t++);
-    printf("%d. Press 'd' for window open/close.\n",t++);
     printf("%d. Press 'w' for up.\n%d. press 'e' for down.\n%d. press 's' for right.\n%d. press 'a' for left.\n",t+1,t+2,t+3,t+4);
     t+=4;
     printf("%d. Press 'o' to move camera left.\n%d. Press 'p' to move camera right.\n",t+1,t+2);
     t+=2;
     printf("%d. Press '+' to zoom in.\n%d. Press '-' for zoom out.\n",t+1,t+2);
     t+=2;
-    printf("%d. Press b,n,m for operate with light1,light2 and CSE light respectively.\n",t++);
-    printf("   1. Press '1' for add ambient.\n");
-    printf("   2. Press '2' for reduce ambient.\n");
-    printf("   3. Press '3' for add diffuse.\n");
-    printf("   4. Press '4' for reduce diffuse.\n");
+    printf("%d. Press 'g' for up camera.\n%d. Press 'h' for down camera.\n",t+1,t+2);
+    t+=2;
+    printf("%d. Press ',' for left rotation.\n%d. Press '.' for right rotation.\n",t+1,t+2);
+    t+=2;
+    printf("%d. Press 'm' for alter ambient.\n",t++);
+    printf("%d. Press 'n' for alter diffuse.\n",t++);
 
-    printf("   5. Press '5' for add specular light.\n");
-    printf("   6. Press '6' for reduce specular light.\n");
-    printf("   7. Press ESC key for exit this operation and goto main programme\n");
-
-    printf("%d. Press ESC key for exit the main programme\n",t++);
+    printf("%d. Press 'c' for alter specular light.\n",t++);
 
     glutMainLoop();
 
