@@ -28,7 +28,7 @@ bool l_on4 = true;
 bool l_on5 = true;
 bool l_on6 = true;
 float rot = -12;
-float stop=0;
+bool stop=1;
 float door_angle=.5;
 float l_height =0;
 float spt_cutoff = 0;
@@ -1400,12 +1400,47 @@ void drawStrokeText1(string str,int x,int y,int z,float val=1,int col=0)
     glPopMatrix();
     //cout<<spt_cutoff<<" "<<l_height<<endl;
 }
+
+bool pop=0;
+int vall=0;
+int llll=0;
+
+
+int arr10[8][6]= {{-214+c+155,5+b-1,-518,-288,0+a+15+add_lef,28},
+    {-214+c+155, 5+b-1, -516, 130,0+a+15+add_lef,2878},
+    {-220+c+155, 5+b-1, -511, 6932,16+a+15+add_lef, -428},
+    {-220+c+155, 5+b-1, -509, 6134,16+a+15+add_lef,-3734},
+    {-214+c+155, 5+b-1, -503, 2410,16+a+15+add_lef,-3734},
+    {-210+c+155, 5+b-1, -506, -3290, 16+a+15 +add_lef,-3734},
+    {-207+c+155, 5+b-1, -512, -9370, 16+a+15 +add_lef,7628},
+    {-207+c+155, 5+b-1, -515, -2606, 16+a+15+add_lef,7628}
+};
 void light()
 {
 
 //light 1
 //fire1
 //
+
+    if(pop||vall)
+    {
+        if(!pop)
+            vall=0;
+        eyeX=arr10[vall][0];
+        eyeY=arr10[vall][1];
+        eyeZ=arr10[vall][2];
+        centerX=arr10[vall][3];
+        centerY=arr10[vall][4];
+        centerZ=arr10[vall][5];
+        if(llll%80==0)
+        {
+            vall++;
+            vall%=8;
+        }
+        llll++;
+        //pop=0;
+    }
+
     if(c>-7)
         game_over();
     design();
@@ -1448,7 +1483,7 @@ void light()
 
     glTranslatef(a+add_lef,b,c);
     glPushMatrix();
-    glRotatef(ok,0,1,0);
+    glRotatef(ok*stop,0,1,0);
     if(ok>=360)
         ok=0;
     ok++;
@@ -1575,29 +1610,32 @@ static void display(void)
 //over=1;
     //drawStrokeText("Score ",0,0,0);
     // drawStrokeText(arr12,0,0,4);
-    if(!over)
+    if(!pop)
     {
-        if(!is_start)
+        if(!over)
         {
-            drawStrokeText(str1,0,0,0);
-            drawStrokeText("Press t,u,space & b for left,right,jump & escape door ",0,8,-.5,1.0,1);
+            if(!is_start)
+            {
+                drawStrokeText(str1,0,0,0);
+                drawStrokeText("Press t,u,space & b for left,right,jump & escape door ",0,8,-.5,1.0,1);
 
+            }
+            if(is_start)
+            {
+                drawStrokeText("*** Press v for start the game",0,6,-6);
+                //  drawStrokeText("Press 0 for change character name",0,6,-7);
+                drawStrokeText("*** Press Esc for exit game",0,6,-8);
+                drawStrokeText("Maze Runner 3D",0,6,-2,3.0,1);
+            }
         }
-        if(is_start)
+        else
         {
-            drawStrokeText("*** Press v for start the game",0,6,-6);
-            //  drawStrokeText("Press 0 for change character name",0,6,-7);
-            drawStrokeText("*** Press Esc for exit game",0,6,-8);
+            str="Score:"+str;
             drawStrokeText("Maze Runner 3D",0,6,-2,3.0,1);
+            drawStrokeText("Game Over",0,-1,-5,2.0);
+            drawStrokeText(str,0,-1,-7,2.0);
+            drawStrokeText("*** Press Esc for exit game",0,6,-9);
         }
-    }
-    else
-    {
-        str="Score:"+str;
-        drawStrokeText("Maze Runner 3D",0,6,-2,3.0,1);
-        drawStrokeText("Game Over",0,-1,-5,2.0);
-        drawStrokeText(str,0,-1,-7,2.0);
-        drawStrokeText("*** Press Esc for exit game",0,6,-9);
     }
     // if(check3<=50)check3=50,check4-=.015;
 
@@ -1613,6 +1651,10 @@ static void key(unsigned char key, int x, int y)
 {
     switch (key)
     {
+
+    case 'q':
+        pop=1-pop;
+        break;
 
     case 27:
         exit(0);
@@ -1712,8 +1754,8 @@ static void key(unsigned char key, int x, int y)
     case '6':
         l_on6=1-l_on6;
         break;
-    case '7':
-        stop+=1;
+    case '9':
+        stop=1-stop;
         break;
     case '8':
         stop-=1;
@@ -1854,6 +1896,8 @@ int main(int argc, char *argv[])
     printf("%d. Press 'n' for alter diffuse.\n",t++);
 
     printf("%d. Press 'c' for alter specular light.\n",t++);
+    printf("%d. Press 'q' for alter rotation around character.\n",t++);
+    printf("%d. Press '9' for alter rotation of character.\n",t++);
 
     glutMainLoop();
 
