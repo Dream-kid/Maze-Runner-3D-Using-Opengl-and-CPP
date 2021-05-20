@@ -807,7 +807,7 @@ void walloff()
     glPushMatrix();
     glScalef(68,20,20);
     // glRotatef(,0,1,0);
-    glTranslatef(3.11-3.599-.05,0,.9+.05-.9);
+    glTranslatef(3.11-3.599-.05,0,.9+.05-.9+spt_cutoff);
     cube(1,1,1-left_turn,0,1);
     if(fire1<=15&&!fire2)
         fire1+=.1;
@@ -817,9 +817,17 @@ void walloff()
         fire2=0;
 
     glPopMatrix();
+
+     glPushMatrix();
+    glScalef(78,20,20);
+    // glRotatef(,0,1,0);
+    glTranslatef(3.11-3.599-.05,0,.9+.05-.9-9.08);
+    cube(1,1,1-left_turn,0,1);
+    glPopMatrix();
+
     glDisable(GL_TEXTURE_2D);
 
-    //cout<<spt_cutoff<<" "<<l_height<<endl;
+   // cout<<spt_cutoff<<" "<<l_height<<endl;
 }
 
 
@@ -1757,8 +1765,11 @@ static void key(unsigned char key, int x, int y)
     case '9':
         stop=1-stop;
         break;
-    case '8':
-        stop-=1;
+    case '7':
+        spt_cutoff+=1;
+        break;
+          case '8':
+        spt_cutoff-=1;
         break;
 
     case ' ':
