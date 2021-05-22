@@ -161,7 +161,7 @@ void cube(float R=0.5, float G=0.5, float B=0.5, int type=0, float val=1,bool pl
     GLfloat m_spec[] = {1,1,1,1};
     GLfloat m_sh[] = {30};
 
-    GLfloat m_em[] = {1,0,0,1};
+    GLfloat m_em[] = {R,G,B,1};
 
     glMaterialfv(GL_FRONT, GL_AMBIENT, m_amb);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, m_diff);
@@ -417,9 +417,9 @@ void light2(float a,float b,float c) //l_on2
     glEnable(GL_LIGHT5);
     //light
     GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {0.2*a22, 0.2*a22, 0.2*a22, 1.0};
-    GLfloat l_dif[] = {.2*d22,.2*d22,.2*d22,1};
-    GLfloat l_spec[] = {.2*s22,.2*s22,.2*s22,1};
+    GLfloat l_amb[] = {0.1*a22, 0.1*a22, 0.1*a22, 1.0};
+    GLfloat l_dif[] = {.1*d22,.1*d22,.1*d22,1};
+    GLfloat l_spec[] = {.1*s22,.1*s22,.1*s22,1};
     GLfloat l_pos[] = {a,b,c,1.0};
 
     if(l_on2)
@@ -585,12 +585,16 @@ void eyebrowright()
 
 void neckring()
 {
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[18]);
     glPushMatrix();
     glTranslatef(0,.5,0);
     glScalef(.59,.59,.59);
     glRotatef(90.0,1,0,0);
+    cube(1,1,1,0,1,1);
     glutSolidTorus(.1,1.0,20,20);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 }
 
 
@@ -757,19 +761,30 @@ void pupilright()
 
 void topbutton()
 {
+
+    GLUquadric *quad;
+    quad = gluNewQuadric();
+
+
     glPushMatrix();
+    cube(0,0.0,1,0,1,1);
     glTranslatef(-.1,.4,.65);
     glScalef(1.9,1.9,1.9);
-    gluSphere(gluNewQuadric(),.04,100,100);
+    gluSphere(quad,.07,100,100);
     glPopMatrix();
 }
 void middlebutton()
 {
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[18]);
     glPushMatrix()  ;
-    glTranslatef(-.1,.15,.7);
-    glScalef(1.9,1.9,1.9);
-    gluSphere(gluNewQuadric(),.04,100,100);
+
+    glTranslatef(-.2,-.17,.5+spt_cutoff);
+    glScalef(.1,.1,.3);
+    cube(1,1,1);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+// cout<<spt_cutoff<<endl;
 }
 void bottombutton()
 {
@@ -932,27 +947,21 @@ void spot_light3(float a,float b,float c) //l_on4
 
 void swoard()
 {
-    timer++;
-
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[15]);
     glPushMatrix();
     glTranslatef(0-1,.78-1.7,.74-.6);
     glScalef(.1,4,.1);
-
-    if(timer%50==0)
-    {
-        a1 = rand() % 2;
-        b1 = rand() % 2;
-        c1 = rand() % 2;
-    }
-    cube(a1,b1,c1);
+    cube(0,1,1,0,6);
 
     glPopMatrix();
     glPushMatrix();
     glTranslatef(0-1+1.9,.78-1.7,.74-.6);
     glScalef(.1,4,.1);
-    cube(c1,a1,b1);
+    cube(1,1,0,0,6);
 
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
     // cout<<flw<<" "<<spt_cutoff<<" "<<stop<<" "<<l_height<<endl;
 }
 void player()
@@ -984,8 +993,10 @@ void player()
     footleft();
     footright();
     topbutton();
-    middlebutton();
-    bottombutton();
+    //  middlebutton();
+    //bottombutton();
+    cube(0.0,0.0,0.0,0,1,1);
+
     pupilleft();
     pupilright();
 
@@ -1504,10 +1515,11 @@ void light()
 
     glTranslatef(a+add_lef,b,c);
     glPushMatrix();
-    glRotatef(ok*stop,0,1,0);
+    glRotatef(ok,0,1,0);
     if(ok>=360)
         ok=0;
-    ok++;
+    if(stop)
+        ok++;
     drawStrokeText1(str_name,-1.9-.19+.2,3,.9);
     player();
 //   cout<<spt_cutoff<<" "<<l_height<<" "<<stop<<" "<<flw<<endl;
@@ -1881,10 +1893,10 @@ static void key(unsigned char key, int x, int y)
         stop=1-stop;
         break;
     case '7':
-        spt_cutoff+=1;
+        spt_cutoff+=.1;
         break;
     case '8':
-        spt_cutoff-=1;
+        spt_cutoff-=.1;
         break;
 
     case ' ':
@@ -1980,6 +1992,8 @@ void texture_image()
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\rock.bmp");//16
     v.push_back(ID);
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\face.bmp");//17
+    v.push_back(ID);
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\tatoo.bmp");//18
     v.push_back(ID);
 }
 int main(int argc, char *argv[])
