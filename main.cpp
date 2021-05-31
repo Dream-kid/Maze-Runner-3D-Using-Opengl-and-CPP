@@ -779,7 +779,7 @@ void middlebutton()
     glBindTexture(GL_TEXTURE_2D,v[18]);
     glPushMatrix()  ;
 
-    glTranslatef(-.2,-.17,.5+spt_cutoff);
+    glTranslatef(-.2,-.17,.5);
     glScalef(.1,.1,.3);
     cube(1,1,1);
     glPopMatrix();
@@ -1372,6 +1372,102 @@ void spot_light2(float a,float b,float c) //l_on6
     glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, spt_ct);
 
 }
+
+void makecylinder(float height,float Base)
+{
+    GLUquadricObj *qobj;
+    qobj = gluNewQuadric();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[20]);
+    cube(.5, .5, .5,0,1,1);
+    glPushMatrix();
+        gluQuadricTexture(qobj,1);
+
+    glRotatef(-90, 1.0f, 0.0f, 0.0f);
+    gluCylinder(qobj, Base, Base - (0.2 * Base), height, 20, 20);
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+}
+bool flag=1;
+int arrr[]= {7,11,47,67,35-3,85,105,74,227,55,95+7,555};
+
+void maketree(float height,float Base,int val)
+{
+
+
+    //  cout<<spt_cutoff<<endl;
+    glPushMatrix();
+    //  cout<<height<<" "<<Base<< " "<<val<<endl;
+
+
+
+    float angle;
+    makecylinder(height, Base);
+    glTranslatef(0.0f, height,0.0f);
+    height -=height*0.2f;
+    Base -=Base*0.3f;
+
+    angle = 20+((arrr[(int)(val%10)]))%50;
+    if(angle >48)
+        angle = -(20+(arrr[(int)((val+17)%10)])%50);
+    if (height > 1)
+    {
+        glPushMatrix();
+        if (flag)
+            glRotatef(angle, 1.0f, 0.0f, 1.0f);
+        else
+            glRotatef(angle, 0.0f, 1.0f, 1.0f);
+        flag = !flag;
+        maketree(height, Base,arrr[int(val+97)%10]); //recursive call
+        glPopMatrix();
+
+    }
+    else
+    {
+
+        GLUquadric *quad;
+    quad = gluNewQuadric();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[19]);
+    glPushMatrix();
+    //glTranslatef(0,1.2,0);
+   // glScalef(.9,.9,.9 );
+   glTranslatef(0.0f, -2.2f,0.0f);
+   cube(1,1,1,0,1,1);
+    gluQuadricTexture(quad,1);
+    gluSphere(quad,2,4,4);
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+
+    }
+    //Glut.glutSwapBuffers();
+    glPopMatrix();
+}
+
+void tree()
+{
+
+//cout<<spt_cutoff<<endl;
+    for(int i=-10; i<=20; i+=10)
+    {
+        glPushMatrix();
+        glTranslatef(-17.9,1,-155+30+i);
+        //glRotatef(-25,0,1,0);
+        //glScalef(2,2,.5);
+        cube(1,1,1,0,1,1);
+        flag=1;
+        for(int j=5; j<=10; j++)
+        {
+            glRotatef(-33+spt_cutoff,0,1,0);
+            maketree(2.5f,.5f,arrr[j]);
+            flag=1;
+        }
+
+        glPopMatrix();
+    }
+}
+
+
 void moshal()
 {
     glEnable(GL_TEXTURE_2D);
@@ -1452,7 +1548,6 @@ void light()
 
 //light 1
 //fire1
-//
 
     if(pop||vall)
     {
@@ -1475,8 +1570,9 @@ void light()
 
     if(c>-7)
         game_over();
-    design();
+
     moshal();
+if(left_turn)design();
     if(over)
         is_start=1,b=1,bridge_val=0;
     if(!over)
@@ -1496,12 +1592,13 @@ void light()
             }
             if(left_turn)
             {
+
                 fire();
                 point();
 
             }
             else
-            {
+            { tree();
                 rope();
                 bridge();
                 point1();
@@ -1893,10 +1990,10 @@ static void key(unsigned char key, int x, int y)
         stop=1-stop;
         break;
     case '7':
-        spt_cutoff+=.1;
+        spt_cutoff+=1;
         break;
     case '8':
-        spt_cutoff-=.1;
+        spt_cutoff-=1;
         break;
 
     case ' ':
@@ -1994,6 +2091,10 @@ void texture_image()
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\face.bmp");//17
     v.push_back(ID);
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\tatoo.bmp");//18
+    v.push_back(ID);
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\leaf.bmp");//19
+    v.push_back(ID);
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\brunch.bmp");//20
     v.push_back(ID);
 }
 int main(int argc, char *argv[])
