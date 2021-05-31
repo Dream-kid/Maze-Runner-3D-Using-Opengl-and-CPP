@@ -70,6 +70,16 @@ float l_val=.1;
 int bridge_val=0;
 bool is_start=1;
 string str_name="Sourav";
+GLint Steps = 4; //a fountain has several steps, each with its own height
+GLint RaysPerStep =8;
+GLint DropsPerRay = 40;
+GLfloat DropsComplete = Steps * RaysPerStep * DropsPerRay;
+GLfloat AngleOfDeepestStep = 120;
+GLfloat AccFactor = 0.011;
+#define PI 3.14152653597689786
+#define RandomFactor 2.0
+bool flag1=1;
+int arrr[]= {7,11,47,67,35-3,85,105,74,227,55,95+7,555};
 void reset()
 {
     timer=0;
@@ -867,6 +877,130 @@ void wall()
     walloff();
 }
 
+//unsigned int i;
+
+GLfloat xt=0.0,yt=0.0,zt=0.0;
+GLfloat xangle=0.0,yangle=0.0,zangle=0.0;
+GLfloat X[3];
+GLfloat WaterHeight = .45;
+struct edge
+{
+    GLfloat x,y,z;
+};
+
+///////////////////////////////fountain///////////////////////////////////
+struct waterdrop
+{
+
+    GLfloat time;
+    edge ConstantSpeed;
+    GLfloat AccFactor;
+    void SetConstantSpeed (edge NewSpeed);
+    void SetAccFactor(GLfloat NewAccFactor);
+    void SetTime(GLfloat NewTime);
+    void GetNewPosition(edge * PositionVertex); //increments time, gets the new position
+};
+
+void waterdrop::SetConstantSpeed(edge NewSpeed)
+{
+    ConstantSpeed = NewSpeed;
+}
+
+void waterdrop::SetAccFactor (GLfloat NewAccFactor)
+{
+    AccFactor = NewAccFactor;
+}
+
+void waterdrop::SetTime(GLfloat NewTime)
+{
+    time = NewTime;
+}
+
+void waterdrop::GetNewPosition(edge * PositionVertex)
+{
+    edge Position;
+    time += 0.15;
+    Position.x = ConstantSpeed.x * time;
+    Position.y = ConstantSpeed.y * time - AccFactor * time *time;
+    Position.z = ConstantSpeed.z * time;
+    PositionVertex->x = Position.x;
+    PositionVertex->y = Position.y + WaterHeight;
+    PositionVertex->z = Position.z;
+    if (Position.y < 0.0)
+    {
+        time = time - int(time);
+        if (time > 0.0)
+            time -= 1.0;
+    }
+
+}
+
+waterdrop * FountainDrops;
+edge * FountainVertices;
+
+// Creating reservoir boundary
+
+GLfloat GetRandomFloat(GLfloat range)
+{
+    return (GLfloat)rand() / (GLfloat)RAND_MAX * range * RandomFactor;
+}
+
+void init(void)
+{
+    FountainDrops = new waterdrop [ (int)DropsComplete ];
+    FountainVertices = new edge [ (int)DropsComplete ];
+    edge NewSpeed;
+    GLfloat DropAccFactor;
+    GLfloat TimeNeeded;
+    GLfloat StepAngle;
+    GLfloat RayAngle;
+    GLint i,j,k;
+    for (k = 0; k <Steps; k++)
+    {
+        for (j = 0; j < RaysPerStep; j++)
+        {
+            for (i = 0; i < DropsPerRay; i++)
+            {
+                DropAccFactor = AccFactor + GetRandomFloat(0.0005);
+                StepAngle = AngleOfDeepestStep + (90.0-AngleOfDeepestStep)
+                            * GLfloat(k) / (Steps-1) + GetRandomFloat(0.2+0.8*(Steps-k-1)/(Steps-1));
+                NewSpeed.x = cos ( StepAngle * PI / 180.0) * (0.2+0.04);
+                NewSpeed.y = sin ( StepAngle * PI / 180.0) * (0.2+0.04);
+                RayAngle = (GLfloat)j / (GLfloat)RaysPerStep * 360.0;
+                NewSpeed.z = NewSpeed.x * sin ( RayAngle * PI /180.0);
+                NewSpeed.x = NewSpeed.x * cos ( RayAngle * PI /180.0);
+                TimeNeeded = NewSpeed.y/ DropAccFactor;
+                FountainDrops[i+j*DropsPerRay+k*DropsPerRay*RaysPerStep].SetConstantSpeed ( NewSpeed );
+                FountainDrops[i+j*DropsPerRay+k*DropsPerRay*RaysPerStep].SetAccFactor (DropAccFactor);
+                FountainDrops[i+j*DropsPerRay+k*DropsPerRay*RaysPerStep].SetTime(TimeNeeded * i / DropsPerRay);
+            }
+        }
+    }
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(3,GL_FLOAT,0,FountainVertices);
+}
+
+
+void DrawFountain(int vall)
+{
+
+    if(vall==1)
+        cube(0,0,1,0,1,1);
+    if(vall==2)
+        cube(1,0,1,0,1,1);
+    if(vall==3)
+        cube(1,0,0,0,1,1);
+    if(vall==4)
+        cube(0,1,0,0,1,1);
+
+    for (int i = 0; i < DropsComplete; i++)
+    {
+        FountainDrops[i].GetNewPosition(&FountainVertices[i]);
+    }
+    glDrawArrays(GL_POINTS,0,DropsComplete);
+}
+
+
 
 int life=3;
 bool over=0;
@@ -1381,15 +1515,13 @@ void makecylinder(float height,float Base)
     glBindTexture(GL_TEXTURE_2D,v[20]);
     cube(.5, .5, .5,0,1,1);
     glPushMatrix();
-        gluQuadricTexture(qobj,1);
+    gluQuadricTexture(qobj,1);
 
     glRotatef(-90, 1.0f, 0.0f, 0.0f);
     gluCylinder(qobj, Base, Base - (0.2 * Base), height, 20, 20);
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
 }
-bool flag=1;
-int arrr[]= {7,11,47,67,35-3,85,105,74,227,55,95+7,555};
 
 void maketree(float height,float Base,int val)
 {
@@ -1413,11 +1545,11 @@ void maketree(float height,float Base,int val)
     if (height > 1)
     {
         glPushMatrix();
-        if (flag)
+        if (flag1)
             glRotatef(angle, 1.0f, 0.0f, 1.0f);
         else
             glRotatef(angle, 0.0f, 1.0f, 1.0f);
-        flag = !flag;
+        flag1 = !flag1;
         maketree(height, Base,arrr[int(val+97)%10]); //recursive call
         glPopMatrix();
 
@@ -1426,18 +1558,18 @@ void maketree(float height,float Base,int val)
     {
 
         GLUquadric *quad;
-    quad = gluNewQuadric();
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[19]);
-    glPushMatrix();
-    //glTranslatef(0,1.2,0);
-   // glScalef(.9,.9,.9 );
-   glTranslatef(0.0f, -2.2f,0.0f);
-   cube(1,1,1,0,1,1);
-    gluQuadricTexture(quad,1);
-    gluSphere(quad,2,4,4);
-    glPopMatrix();
-    glDisable(GL_TEXTURE_2D);
+        quad = gluNewQuadric();
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D,v[19]);
+        glPushMatrix();
+        //glTranslatef(0,1.2,0);
+        // glScalef(.9,.9,.9 );
+        glTranslatef(0.0f, -2.2f,0.0f);
+        cube(1,1,1,0,1,1);
+        gluQuadricTexture(quad,1);
+        gluSphere(quad,2,4,4);
+        glPopMatrix();
+        glDisable(GL_TEXTURE_2D);
 
     }
     //Glut.glutSwapBuffers();
@@ -1451,23 +1583,49 @@ void tree()
     for(int i=-10; i<=20; i+=10)
     {
         glPushMatrix();
-        glTranslatef(-17.9,1,-155+30+i);
+        glTranslatef(-17.9,.5,-155+30+i);
         //glRotatef(-25,0,1,0);
         //glScalef(2,2,.5);
         cube(1,1,1,0,1,1);
-        flag=1;
+        flag1=1;
         for(int j=5; j<=10; j++)
         {
             glRotatef(-33+spt_cutoff,0,1,0);
             maketree(2.5f,.5f,arrr[j]);
-            flag=1;
+            flag1=1;
         }
 
         glPopMatrix();
     }
 }
 
+void fountain()
+{
+    int vall=0;
+    for(int i=0; i<=30; i+=10)
+    {
+        glPushMatrix();
+        vall++;
+        glTranslatef(-10,-4,i);
+        glPushMatrix();
+        glTranslatef(12.9,1,-155+20);
+        init();
+        glScalef(4,8,2);
+        DrawFountain(vall);
+        glPopMatrix();
 
+
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D,v[14]);
+        glPushMatrix();
+        glTranslatef(11.9,4,-156+20);
+        glScalef(2.5,1,2.9 );
+        cube(1,1,1);
+        glPopMatrix();
+        glDisable(GL_TEXTURE_2D);
+        glPopMatrix();
+    }
+}
 void moshal()
 {
     glEnable(GL_TEXTURE_2D);
@@ -1476,6 +1634,7 @@ void moshal()
     {
         glPushMatrix();
         glTranslatef(28.9,5,-155+30+i+5);
+
         //glRotatef(-25,0,1,0);
         glScalef(1,6,2);
         cube(1,1,1);
@@ -1570,9 +1729,9 @@ void light()
 
     if(c>-7)
         game_over();
-
     moshal();
-if(left_turn)design();
+    if(left_turn)
+        design();
     if(over)
         is_start=1,b=1,bridge_val=0;
     if(!over)
@@ -1598,7 +1757,9 @@ if(left_turn)design();
 
             }
             else
-            { tree();
+            {
+                fountain();
+                tree();
                 rope();
                 bridge();
                 point1();
