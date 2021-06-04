@@ -590,7 +590,7 @@ float k=0;
 void spin()
 {
     angle +=k;
-    k=4;
+    k=8;
     if (angle >= 360)
         angle = 0;
 
@@ -620,7 +620,10 @@ void fan()
     glPushMatrix();
     glScalef(1,.1,1);
     glTranslatef(-5,150,2);
-    cube(1, 1, 1);            // Set color as glColor3f(R,G,B)
+    cube(1, 1, 1);
+    glRotatef(90,1,0,0);
+    //cout<<spt_cutoff<<endl;
+    // Set color as glColor3f(R,G,B)
     glRotatef(angle, 0, 0, 1);
     glRecti(-a4, -a4, a4, a4);
     cube(1, 0, 0);
@@ -937,7 +940,7 @@ void player()
     gluQuadricTexture(quad,1);
     glPushMatrix();
     cube(1,1,1,0,1,1);
-    glTranslatef(0,2.3,0);
+    glTranslatef(0,2.2,0);
     glScalef(1.2,1.2,1.2);
     gluSphere(quad,.18,100,100);
     glPopMatrix() ;
