@@ -605,7 +605,7 @@ void fan()
     float length = 10;
     float width = 0.7;
     glPushMatrix();
-    glTranslatef(.5,-3+.7,-.2);
+    glTranslatef(.5,-3+.8,-.2);
     glPushMatrix();
     // glRotatef(l_height,0,1,0);
     glScalef(.1,.3,.1);
@@ -940,7 +940,7 @@ void player()
     gluQuadricTexture(quad,1);
     glPushMatrix();
     cube(1,1,1,0,1,1);
-    glTranslatef(0,2.2,0);
+    glTranslatef(0,2.4,0);
     glScalef(1.2,1.2,1.2);
     gluSphere(quad,.18,100,100);
     glPopMatrix() ;
@@ -951,20 +951,20 @@ void player()
 
     ///eyeright();
     glPushMatrix();
-    glTranslatef(.17,1.1,.75);
+    glTranslatef(.17,1.1,.84);
     glRotatef(-45,0,0,1);
     glScalef(.9,.7,.7);
     cube(1.0,0.0,0.0,0,1,1);
-    gluSphere(gluNewQuadric(),.3,100,100);
+    gluSphere(gluNewQuadric(),.2,100,100);
     glPopMatrix();
 
     /// eyeleft();
     glPushMatrix();
-    glTranslatef(-.17,1.1,.75);
+    glTranslatef(-.17,1.1,.84);
     glRotatef(45,0,0,1);
     glScalef(.9,.7,.7);
     cube(1.0,0.0,0.0,0,1,1);
-    gluSphere(gluNewQuadric(),.3,100,100);
+    gluSphere(gluNewQuadric(),.2,100,100);
     glPopMatrix();
 
 
@@ -994,30 +994,36 @@ void player()
     glScalef(.59,.59,.59);
     glRotatef(90.0,1,0,0);
     cube(1,1,1,0,1,1);
-    glutSolidTorus(.1,1.0,20,20);
+    glutSolidTorus(.21,1.0,20,20);
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
 
-    cube(35/255.0,20/255.0,180/255.0,0,1,1);
+    cube(1,1,1,0,1,1);
 
     ///legright();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[17]);
+    gluQuadricTexture(quad,1);
     glPushMatrix();
-    glTranslatef(-.3,-.77,0);
-    glScalef(1,1.5,1);
+
+    glTranslatef(-.5,-.77,0);
+    glScalef(.65,1.5,.65);
     glRotatef(-90.0,1,0,0);
     glScalef(.8,.8,.8);
-    gluCylinder(gluNewQuadric(),.5,.5,.5,35,6);
+    gluCylinder(quad,.5,.5,.5,35,6);
     glPopMatrix();
 
 
     /// legleft();
     glPushMatrix();
-    glTranslatef(.3,-.77,0);
-    glScalef(1,1.5,1);
+    glTranslatef(.5,-.77,0);
+    glScalef(.7,1.5,.7);
     glRotatef(-90.0,1,0,0);
-    glScalef(.8,.8,.8);
-    gluCylinder(gluNewQuadric(),.5,.5,.5,35,6);
+    glScalef(.65,.8,.65);
+    gluCylinder(quad,.5,.5,.5,35,6);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+
 
     cube(255/255.0,90/255.0,0,0,1,1);
 
@@ -1029,7 +1035,7 @@ void player()
     glPushMatrix();
     glTranslatef(-.82,0,.1);
     glRotatef(90,0,1,0);
-    glRotatef(-50,1,0,0);
+    glRotatef(-40,1,0,0);
     cube(1,1,1,0,1,1);
     gluCylinder(quad,.15,.15,.48,30,6);
     glPopMatrix();
@@ -1082,10 +1088,10 @@ void player()
 
 ///    mouth();
     glPushMatrix();
-    glTranslatef(0,.8,.74);
-    glScalef(.4,.4,.1);
+    glTranslatef(0,.75,.8);
+    glScalef(.8,.4,.1);
     cube(.0,0.0,0.0,0,1,1);
-    gluSphere(gluNewQuadric(),.5,100,100);
+    gluSphere(gluNewQuadric(),.2,100,100);
     glPopMatrix();
 
 
@@ -1095,7 +1101,7 @@ void player()
     glBindTexture(GL_TEXTURE_2D,v[17]);
     glPushMatrix();
     glTranslatef(0,1.2,0);
-    glScalef(.9,.9,.9 );
+    glScalef(.9,1.1,.9 );
     cube(1,1,1,0,1,1);
     gluQuadricTexture(quad,1);
     gluSphere(quad,1,100,100);
@@ -1104,21 +1110,25 @@ void player()
     cube(0.0,0.0,0.0,0,1,1);
 
     ///footleft();
+    quad = gluNewQuadric();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[17]);
+    gluQuadricTexture(quad,1);
     glPushMatrix();
-    glTranslatef(-.3,-.9,0);
-    glScalef(1.5,.5,1.5);
-    cube(0.0,0.0,0.0,0,1,1);
-    gluSphere(gluNewQuadric(),.3,100,100);
+    glTranslatef(-.5,-.9,0);
+    glScalef(1.3,.5,1.6);
+    cube(.0,0.0,1.0,0,1,1);
+    gluSphere(quad,.3,100,100);
     glPopMatrix();
 
     /// footright();
     glPushMatrix();
-    glTranslatef(.3,-.9,0);
-    glScalef(1.5,.5,1.5);
-    cube(0.0,0.0,0.0,0,1,1);
-    gluSphere(gluNewQuadric(),.3,100,100);
+    glTranslatef(.5,-.9,0);
+    glScalef(1.3,.5,1.6);
+    cube(0.0,0.0,1.0,0,1,1);
+    gluSphere(quad,.3,100,100);
     glPopMatrix();
-
+    glDisable(GL_TEXTURE_2D);
     ///  topbutton();
     quad = gluNewQuadric();
     glPushMatrix();
@@ -1148,7 +1158,7 @@ void player()
     quad = gluNewQuadric();
     glPushMatrix();
     cube(1,0,1,0,1,1);
-    glTranslatef(0,.9,.75);
+    glTranslatef(0,.9,.8);
     glScalef(1.9,1.9,1.9);
     gluSphere(quad,.07,100,100);
     glPopMatrix();
