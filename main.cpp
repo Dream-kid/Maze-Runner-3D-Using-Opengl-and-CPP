@@ -78,6 +78,28 @@ GLfloat AngleOfDeepestStep = 120;
 GLfloat AccFactor = 0.011;
 #define PI 3.14152653597689786
 #define RandomFactor 2.0
+const int L=20;
+const int dgre=3;
+int ncpt=L+1;
+int clikd=0;
+const int nt = 40;				//number of slices along x-direction
+const int ntheta = 20;
+
+
+GLfloat ctrlpoints[L+1][3] =
+{
+  { 0.5, 1.5, 0.0},
+    {1.0, 1.5, 0.0}, {1.4, 1.4, 0.0},
+    {1.8, 0.4, 0.0},{2.2, 0.4, 0.0},
+    {2.6, 1.5, 0.0}, {3.0, 1.4, 0.0},
+    {3.4, 1.4, 0.0},{3.8, 1.4, 0.0},
+    {4.2, 1.0, 0.0},{4.6, 1.0, 0.0},
+    {5.0, 1.0, 0.0},{5.4, 1.0, 0.0},
+    {5.8, 0.5, 0.0},{6.2, 0.5, 0.0},
+    {6.6, 0.5, 0.0},{7.2, 0.2, 0.0},
+    {6.8, 0.52, 0.0}
+};
+
 bool flag1=1;
 int arrr[]= {7,11,47,67,35-3,85,105,74,227,55,95+7,555};
 void reset()
@@ -119,7 +141,7 @@ void reset()
 
     l_val=.1;
 }
-static void getNormal3p(GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GLfloat z2, GLfloat x3, GLfloat y3, GLfloat z3)
+static void getNormal3p(GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GLfloat z2, GLfloat x3, GLfloat y3, GLfloat z3,float val=1)
 {
     GLfloat Ux, Uy, Uz, Vx, Vy, Vz, Nx, Ny, Nz;
 
@@ -135,7 +157,7 @@ static void getNormal3p(GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat 
     Ny = Uz*Vx - Ux*Vz;
     Nz = Ux*Vy - Uy*Vx;
 
-    glNormal3f(Nx,Ny,Nz);
+    glNormal3f(Nx*val,Ny*val,Nz*val);
 }
 
 static GLfloat v_cube[8][3] =
@@ -283,6 +305,112 @@ static void res(int width, int height)
     glViewport(0, 0, width, height);
 }
 
+
+long long nCr(int n, int r)
+{
+    if(r > n / 2) r = n - r; // because C(n, r) == C(n, n - r)
+    long long ans = 1;
+    int i;
+
+    for(i = 1; i <= r; i++)
+    {
+        ans *= n - r + i;
+        ans /= i;
+    }
+
+    return ans;
+}
+
+//polynomial interpretation for N points
+void BezierCurve ( double t,  float xy[2])
+{
+    double y=0;
+    double x=0;
+    t=t>1.0?1.0:t;
+    for(int i=0; i<=L; i++)
+    {
+        int ncr=nCr(L,i);
+        double oneMinusTpow=pow(1-t,double(L-i));
+        double tPow=pow(t,double(i));
+        double coef=oneMinusTpow*tPow*ncr;
+        x+=coef*ctrlpoints[i][0];
+        y+=coef*ctrlpoints[i][1];
+
+    }
+    xy[0] = float(x);
+    xy[1] = float(y);
+
+    //return y;
+}
+
+void tunnnelbezier()
+{
+
+    int i, j;
+    float x, y, z, r;				//current coordinates
+    float x1, y1, z1, r1;			//next coordinates
+    float theta;
+
+    const float startx = 0, endx = ctrlpoints[L][0];
+    //number of angular slices
+    const float dx = (endx - startx) / nt;	//x step size
+    const float dtheta = 2*PI / ntheta;		//angular step size
+
+    float t=0;
+    float dt=1.0/nt;
+    float xy[2];
+    BezierCurve( t,  xy);
+    x = xy[0];
+    r = xy[1];
+    //rotate about z-axis
+    float p1x,p1y,p1z,p2x,p2y,p2z;
+    for ( i = 5; i < 15; ++i )  			//step through x
+    {
+        theta = 0;
+        t+=dt;
+        BezierCurve( t,  xy);
+        x1 = xy[0];
+        r1 = xy[1];
+
+        //draw the surface composed of quadrilaterals by sweeping theta
+        glBegin( GL_QUAD_STRIP );
+        for ( j = 0; j <= 8; ++j )
+        {
+            theta += dtheta;
+            double cosa = cos( theta );
+            double sina = sin ( theta );
+            y = r * cosa;
+            y1 = r1 * cosa;	//current and next y
+            z = r * sina;
+            z1 = r1 * sina;	//current and next z
+
+            //edge from point at x to point at next x
+            glVertex3f (x, y, z);
+
+            if(j>0)
+            {
+                getNormal3p(p1x,p1y,p1z,p2x,p2y,p2z,x, y, z,-1);
+            }
+            else
+            {
+                p1x=x;
+                p1y=y;
+                p1z=z;
+                p2x=x1;
+                p2y=y1;
+                p2z=z1;
+
+            }
+            glVertex3f (x1, y1, z1);
+
+            //forms quad with next pair of points with incremented theta value
+        }
+        glEnd();
+        x = x1;
+        r = r1;
+    } //for i
+
+}
 void axes()
 {
     float length = 10;
@@ -844,7 +972,7 @@ void walloff()
     glPushMatrix();
     glScalef(68,20,20);
     // glRotatef(,0,1,0);
-    glTranslatef(3.11-3.599-.05,0,.9+.05-.9+spt_cutoff);
+    glTranslatef(3.11-3.599-.05,0,.9+.05-.9);
     cube(1,1,1-left_turn,0,1);
     if(fire1<=15&&!fire2)
         fire1+=.1;
@@ -1402,13 +1530,26 @@ void rope()
     //  glDisable(GL_TEXTURE_2D);
 }
 
+void tunnel()
+{
+       glPushMatrix();
+    glTranslatef(-32+20+9+1,-5+.5+4,-155+45+5+6-5-2+64-5-11);
+    glScalef(7+2,10-2+1,15);
+    glRotatef(-106+10+12,1,0,0);
+    glRotatef(-80-7-3-25-7,0,0,1);
+    glRotatef(211,0,0,1);
+    cube(	0.282, 0.239, 0.545,0,1,1);
+     tunnnelbezier();
+    glPopMatrix();
+  //  cout<<spt_cutoff<<endl;
+}
 void bridge()
 {
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[2]);
     glPushMatrix();
-    glTranslatef(-32+20,3,-155+45+5+6);
-    glScalef(20,2,45);
+    glTranslatef(-32+20-2,3,-155+45+5+6);
+    glScalef(24,2,45);
     cube(1,1,1,0,3);
     glPopMatrix();
     glBindTexture(GL_TEXTURE_2D,v[6]);
@@ -1590,7 +1731,7 @@ void tree()
         flag1=1;
         for(int j=5; j<=10; j++)
         {
-            glRotatef(-33+spt_cutoff,0,1,0);
+            glRotatef(-33,0,1,0);
             maketree(2.5f,.5f,arrr[j]);
             flag1=1;
         }
@@ -1659,6 +1800,7 @@ void moshal()
     glTranslatef(6,-1.4,-155);
     //glRotatef(-45,0,1,0);
     glScalef(55,1.5,200);
+
     if(left_turn)
         cube(left_turn,left_turn,0,0,10);
     glPopMatrix();
@@ -1704,10 +1846,13 @@ int arr10[8][6]= {{-214+c+155,5+b-1,-518,-288,0+a+15+add_lef,28},
 };
 void light()
 {
+  //  left_turn=0;
 
 //light 1
 //fire1
+ // bridge();
 
+            //  tunnel();
     if(pop||vall)
     {
         if(!pop)
@@ -1762,6 +1907,8 @@ void light()
                 tree();
                 rope();
                 bridge();
+
+                tunnel();
                 point1();
             }
         }
@@ -1791,7 +1938,7 @@ void light()
     glPushMatrix();
     glTranslatef(a+add_lef,18,c+39+13);
     int a1=15,b1=30,c1=-15;
-    glRotatef(spt_cutoff-39,0,1,0);
+    glRotatef(-39,0,1,0);
     spot_light1(a1-157+31,b+1+263,c1-131); //l_on5
     glPopMatrix();
 
