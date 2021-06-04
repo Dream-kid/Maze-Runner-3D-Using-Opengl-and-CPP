@@ -969,7 +969,7 @@ void player()
     glPushMatrix();
     glTranslatef(-.3,1.5,.9);;
     glRotatef(90,0,1,0);
-    glRotatef(45,1,0,0);
+    glRotatef(20,1,0,0);
     cube(0.0,0.0,0.0,0,1,1);
     gluCylinder(gluNewQuadric(),.05,.01,.3,4,6);
     glPopMatrix();
@@ -978,7 +978,7 @@ void player()
     glPushMatrix();
     glTranslatef(.3,1.5,.9);
     glRotatef(270,0,1,0);
-    glRotatef(45,1,0,0);
+    glRotatef(20,1,0,0);
     gluCylinder(gluNewQuadric(),.05,.01,.3,4,6);
     glPopMatrix();
     cube(0.0,1.0,0.0,0,1,1);
@@ -995,23 +995,25 @@ void player()
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
 
-    cube(50/255.0,40/255.0,60/255.0,0,1,1);
+    cube(35/255.0,20/255.0,180/255.0,0,1,1);
 
     ///legright();
     glPushMatrix();
-    glTranslatef(-.3,-.5,0);
+    glTranslatef(-.3,-.77,0);
+    glScalef(1,1.5,1);
     glRotatef(-90.0,1,0,0);
     glScalef(.8,.8,.8);
-    gluCylinder(gluNewQuadric(),.5,.5,.5,30,6);
+    gluCylinder(gluNewQuadric(),.5,.5,.5,35,6);
     glPopMatrix();
 
 
     /// legleft();
     glPushMatrix();
-    glTranslatef(.3,-.5,0);
+    glTranslatef(.3,-.77,0);
+    glScalef(1,1.5,1);
     glRotatef(-90.0,1,0,0);
     glScalef(.8,.8,.8);
-    gluCylinder(gluNewQuadric(),.5,.5,.5,30,6);
+    gluCylinder(gluNewQuadric(),.5,.5,.5,35,6);
     glPopMatrix();
 
     cube(255/255.0,90/255.0,0,0,1,1);
@@ -1051,7 +1053,7 @@ void player()
     gluQuadricTexture(quad,1);
     glPushMatrix();
     glTranslatef(0,.5,0);
-    glScalef(1,.7,1);
+    glScalef(1,.9,1);
     glRotatef(90.0,1,0,0);
     cube(1,1,1,0,1,1);
     gluCylinder(quad,.6,.8,1,100,100);
@@ -1059,12 +1061,12 @@ void player()
     glDisable(GL_TEXTURE_2D);
 
 
-    cube(0,185/255.0,0,0,1,1);
+    cube(0,185/255.0,.3,0,1,1);
     ///  handright();
     glPushMatrix();
     glTranslatef(-.82,0,.1);
     glScalef(.4,.3,.3);
-    gluSphere(gluNewQuadric(),.4,100,100);
+    gluSphere(gluNewQuadric(),.6,100,100);
     glPopMatrix();
 
 
@@ -1072,27 +1074,17 @@ void player()
     glPushMatrix();
     glTranslatef(.82,0,.1);
     glScalef(.4,.3,.3);
-    gluSphere(gluNewQuadric(),.4,100,100);
+    gluSphere(gluNewQuadric(),.6,100,100);
     glPopMatrix();
 
 ///    mouth();
     glPushMatrix();
-    glTranslatef(0,.78,.74);
+    glTranslatef(0,.8,.74);
     glScalef(.4,.4,.1);
-    cube(0.0,0.0,0.0,0,1,1);
-    gluSphere(gluNewQuadric(),.4,100,100);
+    cube(.0,0.0,0.0,0,1,1);
+    gluSphere(gluNewQuadric(),.5,100,100);
     glPopMatrix();
 
-    /// teeth();
-    glPushMatrix();
-    cube(1.0,1.0,1.0,0,1,1);
-    glTranslatef(-.08,.72,.76);
-    glTranslatef(.055,0,.005 );
-    glutSolidCube(.035);
-    glTranslatef(.055,0,0 );
-    glutSolidCube(.035);
-    glPopMatrix();
-    cube(255/255.0,222/255.0,173/255.0,0,1,1);
 
     ///head();
     quad = gluNewQuadric();
@@ -1110,16 +1102,16 @@ void player()
 
     ///footleft();
     glPushMatrix();
-    glTranslatef(-.3,-.5,0);
-    glScalef(1.5,.3,1.5);
+    glTranslatef(-.3,-.9,0);
+    glScalef(1.5,.5,1.5);
     cube(0.0,0.0,0.0,0,1,1);
     gluSphere(gluNewQuadric(),.3,100,100);
     glPopMatrix();
 
     /// footright();
     glPushMatrix();
-    glTranslatef(.3,-.5,0);
-    glScalef(1.5,.3,1.5);
+    glTranslatef(.3,-.9,0);
+    glScalef(1.5,.5,1.5);
     cube(0.0,0.0,0.0,0,1,1);
     gluSphere(gluNewQuadric(),.3,100,100);
     glPopMatrix();
@@ -1138,14 +1130,24 @@ void player()
     glPushMatrix();
     glTranslatef(-.17,1.1,.88);
     glScalef(.9,.9,.9);
-    gluSphere(gluNewQuadric(),.1,100,100);
+    gluSphere(gluNewQuadric(),.13,100,100);
     glPopMatrix();
 
     ///pupilright();
     glPushMatrix();
     glTranslatef(.17,1.1,.88);
     glScalef(.9,.9,.9);
-    gluSphere(gluNewQuadric(),.1,100,100);
+    gluSphere(gluNewQuadric(),.13,100,100);
+    glPopMatrix();
+
+
+    ///  nose
+    quad = gluNewQuadric();
+    glPushMatrix();
+    cube(1,0,1,0,1,1);
+    glTranslatef(0,.9,.75);
+    glScalef(1.9,1.9,1.9);
+    gluSphere(quad,.07,100,100);
     glPopMatrix();
 
 
@@ -1419,8 +1421,8 @@ void rope()
 void tunnel()
 {
     glPushMatrix();
-    glTranslatef(-32+20+9+1,-5+.5+4,-155+45+5+6-5-2+64-5-11);
-    glScalef(7+2,10-2+1,15);
+    glTranslatef(-32+20+9+1,-5+.5+1,-155+45+5+6-5-2+64-5-11);
+    glScalef(7+2,10-2+1+3,15);
     glRotatef(-106+10+12,1,0,0);
     glRotatef(-80-7-3-25-7,0,0,1);
     glRotatef(211,0,0,1);
@@ -1434,7 +1436,7 @@ void bridge()
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[2]);
     glPushMatrix();
-    glTranslatef(-32+20-2,3,-155+45+5+6);
+    glTranslatef(-32+20-2,2,-155+45+5+6);
     glScalef(24,2,45);
     cube(1,1,1,0,3);
     glPopMatrix();
@@ -1733,13 +1735,13 @@ int arr10[8][6]= {{-214+c+155,5+b-1,-518,-288,0+a+15+add_lef,28},
 void light()
 {
     //cout<<eyeX<<" "<<eyeY<< " "<<eyeZ<<" "<<centerX<<" "<<centerY<<" "<<centerZ<<endl;
-    //  left_turn=0;
+//  left_turn=0;
 
 //light 1
 //fire1
-// bridge();
+//bridge();
 
-    //  tunnel();
+//   tunnel();
     if(pop||vall)
     {
         if(!pop)
