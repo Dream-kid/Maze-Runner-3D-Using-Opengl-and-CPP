@@ -17,6 +17,7 @@ int score=0;
 GLfloat centerX = -288;
 GLfloat centerY = 0;
 GLfloat centerZ = 28;
+float view3rd=0;
 float a12=1.0;
 float s12=1.0;
 float d12=1.0;
@@ -88,7 +89,7 @@ const int ntheta = 20;
 
 GLfloat ctrlpoints[L+1][3] =
 {
-  { 0.5, 1.5, 0.0},
+    { 0.5, 1.5, 0.0},
     {1.0, 1.5, 0.0}, {1.4, 1.4, 0.0},
     {1.8, 0.4, 0.0},{2.2, 0.4, 0.0},
     {2.6, 1.5, 0.0}, {3.0, 1.4, 0.0},
@@ -104,6 +105,7 @@ bool flag1=1;
 int arrr[]= {7,11,47,67,35-3,85,105,74,227,55,95+7,555};
 void reset()
 {
+    view3rd=0;
     timer=0;
     a1=1,b1=0,c1=0;
     memset(arr,0,sizeof(arr));
@@ -308,7 +310,8 @@ static void res(int width, int height)
 
 long long nCr(int n, int r)
 {
-    if(r > n / 2) r = n - r; // because C(n, r) == C(n, n - r)
+    if(r > n / 2)
+        r = n - r; // because C(n, r) == C(n, n - r)
     long long ans = 1;
     int i;
 
@@ -1532,16 +1535,16 @@ void rope()
 
 void tunnel()
 {
-       glPushMatrix();
+    glPushMatrix();
     glTranslatef(-32+20+9+1,-5+.5+4,-155+45+5+6-5-2+64-5-11);
     glScalef(7+2,10-2+1,15);
     glRotatef(-106+10+12,1,0,0);
     glRotatef(-80-7-3-25-7,0,0,1);
     glRotatef(211,0,0,1);
     cube(	0.282, 0.239, 0.545,0,1,1);
-     tunnnelbezier();
+    tunnnelbezier();
     glPopMatrix();
-  //  cout<<spt_cutoff<<endl;
+    //  cout<<spt_cutoff<<endl;
 }
 void bridge()
 {
@@ -1580,7 +1583,7 @@ void bridge()
     else if(c>-50)
     {
         bridge_j=0;
-        eyeY = 5;
+        eyeY = 5-view3rd*2;
         bridge_val=0;
     }
     //  cout<<l_height<<" "<<spt_cutoff<<endl;
@@ -1846,13 +1849,14 @@ int arr10[8][6]= {{-214+c+155,5+b-1,-518,-288,0+a+15+add_lef,28},
 };
 void light()
 {
-  //  left_turn=0;
+    //cout<<eyeX<<" "<<eyeY<< " "<<eyeZ<<" "<<centerX<<" "<<centerY<<" "<<centerZ<<endl;
+    //  left_turn=0;
 
 //light 1
 //fire1
- // bridge();
+// bridge();
 
-            //  tunnel();
+    //  tunnel();
     if(pop||vall)
     {
         if(!pop)
@@ -1888,7 +1892,7 @@ void light()
                 cnt_dwn++,eyeY=8,bridge_val=3;
             if(cnt_dwn>=95||!mark11)
             {
-                eyeY=5;
+                eyeY=5-view3rd*2;;
                 mark11=0;
                 b=1;
                 cnt_dwn=0;
@@ -2048,6 +2052,7 @@ static void display(void)
 //over=1;
     //drawStrokeText("Score ",0,0,0);
     // drawStrokeText(arr12,0,0,4);
+    if(!view3rd){
     if(!pop)
     {
         if(!over)
@@ -2074,6 +2079,7 @@ static void display(void)
             drawStrokeText(str,0,-1,-7,2.0);
             drawStrokeText("*** Press Esc for exit game",0,6,-9);
         }
+    }
     }
     // if(check3<=50)check3=50,check4-=.015;
 
@@ -2194,6 +2200,25 @@ static void key(unsigned char key, int x, int y)
 
     case 'q':
         pop=1-pop;
+        break;
+    case '0':
+        view3rd=1-view3rd;
+        if(view3rd)
+        {
+            eyeY=3;
+            eyeZ+=4;
+            centerX-=8;
+            centerY+=10;
+            centerZ-=3;
+        }
+        else
+        {
+            eyeY=5;
+            eyeZ-=4;
+            centerX+=8;
+            centerY-=10;
+            centerZ+=3;
+        }
         break;
 
     case 27:
@@ -2461,6 +2486,7 @@ int main(int argc, char *argv[])
     printf("  *** Press ESC for Main Menu.\n");
 
     printf("%d. Press 'q' for alter rotation around character.\n",t++);
+    printf("%d. Press '0' for alter 1st person view.\n",t++);
     printf("%d. Press '9' for alter rotation of character.\n",t++);
 
     glutMainLoop();
