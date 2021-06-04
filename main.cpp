@@ -584,177 +584,8 @@ void light2(float a,float b,float c) //l_on2
 
 
 }
-void eyeright()
-{
-    //function for the right eye
-    glPushMatrix();
-    glTranslatef(.17,1.1,.75);     //Specify the coordinates for the right eye
-    glRotatef(-45,0,0,1);
-    glScalef(.9,.7,.7);            //Specify the size of the right eye
-    cube(1.0,0.0,0.0,0,1,1);       //Specify the color of the eye
-    gluSphere(gluNewQuadric(),.3,100,100);
-    glPopMatrix();
-}
-void eyeleft()
-{
-    glPushMatrix();
-    glTranslatef(-.17,1.1,.75);     //Specify the position for the left eye
-    glRotatef(45,0,0,1);
-    glScalef(.9,.7,.7);
-    cube(1.0,0.0,0.0,0,1,1);
-    gluSphere(gluNewQuadric(),.3,100,100);
-    glPopMatrix();
-}
-
-void legleft()
-{
-    glPushMatrix();
-    glTranslatef(.3,-.5,0);     //Specify the position for the left leg
-    glRotatef(-90.0,1,0,0);
-    glScalef(.8,.8,.8);
-    gluCylinder(gluNewQuadric(),.5,.5,.5,30,6);
-    glPopMatrix();
-}
-
-void legright()
-{
-
-    glPushMatrix();
-    glTranslatef(-.3,-.5,0);     //Specify the position for the right leg
-    glRotatef(-90.0,1,0,0);
-    glScalef(.8,.8,.8);
-    gluCylinder(gluNewQuadric(),.5,.5,.5,30,6);
-    glPopMatrix();
-}
-
-void armleft()
-{
-    GLUquadric *quad;
-    quad = gluNewQuadric();
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[1]);
-    gluQuadricTexture(quad,1);
 
 
-    glPushMatrix();
-    glTranslatef(-.82,0,.1);     //Specify the position for the left arm
-    glRotatef(90,0,1,0);
-    glRotatef(-50,1,0,0);
-    cube(1,1,1,0,1,1);
-    gluCylinder(quad,.15,.15,.48,30,6);
-    glPopMatrix();
-    glDisable(GL_TEXTURE_2D);
-}
-
-void armright()
-{
-    GLUquadric *quad;
-    quad = gluNewQuadric();
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[1]);
-    gluQuadricTexture(quad,1);
-
-    glPushMatrix();
-    glTranslatef(.82,0,.1);      //Specify the position for the right arm
-    glRotatef(90,0,1,0);
-    glRotatef(-130,1,0,0);
-    cube(1,1,1,0,1,1);
-    gluCylinder(quad,.15,.15,.48,30,6);
-    glPopMatrix();
-
-    glDisable(GL_TEXTURE_2D);
-}
-
-void handleft()
-{
-    glPushMatrix();
-    glTranslatef(.82,0,.1);     //Specify the position for the left hand
-    glScalef(.4,.3,.3);
-    gluSphere(gluNewQuadric(),.4,100,100);
-    glPopMatrix();
-}
-void handright()
-{
-    glPushMatrix();
-    glTranslatef(-.82,0,.1);    //Specify the position for the right hand
-    glScalef(.4,.3,.3);
-    gluSphere(gluNewQuadric(),.4,100,100);
-    glPopMatrix();
-}
-
-void mouth()
-{
-    glPushMatrix();
-    glTranslatef(0,.78,.74);
-    glScalef(.4,.4,.1);
-    cube(0.0,0.0,0.0,0,1,1);
-    gluSphere(gluNewQuadric(),.4,100,100);
-    glPopMatrix();
-}
-
-void teeth()
-{
-    glPushMatrix();
-    cube(1.0,1.0,1.0,0,1,1);
-    glTranslatef(-.08,.72,.76);
-    glTranslatef(.055,0,.005 );
-    glutSolidCube(.035);
-    glTranslatef(.055,0,0 );
-    glutSolidCube(.035);
-    glPopMatrix();
-}
-void eyebrowleft()
-{
-    glPushMatrix();
-    glTranslatef(-.3,1.5,.9);;
-    glRotatef(90,0,1,0);
-    glRotatef(45,1,0,0);
-    cube(0.0,0.0,0.0,0,1,1);
-    gluCylinder(gluNewQuadric(),.05,.01,.3,4,6);
-    glPopMatrix();
-}
-
-void eyebrowright()
-{
-    glPushMatrix();
-    glTranslatef(.3,1.5,.9);
-    glRotatef(270,0,1,0);
-    glRotatef(45,1,0,0);
-    gluCylinder(gluNewQuadric(),.05,.01,.3,4,6);
-    glPopMatrix();
-}
-
-void neckring()
-{
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[18]);
-    glPushMatrix();
-    glTranslatef(0,.5,0);
-    glScalef(.59,.59,.59);
-    glRotatef(90.0,1,0,0);
-    cube(1,1,1,0,1,1);
-    glutSolidTorus(.1,1.0,20,20);
-    glPopMatrix();
-    glDisable(GL_TEXTURE_2D);
-}
-
-
-
-void head()
-{
-    GLUquadric *quad;
-    quad = gluNewQuadric();
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[17]);
-    glPushMatrix();
-    glTranslatef(0,1.2,0);
-    glScalef(.9,.9,.9 );
-    cube(1,1,1,0,1,1);
-    gluQuadricTexture(quad,1);
-    gluSphere(quad,1,100,100);
-    glPopMatrix();
-    glDisable(GL_TEXTURE_2D);
-}
 float k=0;
 void spin()
 {
@@ -803,139 +634,6 @@ void fan()
     //cout<<l_height<<" "<<spt_cutoff<<" "<<stop<<endl;
 }
 
-
-void maintopball()
-{
-    GLUquadric *quad;
-    quad = gluNewQuadric();
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[17]);
-    gluQuadricTexture(quad,1);
-    glPushMatrix();
-    cube(1,1,1,0,1,1);
-    glTranslatef(0,2.3,0);
-    glScalef(1.2,1.2,1.2);
-    gluSphere(quad,.18,100,100);
-    glPopMatrix() ;
-    glDisable(GL_TEXTURE_2D);
-}
-
-void hatring()
-{
-
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[1]);
-    glPushMatrix();
-    glTranslatef(0,1.4,0);
-    glScalef(.84,.84,.84);
-    glRotatef(90.0,1,0,0);
-    glutSolidTorus(.1,1.0,20,20);
-    glPopMatrix();
-    glDisable(GL_TEXTURE_2D);
-}
-
-void footleft()
-{
-    glPushMatrix();
-    glTranslatef(-.3,-.5,0);
-    glScalef(1.5,.3,1.5);
-    cube(0.0,0.0,0.0,0,1,1);
-    gluSphere(gluNewQuadric(),.3,100,100);
-    glPopMatrix();
-}
-
-void footright()
-{
-    glPushMatrix();
-    glTranslatef(.3,-.5,0);
-    glScalef(1.5,.3,1.5);
-    cube(0.0,0.0,0.0,0,1,1);
-    gluSphere(gluNewQuadric(),.3,100,100);
-    glPopMatrix();
-}
-
-void bellyCoatbottom()
-{
-    glPushMatrix();
-    glTranslatef(0,-.2,0);
-    glScalef(1,.7,1);
-    glRotatef(90.0,1,0,0);
-    gluDisk(gluNewQuadric(),0,.8,30,30);
-    glPopMatrix();
-}
-
-void BellyCoat()
-{
-    GLUquadric *quad;
-    quad = gluNewQuadric();
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[17]);
-    gluQuadricTexture(quad,1);
-
-    glPushMatrix();
-    glTranslatef(0,.5,0);
-    glScalef(1,.7,1);
-    glRotatef(90.0,1,0,0);
-    cube(1,1,1,0,1,1);
-    gluCylinder(quad,.6,.8,1,100,100);
-    glPopMatrix();
-    glDisable(GL_TEXTURE_2D);
-}
-
-void pupilleft()
-{
-    glPushMatrix();
-    glTranslatef(-.17,1.1,.88);
-    glScalef(.9,.9,.9);
-    gluSphere(gluNewQuadric(),.1,100,100);
-    glPopMatrix();
-}
-
-void pupilright()
-{
-    glPushMatrix();
-    glTranslatef(.17,1.1,.88);
-    glScalef(.9,.9,.9);
-    gluSphere(gluNewQuadric(),.1,100,100);
-    glPopMatrix();
-}
-
-void topbutton()
-{
-
-    GLUquadric *quad;
-    quad = gluNewQuadric();
-
-
-    glPushMatrix();
-    cube(0,0.0,1,0,1,1);
-    glTranslatef(-.1,.4,.65);
-    glScalef(1.9,1.9,1.9);
-    gluSphere(quad,.07,100,100);
-    glPopMatrix();
-}
-void middlebutton()
-{
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[18]);
-    glPushMatrix()  ;
-
-    glTranslatef(-.2,-.17,.5);
-    glScalef(.1,.1,.3);
-    cube(1,1,1);
-    glPopMatrix();
-    glDisable(GL_TEXTURE_2D);
-// cout<<spt_cutoff<<endl;
-}
-void bottombutton()
-{
-    glPushMatrix();
-    glTranslatef(-.1,-.1,.75);
-    glScalef(1.9,1.9,1.9);
-    cube(0.0,0.0,0.0,0,1,1);
-    gluSphere(gluNewQuadric(),.04,100,100);
-    glPopMatrix();
-}
 
 
 void walloff()
@@ -1231,39 +929,224 @@ void swoard()
 }
 void player()
 {
-    maintopball();
+    /// maintopball();
+    GLUquadric *quad;
+    quad = gluNewQuadric();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[17]);
+    gluQuadricTexture(quad,1);
+    glPushMatrix();
+    cube(1,1,1,0,1,1);
+    glTranslatef(0,2.3,0);
+    glScalef(1.2,1.2,1.2);
+    gluSphere(quad,.18,100,100);
+    glPopMatrix() ;
+    glDisable(GL_TEXTURE_2D);
+
     fan();
     swoard();
-    eyeright();
-    eyeleft();
-    eyebrowleft();
-    eyebrowright();
-    cube(0.0,1.0,0.0,0,1,1);
-    neckring();
-    cube(50/255.0,40/255.0,60/255.0,0,1,1);
-    legright();
-    legleft();
-    cube(255/255.0,90/255.0,0,0,1,1);
-    armleft();
-    armright();
-    BellyCoat();
-    cube(0,185/255.0,0,0,1,1);
-    handleft();
-    handright();
-    mouth();
-    teeth();
-    cube(255/255.0,222/255.0,173/255.0,0,1,1);
-    head();
+
+    ///eyeright();
+    glPushMatrix();
+    glTranslatef(.17,1.1,.75);
+    glRotatef(-45,0,0,1);
+    glScalef(.9,.7,.7);
+    cube(1.0,0.0,0.0,0,1,1);
+    gluSphere(gluNewQuadric(),.3,100,100);
+    glPopMatrix();
+
+    /// eyeleft();
+    glPushMatrix();
+    glTranslatef(-.17,1.1,.75);
+    glRotatef(45,0,0,1);
+    glScalef(.9,.7,.7);
+    cube(1.0,0.0,0.0,0,1,1);
+    gluSphere(gluNewQuadric(),.3,100,100);
+    glPopMatrix();
+
+
+    ///eyebrowleft();
+    glPushMatrix();
+    glTranslatef(-.3,1.5,.9);;
+    glRotatef(90,0,1,0);
+    glRotatef(45,1,0,0);
     cube(0.0,0.0,0.0,0,1,1);
-    footleft();
-    footright();
-    topbutton();
-    //  middlebutton();
-    //bottombutton();
+    gluCylinder(gluNewQuadric(),.05,.01,.3,4,6);
+    glPopMatrix();
+
+    /// eyebrowright();
+    glPushMatrix();
+    glTranslatef(.3,1.5,.9);
+    glRotatef(270,0,1,0);
+    glRotatef(45,1,0,0);
+    gluCylinder(gluNewQuadric(),.05,.01,.3,4,6);
+    glPopMatrix();
+    cube(0.0,1.0,0.0,0,1,1);
+
+    /// neckring();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[18]);
+    glPushMatrix();
+    glTranslatef(0,.5,0);
+    glScalef(.59,.59,.59);
+    glRotatef(90.0,1,0,0);
+    cube(1,1,1,0,1,1);
+    glutSolidTorus(.1,1.0,20,20);
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+
+    cube(50/255.0,40/255.0,60/255.0,0,1,1);
+
+    ///legright();
+    glPushMatrix();
+    glTranslatef(-.3,-.5,0);
+    glRotatef(-90.0,1,0,0);
+    glScalef(.8,.8,.8);
+    gluCylinder(gluNewQuadric(),.5,.5,.5,30,6);
+    glPopMatrix();
+
+
+    /// legleft();
+    glPushMatrix();
+    glTranslatef(.3,-.5,0);
+    glRotatef(-90.0,1,0,0);
+    glScalef(.8,.8,.8);
+    gluCylinder(gluNewQuadric(),.5,.5,.5,30,6);
+    glPopMatrix();
+
+    cube(255/255.0,90/255.0,0,0,1,1);
+
+    /// armleft();
+    quad = gluNewQuadric();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[1]);
+    gluQuadricTexture(quad,1);
+    glPushMatrix();
+    glTranslatef(-.82,0,.1);
+    glRotatef(90,0,1,0);
+    glRotatef(-50,1,0,0);
+    cube(1,1,1,0,1,1);
+    gluCylinder(quad,.15,.15,.48,30,6);
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+
+    /// armright();
+    quad = gluNewQuadric();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[1]);
+    gluQuadricTexture(quad,1);
+    glPushMatrix();
+    glTranslatef(.82,0,.1);
+    glRotatef(90,0,1,0);
+    glRotatef(-130,1,0,0);
+    cube(1,1,1,0,1,1);
+    gluCylinder(quad,.15,.15,.48,30,6);
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+
+    /// BellyCoat();
+    quad = gluNewQuadric();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[17]);
+    gluQuadricTexture(quad,1);
+    glPushMatrix();
+    glTranslatef(0,.5,0);
+    glScalef(1,.7,1);
+    glRotatef(90.0,1,0,0);
+    cube(1,1,1,0,1,1);
+    gluCylinder(quad,.6,.8,1,100,100);
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+
+
+    cube(0,185/255.0,0,0,1,1);
+    ///  handright();
+    glPushMatrix();
+    glTranslatef(-.82,0,.1);
+    glScalef(.4,.3,.3);
+    gluSphere(gluNewQuadric(),.4,100,100);
+    glPopMatrix();
+
+
+    /// handleft();
+    glPushMatrix();
+    glTranslatef(.82,0,.1);
+    glScalef(.4,.3,.3);
+    gluSphere(gluNewQuadric(),.4,100,100);
+    glPopMatrix();
+
+///    mouth();
+    glPushMatrix();
+    glTranslatef(0,.78,.74);
+    glScalef(.4,.4,.1);
+    cube(0.0,0.0,0.0,0,1,1);
+    gluSphere(gluNewQuadric(),.4,100,100);
+    glPopMatrix();
+
+    /// teeth();
+    glPushMatrix();
+    cube(1.0,1.0,1.0,0,1,1);
+    glTranslatef(-.08,.72,.76);
+    glTranslatef(.055,0,.005 );
+    glutSolidCube(.035);
+    glTranslatef(.055,0,0 );
+    glutSolidCube(.035);
+    glPopMatrix();
+    cube(255/255.0,222/255.0,173/255.0,0,1,1);
+
+    ///head();
+    quad = gluNewQuadric();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[17]);
+    glPushMatrix();
+    glTranslatef(0,1.2,0);
+    glScalef(.9,.9,.9 );
+    cube(1,1,1,0,1,1);
+    gluQuadricTexture(quad,1);
+    gluSphere(quad,1,100,100);
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
     cube(0.0,0.0,0.0,0,1,1);
 
-    pupilleft();
-    pupilright();
+    ///footleft();
+    glPushMatrix();
+    glTranslatef(-.3,-.5,0);
+    glScalef(1.5,.3,1.5);
+    cube(0.0,0.0,0.0,0,1,1);
+    gluSphere(gluNewQuadric(),.3,100,100);
+    glPopMatrix();
+
+    /// footright();
+    glPushMatrix();
+    glTranslatef(.3,-.5,0);
+    glScalef(1.5,.3,1.5);
+    cube(0.0,0.0,0.0,0,1,1);
+    gluSphere(gluNewQuadric(),.3,100,100);
+    glPopMatrix();
+
+    ///  topbutton();
+    quad = gluNewQuadric();
+    glPushMatrix();
+    cube(0,0.0,1,0,1,1);
+    glTranslatef(-.1,.4,.65);
+    glScalef(1.9,1.9,1.9);
+    gluSphere(quad,.07,100,100);
+    glPopMatrix();
+    cube(0.0,0.0,0.0,0,1,1);
+
+    /// pupilleft();
+    glPushMatrix();
+    glTranslatef(-.17,1.1,.88);
+    glScalef(.9,.9,.9);
+    gluSphere(gluNewQuadric(),.1,100,100);
+    glPopMatrix();
+
+    ///pupilright();
+    glPushMatrix();
+    glTranslatef(.17,1.1,.88);
+    glScalef(.9,.9,.9);
+    gluSphere(gluNewQuadric(),.1,100,100);
+    glPopMatrix();
 
 
 }
@@ -2052,34 +1935,35 @@ static void display(void)
 //over=1;
     //drawStrokeText("Score ",0,0,0);
     // drawStrokeText(arr12,0,0,4);
-    if(!view3rd){
-    if(!pop)
+    if(!view3rd)
     {
-        if(!over)
+        if(!pop)
         {
-            if(!is_start)
+            if(!over)
             {
-                drawStrokeText(str1,0,0,0);
-                drawStrokeText("Press t,u,space & b for left,right,jump & escape door ",0,8,-.5,1.0,1);
+                if(!is_start)
+                {
+                    drawStrokeText(str1,0,0,0);
+                    drawStrokeText("Press t,u,space & b for left,right,jump & escape door ",0,8,-.5,1.0,1);
 
+                }
+                if(is_start)
+                {
+                    drawStrokeText("*** Press v for start the game",0,6,-6);
+                    //  drawStrokeText("Press 0 for change character name",0,6,-7);
+                    drawStrokeText("*** Press Esc for exit game",0,6,-8);
+                    drawStrokeText("Maze Runner 3D",0,6,-2,3.0,1);
+                }
             }
-            if(is_start)
+            else
             {
-                drawStrokeText("*** Press v for start the game",0,6,-6);
-                //  drawStrokeText("Press 0 for change character name",0,6,-7);
-                drawStrokeText("*** Press Esc for exit game",0,6,-8);
+                str="Score:"+str;
                 drawStrokeText("Maze Runner 3D",0,6,-2,3.0,1);
+                drawStrokeText("Game Over",0,-1,-5,2.0);
+                drawStrokeText(str,0,-1,-7,2.0);
+                drawStrokeText("*** Press Esc for exit game",0,6,-9);
             }
         }
-        else
-        {
-            str="Score:"+str;
-            drawStrokeText("Maze Runner 3D",0,6,-2,3.0,1);
-            drawStrokeText("Game Over",0,-1,-5,2.0);
-            drawStrokeText(str,0,-1,-7,2.0);
-            drawStrokeText("*** Press Esc for exit game",0,6,-9);
-        }
-    }
     }
     // if(check3<=50)check3=50,check4-=.015;
 
