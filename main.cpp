@@ -1565,15 +1565,13 @@ void makecylinder(float height,float Base)
     glDisable(GL_TEXTURE_2D);
 }
 
-void maketree(float height,float Base,int val)
+void maketree(float height,float Base,int val,int step=0)
 {
 
 
     //  cout<<spt_cutoff<<endl;
     glPushMatrix();
     //  cout<<height<<" "<<Base<< " "<<val<<endl;
-
-
 
     float angle;
     makecylinder(height, Base);
@@ -1584,7 +1582,7 @@ void maketree(float height,float Base,int val)
     angle = 20+((arrr[(int)(val%10)]))%50;
     if(angle >48)
         angle = -(20+(arrr[(int)((val+17)%10)])%50);
-    if (height > 1)
+    if (height > 1&&step<3)
     {
         glPushMatrix();
         if (flag1)
@@ -1592,7 +1590,7 @@ void maketree(float height,float Base,int val)
         else
             glRotatef(angle, 0.0f, 1.0f, 1.0f);
         flag1 = !flag1;
-        maketree(height, Base,arrr[int(val+97)%10]); //recursive call
+        maketree(height, Base,arrr[int(val+97)%10],step+1); //recursive call
         glPopMatrix();
 
     }
@@ -1630,7 +1628,26 @@ void tree()
         //glScalef(2,2,.5);
         cube(1,1,1,0,1,1);
         flag1=1;
-        for(int j=5; j<=10; j++)
+        for(int j=7; j<=10; j++)
+        {
+            //if(j==6)continue;
+            glRotatef(-33,0,1,0);
+            maketree(2.5f,.5f,arrr[j]);
+            flag1=1;
+        }
+
+        glPopMatrix();
+    }
+
+    for(int i=80; i<=100; i+=10)
+    {
+        glPushMatrix();
+        glTranslatef(-2,.5,-155+30+i);
+        //glRotatef(-25,0,1,0);
+        //glScalef(2,2,.5);
+        cube(1,1,1,0,1,1);
+        flag1=1;
+        for(int j=7; j<=10; j++)
         {
             glRotatef(-33,0,1,0);
             maketree(2.5f,.5f,arrr[j]);
@@ -1661,6 +1678,31 @@ void fountain()
         glBindTexture(GL_TEXTURE_2D,v[14]);
         glPushMatrix();
         glTranslatef(11.9,4,-156+20);
+        glScalef(2.5,1,2.9 );
+        cube(1,1,1);
+        glPopMatrix();
+        glDisable(GL_TEXTURE_2D);
+        glPopMatrix();
+    }
+    vall=0;
+
+    for(int i=90; i<=110; i+=10)
+    {
+        glPushMatrix();
+        vall++;
+        glTranslatef(-10,-4,i);
+        glPushMatrix();
+        glTranslatef(27.9,1,-155+20);
+        init();
+        glScalef(4,8,2);
+        DrawFountain(vall);
+        glPopMatrix();
+
+
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D,v[14]);
+        glPushMatrix();
+        glTranslatef(26.9,4,-156+20);
         glScalef(2.5,1,2.9 );
         cube(1,1,1);
         glPopMatrix();
@@ -1747,11 +1789,13 @@ int arr10[8][6]= {{-214+c+155,5+b-1,-518,-288,0+a+15+add_lef,28},
 };
 void light()
 {
+    //tree();
     //cout<<eyeX<<" "<<eyeY<< " "<<eyeZ<<" "<<centerX<<" "<<centerY<<" "<<centerZ<<endl;
-//  left_turn=0;
+//left_turn=0;
 
 //light 1
 //fire1
+//fountain();
 //bridge();
 
 //   tunnel();
