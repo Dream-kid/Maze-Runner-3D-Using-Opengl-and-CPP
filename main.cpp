@@ -1089,7 +1089,7 @@ void player()
 ///    mouth();
     glPushMatrix();
     glTranslatef(0,.75,.8);
-    glScalef(.8,.4,.1);
+    glScalef(.8,.8,.1);
     cube(.0,0.0,0.0,0,1,1);
     gluSphere(gluNewQuadric(),.2,100,100);
     glPopMatrix();
