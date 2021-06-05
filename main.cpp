@@ -1776,7 +1776,7 @@ void drawStrokeText1(string str,int x,int y,int z,float val=1,int col=0)
 bool pop=0;
 int vall=0;
 int llll=0;
-
+int move_left=0;
 
 int arr10[8][6]= {{-214+c+155,5+b-1,-518,-288,0+a+15+add_lef,28},
     {-214+c+155, 5+b-1, -516, 130,0+a+15+add_lef,2878},
@@ -1799,6 +1799,22 @@ void light()
 //bridge();
 
 //   tunnel();
+//cout<<check1<<endl;
+if(move_left)
+{
+    check1=-445;
+    float val=check2-.1;
+    check2=val;
+    c=-8;
+    a+=lef*4.4;
+    move_left++;
+
+    if(move_left>180){
+      reset();
+            left_turn=1-left_turn;
+            move_left=0;
+    }
+}
     if(pop||vall)
     {
         if(!pop)
@@ -1882,14 +1898,14 @@ void light()
     //spot light
 
     glPushMatrix();
-    glTranslatef(a+add_lef,18,c+39+13);
+   glTranslatef(a+add_lef,18,c+39+13);
     int a1=15,b1=30,c1=-15;
     glRotatef(-39,0,1,0);
     spot_light1(a1-157+31,b+1+263,c1-131); //l_on5
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(a+add_lef,18,c+39+13);
+   glTranslatef(a+add_lef,18,c+39+13);
     a1=15,b1=30,c1=-15;
     glRotatef(-39+37,0,1,0);
     spot_light2(a1-165-157+31,b+1+263+1,c1-131); //l_on6
@@ -1909,7 +1925,7 @@ void light()
 
     glRotatef(200, 0,1,0);
 //cout<<add_lef<<" "<<c<<" ->"<<endl;
-    if(!is_start)
+    if(!is_start&&!move_left)
         a+=lef,c+=fowd;
 
     light1(a1,b1,c1);//l_on1
@@ -1966,7 +1982,7 @@ static void display(void)
     glTranslatef(check2,0,check1);
     wall();
     glPushMatrix();
-    if(!is_start)
+    if(!is_start&&!move_left)
         check1-=.08,check2-=.015;
 
     glPopMatrix();
@@ -2297,8 +2313,8 @@ static void key(unsigned char key, int x, int y)
     case 'b':
         if(c>=-16)
         {
-            reset();
-            left_turn=1-left_turn;
+            move_left=1;
+
         }
         break;
     case 'm':
