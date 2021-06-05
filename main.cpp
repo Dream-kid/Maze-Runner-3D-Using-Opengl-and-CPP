@@ -932,7 +932,7 @@ void swoard()
 }
 void player()
 {
-    /// maintopball();
+    /// maintopball
     GLUquadric *quad;
     quad = gluNewQuadric();
     glEnable(GL_TEXTURE_2D);
@@ -949,7 +949,7 @@ void player()
     fan();
     swoard();
 
-    ///eyeright();
+    ///eyeright
     glPushMatrix();
     glTranslatef(.17,1.1,.84);
     glRotatef(-45,0,0,1);
@@ -958,7 +958,7 @@ void player()
     gluSphere(gluNewQuadric(),.2,100,100);
     glPopMatrix();
 
-    /// eyeleft();
+    /// eyeleft
     glPushMatrix();
     glTranslatef(-.17,1.1,.84);
     glRotatef(45,0,0,1);
@@ -968,7 +968,7 @@ void player()
     glPopMatrix();
 
 
-    ///eyebrowleft();
+    ///eyebrowleft
     glPushMatrix();
     glTranslatef(-.3,1.5,.9);;
     glRotatef(90,0,1,0);
@@ -977,7 +977,7 @@ void player()
     gluCylinder(gluNewQuadric(),.05,.01,.3,4,6);
     glPopMatrix();
 
-    /// eyebrowright();
+    /// eyebrowright
     glPushMatrix();
     glTranslatef(.3,1.5,.9);
     glRotatef(270,0,1,0);
@@ -986,7 +986,7 @@ void player()
     glPopMatrix();
     cube(0.0,1.0,0.0,0,1,1);
 
-    /// neckring();
+    /// neckring
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[18]);
     glPushMatrix();
@@ -1000,7 +1000,7 @@ void player()
 
     cube(1,1,1,0,1,1);
 
-    ///legright();
+    ///legright
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[17]);
     gluQuadricTexture(quad,1);
@@ -1014,7 +1014,7 @@ void player()
     glPopMatrix();
 
 
-    /// legleft();
+    /// legleft
     glPushMatrix();
     glTranslatef(.5,-.77,0);
     glScalef(.7,1.5,.7);
@@ -1027,7 +1027,7 @@ void player()
 
     cube(255/255.0,90/255.0,0,0,1,1);
 
-    /// armleft();
+    /// armleft
     quad = gluNewQuadric();
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[1]);
@@ -1041,7 +1041,7 @@ void player()
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
 
-    /// armright();
+    /// armright
     quad = gluNewQuadric();
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[1]);
@@ -1055,7 +1055,7 @@ void player()
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
 
-    /// BellyCoat();
+    /// BellyCoat
     quad = gluNewQuadric();
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[17]);
@@ -1071,7 +1071,7 @@ void player()
 
 
     cube(0,185/255.0,.3,0,1,1);
-    ///  handright();
+    ///  handright
     glPushMatrix();
     glTranslatef(-.82,0,.1);
     glScalef(.4,.3,.3);
@@ -1079,14 +1079,14 @@ void player()
     glPopMatrix();
 
 
-    /// handleft();
+    /// handleft
     glPushMatrix();
     glTranslatef(.82,0,.1);
     glScalef(.4,.3,.3);
     gluSphere(gluNewQuadric(),.6,100,100);
     glPopMatrix();
 
-///    mouth();
+///    mouth
     glPushMatrix();
     glTranslatef(0,.75,.8);
     glScalef(.8,.8,.1);
@@ -1095,7 +1095,7 @@ void player()
     glPopMatrix();
 
 
-    ///head();
+    ///head
     quad = gluNewQuadric();
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[17]);
@@ -1109,7 +1109,7 @@ void player()
     glDisable(GL_TEXTURE_2D);
     cube(0.0,0.0,0.0,0,1,1);
 
-    ///footleft();
+    ///footleft
     quad = gluNewQuadric();
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[17]);
@@ -1121,7 +1121,7 @@ void player()
     gluSphere(quad,.3,100,100);
     glPopMatrix();
 
-    /// footright();
+    /// footright
     glPushMatrix();
     glTranslatef(.5,-.9,0);
     glScalef(1.3,.5,1.6);
@@ -1129,7 +1129,7 @@ void player()
     gluSphere(quad,.3,100,100);
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
-    ///  topbutton();
+    ///  topbutton
     quad = gluNewQuadric();
     glPushMatrix();
     cube(0,0.0,1,0,1,1);
@@ -1139,14 +1139,14 @@ void player()
     glPopMatrix();
     cube(0.0,0.0,0.0,0,1,1);
 
-    /// pupilleft();
+    /// pupilleft
     glPushMatrix();
     glTranslatef(-.17,1.1,.88);
     glScalef(.9,.9,.9);
     gluSphere(gluNewQuadric(),.13,100,100);
     glPopMatrix();
 
-    ///pupilright();
+    ///pupilright
     glPushMatrix();
     glTranslatef(.17,1.1,.88);
     glScalef(.9,.9,.9);
@@ -1787,7 +1787,7 @@ int arr10[8][6]= {{-214+c+155,5+b-1,-518,-288,0+a+15+add_lef,28},
     {-207+c+155, 5+b-1, -512, -9370, 16+a+15 +add_lef,7628},
     {-207+c+155, 5+b-1, -515, -2606, 16+a+15+add_lef,7628}
 };
-void light()
+void start_prog()
 {
     //tree();
     //cout<<eyeX<<" "<<eyeY<< " "<<eyeZ<<" "<<centerX<<" "<<centerY<<" "<<centerZ<<endl;
@@ -1800,21 +1800,22 @@ void light()
 
 //   tunnel();
 //cout<<check1<<endl;
-if(move_left)
-{
-    check1=-445;
-    float val=check2-.1;
-    check2=val;
-    c=-8;
-    a+=lef*4.4;
-    move_left++;
+    if(move_left)
+    {
+        check1=-445;
+        float val=check2-.1;
+        check2=val;
+        c=-8;
+        a+=lef*4.4;
+        move_left++;
 
-    if(move_left>180){
-      reset();
+        if(move_left>180)
+        {
+            reset();
             left_turn=1-left_turn;
             move_left=0;
+        }
     }
-}
     if(pop||vall)
     {
         if(!pop)
@@ -1898,14 +1899,14 @@ if(move_left)
     //spot light
 
     glPushMatrix();
-   glTranslatef(a+add_lef,18,c+39+13);
+    glTranslatef(a+add_lef,18,c+39+13);
     int a1=15,b1=30,c1=-15;
     glRotatef(-39,0,1,0);
     spot_light1(a1-157+31,b+1+263,c1-131); //l_on5
     glPopMatrix();
 
     glPushMatrix();
-   glTranslatef(a+add_lef,18,c+39+13);
+    glTranslatef(a+add_lef,18,c+39+13);
     a1=15,b1=30,c1=-15;
     glRotatef(-39+37,0,1,0);
     spot_light2(a1-165-157+31,b+1+263+1,c1-131); //l_on6
@@ -1986,7 +1987,7 @@ static void display(void)
         check1-=.08,check2-=.015;
 
     glPopMatrix();
-    light();
+    start_prog();
 
     glPopMatrix();
     glPopMatrix();
