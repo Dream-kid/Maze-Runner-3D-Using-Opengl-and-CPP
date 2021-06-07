@@ -1766,8 +1766,8 @@ void moshal()
 void train()
 {
 //cout<<spt_cutoff<<endl;
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,v[11]);
+
+    //glBindTexture(GL_TEXTURE_2D,v[11]);
 
 
     glPushMatrix();
@@ -1775,7 +1775,7 @@ void train()
 
     glRotatef(11,0,1,0);
     glScalef(.5,.5,70-12);
-    cube(1,1,1,0,10);
+    cube(	0.251, 0.878, 0.816,0,10);
     glPopMatrix();
 
     glPushMatrix();
@@ -1784,7 +1784,7 @@ void train()
 
     glRotatef(10,0,1,0);
     glScalef(.5,.5,70-12);
-    cube(1,1,1,0,10);
+    cube(	0.251, 0.878, 0.816,0,10);
     glPopMatrix();
 
 //cout<<spt_cutoff<<endl;
@@ -1796,7 +1796,7 @@ void train()
 
     glRotatef(12+spt_cutoff+1,0,1,0);
     glScalef(.5,.5,150-105);
-    cube(1,1,1,0,10);
+    cube(	0.251, 0.878, 0.816,0,10);
     glPopMatrix();
 
 
@@ -1806,7 +1806,7 @@ void train()
 
     glRotatef(12,0,1,0);
     glScalef(.5,.5,150-105);
-    cube(1,1,1,0,10);
+    cube(	0.251, 0.878, 0.816,0,10);
     glPopMatrix();
 
 
@@ -1816,7 +1816,7 @@ void train()
     glRotatef(10,0,1,0);
     //glRotatef(-25,0,1,0);
     glScalef(.5,.5,30);
-    cube(1,1,1,0,10);
+    cube(	0.251, 0.878, 0.816,0,10);
     glPopMatrix();
 
 
@@ -1826,10 +1826,8 @@ void train()
     glRotatef(10,0,1,0);
     //glRotatef(-25,0,1,0);
     glScalef(.5,.5,30);
-    cube(1,1,1,0,10);
+    cube(	0.251, 0.878, 0.816,0,10);
     glPopMatrix();
-
-
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,v[14]);
 
@@ -2496,6 +2494,7 @@ void texture_image()
 
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\path.bmp");//21
     v.push_back(ID);
+
 }
 int main(int argc, char *argv[])
 {
