@@ -1735,23 +1735,110 @@ void moshal()
         glPopMatrix();
     }
 
+    /*
+        glBindTexture(GL_TEXTURE_2D,v[13]);
+    //rocks
 
-    glBindTexture(GL_TEXTURE_2D,v[13]);
-//rocks
+        glPushMatrix();
+        glTranslatef(6,-1.4,-155);
+        //glRotatef(-45,0,1,0);
+        glScalef(55,1.5,200);
+
+        if(left_turn)
+            cube(left_turn,left_turn,0,0,10);
+        glPopMatrix();
+
+
+        glDisable(GL_TEXTURE_2D);
+
+    */
+}
+
+void train()
+{
+
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[14]);
+
 
     glPushMatrix();
-    glTranslatef(6,-1.4,-155);
-    //glRotatef(-45,0,1,0);
-    glScalef(55,1.5,200);
+    glTranslatef(-11.5+a+15,-.1,-170);
 
-    if(left_turn)
-        cube(left_turn,left_turn,0,0,10);
+    //glRotatef(-25,0,1,0);
+    glScalef(.5,.5,70-12);
+    cube(1,1,1,0,10);
+    glPopMatrix();
+    glPushMatrix();
+
+    glTranslatef(-20.5+a+15,-.1,-170);
+
+    //glRotatef(-25,0,1,0);
+    glScalef(.5,.5,70-12);
+    cube(1,1,1,0,10);
+    glPopMatrix();
+
+//cout<<spt_cutoff<<endl;
+
+
+
+    glPushMatrix();
+    glTranslatef(-11.5+a+15,-.1,-80+16);
+
+    //glRotatef(-25,0,1,0);
+    glScalef(.5,.5,150-105);
+    cube(1,1,1,0,10);
     glPopMatrix();
 
 
+    glPushMatrix();
+
+    glTranslatef(-20.5+a+15,-.1,-80+16);
+
+    //glRotatef(-25,0,1,0);
+    glScalef(.5,.5,150-105);
+    cube(1,1,1,0,10);
+    glPopMatrix();
+
+
+
+    glPushMatrix();
+    glTranslatef(-11.5+a+15,-.1,-80-39+16);
+
+    //glRotatef(-25,0,1,0);
+    glScalef(.5,.5,30);
+    cube(1,1,1,0,10);
+    glPopMatrix();
+
+
+    glPushMatrix();
+
+    glTranslatef(-20.5+a+15,-.1,-80-39+16);
+
+    //glRotatef(-25,0,1,0);
+    glScalef(.5,.5,30);
+    cube(1,1,1,0,10);
+    glPopMatrix();
+
+
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,v[13]);
+
+    for(int i=0; i<=120; i+=10)
+    {
+        if(i>=40&&i<=49)
+            continue;
+        if(i>=71&&i<=80)
+            continue;
+
+        glPushMatrix();
+        glTranslatef(-20.5+a+13,-.1,-150+i);
+
+        //glRotatef(-25,0,1,0);
+        glScalef(14,.1,2);
+        cube(1,1,1,0,1,0);
+        glPopMatrix();
+    }
     glDisable(GL_TEXTURE_2D);
-
-
 }
 
 void drawStrokeText1(string str,int x,int y,int z,float val=1,int col=0)
@@ -1800,6 +1887,10 @@ void start_prog()
 
 //   tunnel();
 //cout<<check1<<endl;
+
+
+    if(left_turn)
+        train();
     if(move_left)
     {
         check1=-445;
@@ -2388,6 +2479,9 @@ void texture_image()
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\leaf.bmp");//19
     v.push_back(ID);
     LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\brunch.bmp");//20
+    v.push_back(ID);
+
+    LoadTexture("C:\\Users\\Sourav\\Desktop\\ui\\figures\\path.bmp");//21
     v.push_back(ID);
 }
 int main(int argc, char *argv[])
