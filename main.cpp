@@ -41,6 +41,7 @@ bool l_on4 = true;
 bool l_on5 = true;
 bool l_on6 = true;
 float rot = -12;
+bool pause =0;
 bool stop=1;
 float door_angle=.5;
 float l_height =0;
@@ -2026,7 +2027,7 @@ void start_prog()
 
     glRotatef(200, 0,1,0);
 //cout<<add_lef<<" "<<c<<" ->"<<endl;
-    if(!is_start&&!move_left)
+    if(!is_start&&!move_left&&!pause)
         a+=lef,c+=fowd;
 
     light1(a1,b1,c1);//l_on1
@@ -2083,7 +2084,7 @@ static void display(void)
     glTranslatef(check2,0,check1);
     wall();
     glPushMatrix();
-    if(!is_start&&!move_left)
+    if(!is_start&&!move_left&&!pause)
         check1-=.08,check2-=.015;
 
     glPopMatrix();
@@ -2121,7 +2122,8 @@ static void display(void)
                 {
                     drawStrokeText(str1,0,0,0);
                     drawStrokeText("Press t,u,space & b for left,right,jump & escape door ",0,8,-.5,1.0,1);
-
+                    if(pause)
+                        drawStrokeText("Pause",0,8,-1.5,1.0,1);
                 }
                 if(is_start)
                 {
@@ -2303,7 +2305,9 @@ static void key(unsigned char key, int x, int y)
         eyeX--;
         // eyeY--;
         break;
-
+    case '=':
+        pause=1-pause;
+        break;
     case 'g':
         eyeY++;
         break;
@@ -2551,6 +2555,7 @@ int main(int argc, char *argv[])
     printf("%d. Press 'q' for alter rotation around character.\n",t++);
     printf("%d. Press '0' for alter 1st person view.\n",t++);
     printf("%d. Press '9' for alter rotation of character.\n",t++);
+    printf("%d. Press '=' for alter pause.\n",t++);
 
     glutMainLoop();
 
