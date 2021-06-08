@@ -1472,16 +1472,47 @@ void rope()
     //  glDisable(GL_TEXTURE_2D);
 }
 
+bool wired=0;
+void showControlPoints(bool bridge=0)
+{
+    glPointSize(5.0);
+    cube(1.0, 0.0, 1.0,0,1,1);
+    if(!bridge)
+    {
+        glBegin(GL_POINTS);
+        for (int i = 0; i <=L; i++)
+            glVertex3fv(&ctrlpoints1[i][0]);
+        glEnd();
+    }
+    else
+    {
+        glBegin(GL_POINTS);
+        for (int i = 0; i <=L; i++)
+            glVertex3fv(&ctrlpoints[i][0]);
+        glEnd();
+    }
+    glPointSize(1.0);
+}
+
+
+
 void tunnel()
 {
     glPushMatrix();
     glTranslatef(-32+20+9+1,-5+.5+1,-155+45+5+6-5-2+64-5-11);
     glScalef(7+2,10-2+1+3,15);
+    if(wired)
+        showControlPoints(1);
+
     glRotatef(-106+10+12,1,0,0);
+
     glRotatef(-80-7-3-25-7,0,0,1);
+
     glRotatef(211,0,0,1);
+
     cube(	0.282, 0.239, 0.545,0,1,1);
     tunnnelbezier();
+
     glPopMatrix();
     //  cout<<spt_cutoff<<endl;
 }
@@ -1795,9 +1826,11 @@ void moshal()
     */
 }
 
+
+
 int movi=0;
 int sss=0;
-kata()
+void kata()
 {
     //cout<<spt_cutoff<<endl;
     movi++;
@@ -1813,8 +1846,11 @@ kata()
             glRotatef(-111,0,1,0);
             glRotatef(-87,0,0,1);
             glScalef(3,1,1);
+
             cube(1,1-sss,0,0,1,1);
             tunnnelbezier(0,14,ntheta);
+            if(wired)
+                showControlPoints();
             glPopMatrix();
         }
     }
@@ -1827,8 +1863,12 @@ kata()
             glRotatef(-111,0,1,0);
             glRotatef(-87,0,0,1);
             glScalef(3,1,1);
+
             cube(1,1-sss,0,0,1,1);
+
             tunnnelbezier(0,14,ntheta);
+            if(wired)
+                showControlPoints();
             glPopMatrix();
         }
     }
@@ -1967,9 +2007,9 @@ void start_prog()
 //light 1
 //fire1
 //fountain();
-//bridge();
+    //  bridge();
 
-//   tunnel();
+    // tunnel();
 //cout<<check1<<endl;
 
 
@@ -2437,6 +2477,9 @@ static void key(unsigned char key, int x, int y)
         rot--;
         break;
 
+    case '[':
+        wired=1-wired;
+        break;
 
 
     case '1':
@@ -2632,6 +2675,7 @@ int main(int argc, char *argv[])
     printf("%d. Press '0' for alter 1st person view.\n",t++);
     printf("%d. Press '9' for alter rotation of character.\n",t++);
     printf("%d. Press '=' for alter pause.\n",t++);
+    printf("%d. Press '[' for showing control points.\n",t++);
 
     glutMainLoop();
 
