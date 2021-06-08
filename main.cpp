@@ -34,7 +34,7 @@ float a52=1.0;
 float s52=1.0;
 float d52=1.0;
 double angle = 0 ;
-bool l_on1 = true;
+bool l_on1 = false;
 bool l_on2 = true;
 bool l_on3 = true;
 bool l_on4 = true;
@@ -110,6 +110,20 @@ GLfloat ctrlpoints[L+1][3] =
     {6.799, 0.5199, 0.0}
 };
 
+
+GLfloat ctrlpoints1[L+1][3] =
+{
+    { 0.0, 0.0, 0.0},
+    {  0.55, 0.3, 0.0},
+    { 1.125,0.575, 0.0},
+
+    { 1.6, 0.625, 0.0},
+    { 2.075, 0.425, 0.0},
+    { 2.2,0.125, 0.0},
+
+
+
+};
 bool flag1=1;
 int arrr[]= {7,11,47,67,35-3,85,105,74,227,55,95+7,555};
 void reset()
@@ -334,7 +348,7 @@ long long nCr(int n, int r)
 }
 
 //polynomial interpretation for N points
-void BezierCurve ( double t,  float xy[2])
+void BezierCurve ( double t,  float xy[2],int type=1)
 {
     double y=0;
     double x=0;
@@ -345,8 +359,17 @@ void BezierCurve ( double t,  float xy[2])
         double oneMinusTpow=pow(1-t,double(L-i));
         double tPow=pow(t,double(i));
         double coef=oneMinusTpow*tPow*ncr;
-        x+=coef*ctrlpoints[i][0];
-        y+=coef*ctrlpoints[i][1];
+        if(type)
+        {
+            x+=coef*ctrlpoints[i][0];
+            y+=coef*ctrlpoints[i][1];
+        }
+        else
+        {
+            x+=coef*ctrlpoints1[i][0];
+            y+=coef*ctrlpoints1[i][1];
+
+        }
 
     }
     xy[0] = float(x);
@@ -355,7 +378,7 @@ void BezierCurve ( double t,  float xy[2])
     //return y;
 }
 
-void tunnnelbezier()
+void tunnnelbezier(int a=5,int b=15, int c=8)
 {
 
     int i, j;
@@ -371,22 +394,28 @@ void tunnnelbezier()
     float t=0;
     float dt=1.0/nt;
     float xy[2];
-    BezierCurve( t,  xy);
+    if(a)
+        BezierCurve( t,  xy);
+    else
+        BezierCurve(t,xy,0);
     x = xy[0];
     r = xy[1];
     //rotate about z-axis
     float p1x,p1y,p1z,p2x,p2y,p2z;
-    for ( i = 5; i < 15; ++i )  			//step through x
+    for ( i = a; i < b; ++i )  			//step through x
     {
         theta = 0;
         t+=dt;
-        BezierCurve( t,  xy);
+        if(a)
+            BezierCurve( t,  xy);
+        else
+            BezierCurve(t,xy,0);
         x1 = xy[0];
         r1 = xy[1];
 
         //draw the surface composed of quadrilaterals by sweeping theta
         glBegin( GL_QUAD_STRIP );
-        for ( j = 0; j <= 8; ++j )
+        for ( j = 0; j <= c; ++j )
         {
             theta += dtheta;
             double cosa = cos( theta );
@@ -423,6 +452,7 @@ void tunnnelbezier()
     } //for i
 
 }
+
 void axes()
 {
     float length = 10;
@@ -539,9 +569,9 @@ void light1(float a,float b,float c) //l_on1
 
     //light
     GLfloat l_no[] = {0, 0, 0, 1.0};
-    GLfloat l_amb[] = {0.1*a12, 0.1*a12, 0.1*a12, 1.0};
-    GLfloat l_dif[] = {.1*d12,.1*d12,.1*d12,1};
-    GLfloat l_spec[] = {.1*s12,.1*s12,.1*s12,1};
+    GLfloat l_amb[] = {1*a12, 1*a12, 1*a12, 1.0};
+    GLfloat l_dif[] = {1*d12,1*d12,1*d12,1};
+    GLfloat l_spec[] = {1*s12,1*s12,1*s12,1};
     GLfloat l_pos[] = {a,b,c,1.0};
 
     if(l_on1)
@@ -939,6 +969,8 @@ void swoard()
     glDisable(GL_TEXTURE_2D);
     // cout<<flw<<" "<<spt_cutoff<<" "<<stop<<" "<<l_height<<endl;
 }
+bool leg_move1=0;
+float spt_cutoff1=0;
 void player()
 {
     /// maintopball
@@ -1763,6 +1795,47 @@ void moshal()
     */
 }
 
+int movi=0;
+int sss=0;
+kata()
+{
+    //cout<<spt_cutoff<<endl;
+    movi++;
+    if(movi%460)
+        sss=1-sss;
+    for(int i=0; i<=20; i+=2)
+    {
+        for(int j=0; j<=4; j+=2)
+        {
+            glPushMatrix();
+            glTranslatef(22.9-32-4+i-3,1+sss,10+-155+30+5+j+.5);
+
+            glRotatef(-111,0,1,0);
+            glRotatef(-87,0,0,1);
+            glScalef(3,1,1);
+            cube(1,1-sss,0,0,1,1);
+            tunnnelbezier(0,14,ntheta);
+            glPopMatrix();
+        }
+    }
+    for(int i=0; i<=20; i+=2)
+    {
+        for(int j=0; j<=4; j+=2)
+        {
+            glPushMatrix();
+            glTranslatef(22.9-32-4+i-3+7,1+sss,10+-155+30+5+j+.5+40);
+            glRotatef(-111,0,1,0);
+            glRotatef(-87,0,0,1);
+            glScalef(3,1,1);
+            cube(1,1-sss,0,0,1,1);
+            tunnnelbezier(0,14,ntheta);
+            glPopMatrix();
+        }
+    }
+
+}
+
+
 void train()
 {
 //cout<<spt_cutoff<<endl;
@@ -1884,6 +1957,9 @@ int arr10[8][6]= {{-214+c+155,5+b-1,-518,-288,0+a+15+add_lef,28},
 };
 void start_prog()
 {
+    //  fire();
+    // point();
+    // kata();
     //tree();
     //cout<<eyeX<<" "<<eyeY<< " "<<eyeZ<<" "<<centerX<<" "<<centerY<<" "<<centerZ<<endl;
 //left_turn=0;
@@ -1961,6 +2037,7 @@ void start_prog()
 
                 fire();
                 point();
+                kata();
 
             }
             else
